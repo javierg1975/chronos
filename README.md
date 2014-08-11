@@ -1,4 +1,4 @@
 metronome
 =========
 
-A Scala port of Date4J [http://www.date4j.net/]
+A Scala port of JSR-310 [http://www.threeten.org/]
