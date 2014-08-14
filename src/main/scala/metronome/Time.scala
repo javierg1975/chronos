@@ -1218,11 +1218,11 @@ case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends 
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisLocalTime.adjustInto(temporal);
    * temporal = temporal.with(thisLocalTime);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -1255,11 +1255,11 @@ case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends 
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, MINUTES);
    * amount = MINUTES.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -1502,7 +1502,7 @@ case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends 
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(4);  // identifies this as a Time
    * if (nano == 0) {
    * if (second == 0) {
@@ -1523,7 +1523,7 @@ case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends 
    * out.writeByte(second);
    * out.writeInt(nano);
    * }
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */
@@ -2127,10 +2127,10 @@ final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[Of
    * <p>
    * The classes {@link Time} and {@link ZoneOffset} implement {@code TemporalAdjuster},
    * thus this method can be used to change the time or offset:
-   * <pre>
+   * {{{
    * result = offsetTime.with(time);
    * result = offsetTime.with(offset);
-   * </pre>
+   * }}}
    * <p>
    * The result of this method is obtained by invoking the
    * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
@@ -2558,11 +2558,11 @@ final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[Of
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisOffsetTime.adjustInto(temporal);
    * temporal = temporal.with(thisOffsetTime);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -2598,11 +2598,11 @@ final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[Of
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, MINUTES);
    * amount = MINUTES.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -2827,11 +2827,11 @@ final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[Of
   /**
    * Writes the object using a
    * <a href="../../../serialized-form.html#java.time.temporal.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(9);  // identifies this as a OffsetTime
    * out.writeObject(time);
    * out.writeObject(offset);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */

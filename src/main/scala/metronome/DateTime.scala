@@ -404,7 +404,6 @@ object DateTime {
   /**
    * Serialization version.
    */
-  private final val serialVersionUID: Long = 6207766400415563566L
 }
 
 case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault, zoneOffset: ZoneOffset = 0) extends Temporal with TemporalAdjuster with ChronoLocalDateTime[Date]  {
@@ -758,19 +757,19 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * lengths of month and leap years.
    * <p>
    * For example this code returns a date on the last day of July:
-   * <pre>
+   * {{{
    * import static java.time.Month.*;
    * import static java.time.temporal.Adjusters.*;
    *
    * result = localDateTime.with(JULY).with(lastDayOfMonth());
-   * </pre>
+   * }}}
    * <p>
    * The classes {@link Date} and {@link Time} implement {@code TemporalAdjuster},
    * thus this method can be used to change the date, time or offset:
-   * <pre>
+   * {{{
    * result = localDateTime.with(date);
    * result = localDateTime.with(time);
-   * </pre>
+   * }}}
    * <p>
    * The result of this method is obtained by invoking the
    * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
@@ -1460,11 +1459,11 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisLocalDateTime.adjustInto(temporal);
    * temporal = temporal.with(thisLocalDateTime);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -1497,11 +1496,11 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, MONTHS);
    * amount = MONTHS.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -1680,13 +1679,13 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * <p>
    * This checks to see if this date-time represents a point on the
    * local time-line after the other date-time.
-   * <pre>
+   * {{{
    * Date a = DateTime.of(2012, 6, 30, 12, 00);
    * Date b = DateTime.of(2012, 7, 1, 12, 00);
    * a.isAfter(b) == false
    * a.isAfter(a) == false
    * b.isAfter(a) == true
-   * </pre>
+   * }}}
    * <p>
    * This method only considers the position of the two date-times on the local time-line.
    * It does not take into account the chronology, or calendar system.
@@ -1708,13 +1707,13 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * <p>
    * This checks to see if this date-time represents a point on the
    * local time-line before the other date-time.
-   * <pre>
+   * {{{
    * Date a = DateTime.of(2012, 6, 30, 12, 00);
    * Date b = DateTime.of(2012, 7, 1, 12, 00);
    * a.isBefore(b) == true
    * a.isBefore(a) == false
    * b.isBefore(a) == false
-   * </pre>
+   * }}}
    * <p>
    * This method only considers the position of the two date-times on the local time-line.
    * It does not take into account the chronology, or calendar system.
@@ -1736,13 +1735,13 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * <p>
    * This checks to see if this date-time represents the same point on the
    * local time-line as the other date-time.
-   * <pre>
+   * {{{
    * Date a = DateTime.of(2012, 6, 30, 12, 00);
    * Date b = DateTime.of(2012, 7, 1, 12, 00);
    * a.isEqual(b) == false
    * a.isEqual(a) == true
    * b.isEqual(a) == false
-   * </pre>
+   * }}}
    * <p>
    * This method only considers the position of the two date-times on the local time-line.
    * It does not take into account the chronology, or calendar system.
@@ -1811,11 +1810,11 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(5);  // identifies this as a DateTime
    * // the <a href="../../serialized-form.html#java.time.Date">date</a> excluding the one byte header
    * // the <a href="../../serialized-form.html#java.time.Time">time</a> excluding the one byte header
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */
@@ -2897,19 +2896,19 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date]  {
    * lengths of month and leap years.
    * <p>
    * For example this code returns a date on the last day of July:
-   * <pre>
+   * {{{
    * import static java.time.Month.*;
    * import static java.time.temporal.Adjusters.*;
    *
    * result = zonedDateTime.with(JULY).with(lastDayOfMonth());
-   * </pre>
+   * }}}
    * <p>
    * The classes {@link Date} and {@link Time} implement {@code TemporalAdjuster},
    * thus this method can be used to change the date, time or offset:
-   * <pre>
+   * {{{
    * result = zonedDateTime.with(date);
    * result = zonedDateTime.with(time);
-   * </pre>
+   * }}}
    * <p>
    * {@link ZoneOffset} also implements {@code TemporalAdjuster} however using it
    * as an argument typically has no effect. The offset of a {@code ZonedDateTime} is
@@ -3760,11 +3759,11 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date]  {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, MONTHS);
    * amount = MONTHS.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -3893,12 +3892,12 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date]  {
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(6);  // identifies this as a ZonedDateTime
    * // the <a href="../../serialized-form.html#java.time.DateTime">date-time</a> excluding the one byte header
    * // the <a href="../../serialized-form.html#java.time.ZoneOffset">offset</a> excluding the one byte header
    * // the <a href="../../serialized-form.html#java.time.ZoneId">zone ID</a> excluding the one byte header
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */
@@ -4695,20 +4694,20 @@ final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparabl
    * lengths of month and leap years.
    * <p>
    * For example this code returns a date on the last day of July:
-   * <pre>
+   * {{{
    * import static java.time.Month.*;
    * import static java.time.temporal.Adjusters.*;
    *
    * result = offsetDateTime.with(JULY).with(lastDayOfMonth());
-   * </pre>
+   * }}}
    * <p>
    * The classes {@link Date}, {@link Time} and {@link ZoneOffset} implement
    * {@code TemporalAdjuster}, thus this method can be used to change the date, time or offset:
-   * <pre>
+   * {{{
    * result = offsetDateTime.with(date);
    * result = offsetDateTime.with(time);
    * result = offsetDateTime.with(offset);
-   * </pre>
+   * }}}
    * <p>
    * The result of this method is obtained by invoking the
    * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
@@ -5375,11 +5374,11 @@ final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparabl
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisOffsetDateTime.adjustInto(temporal);
    * temporal = temporal.with(thisOffsetDateTime);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -5415,11 +5414,11 @@ final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparabl
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, MONTHS);
    * amount = MONTHS.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -5695,11 +5694,11 @@ final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparabl
   /**
    * Writes the object using a
    * <a href="../../../serialized-form.html#java.time.temporal.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(10);  // identifies this as a OffsetDateTime
    * out.writeObject(dateTime);
    * out.writeObject(offset);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */

@@ -17,7 +17,7 @@ package metronome
  * Best practice for applications is to pass a {@code Clock} into any method
  * that requires the current instant. A dependency injection framework is one
  * way to achieve this:
- * <pre>
+ * {{{
  * public class MyBean {
  * private Clock clock;  // dependency inject
  * ...
@@ -27,7 +27,7 @@ package metronome
  * }
  * }
  * }
- * </pre>
+ * }}}
  * This approach allows an alternate clock, such as {@link #fixed(Instant, ZoneId) fixed}
  * or {@link #offset(Clock, Duration) offset} to be used during testing.
  * <p>

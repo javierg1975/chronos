@@ -442,11 +442,11 @@ trait ChronoLocalDate extends Temporal with TemporalAdjuster with Comparable[Chr
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisLocalDate.adjustInto(temporal);
    * temporal = temporal.with(thisLocalDate);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -476,11 +476,11 @@ trait ChronoLocalDate extends Temporal with TemporalAdjuster with Comparable[Chr
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, MONTHS);
    * amount = MONTHS.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -536,9 +536,9 @@ trait ChronoLocalDate extends Temporal with TemporalAdjuster with Comparable[Chr
    * This date will be passed to the formatter to produce a string.
    * <p>
    * The default implementation must behave as follows:
-   * <pre>
+   * {{{
    * return formatter.format(this);
-   * </pre>
+   * }}}
    *
    * @param formatter  the formatter to use, not null
    * @return the formatted date string, not null
@@ -716,7 +716,7 @@ trait ChronoLocalDate extends Temporal with TemporalAdjuster with Comparable[Chr
  * at the user interface level to deal with localized input/output.
  *
  * <P>Example: </p>
- * <pre>
+ * {{{
  * System.out.printf("Example()%n");
  * // Enumerate the list of available calendars and print today for each
  * Set&lt;Chronology&gt; chronos = Chronology.getAvailableChronologies();
@@ -742,7 +742,7 @@ trait ChronoLocalDate extends Temporal with TemporalAdjuster with Comparable[Chr
  * .minus(1, ChronoUnit.DAYS);
  * System.out.printf("  Today is %s: start: %s; end: %s%n", last.getChronology().getID(),
  * first, last);
- * </pre>
+ * }}}
  *
  * <h3>Adding Calendars</h3>
  * <p> The set of calendars is extensible by defining a subclass of {@link ChronoLocalDate}
@@ -1303,11 +1303,11 @@ trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with Comparable
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisLocalDateTime.adjustInto(temporal);
    * temporal = temporal.with(thisLocalDateTime);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -1326,9 +1326,9 @@ trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with Comparable
    * This date-time will be passed to the formatter to produce a string.
    * <p>
    * The default implementation must behave as follows:
-   * <pre>
+   * {{{
    * return formatter.format(this);
-   * </pre>
+   * }}}
    *
    * @param formatter  the formatter to use, not null
    * @return the formatted date-time string, not null
@@ -2279,9 +2279,9 @@ trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedDateTime[_
    * This date-time will be passed to the formatter to produce a string.
    * <p>
    * The default implementation must behave as follows:
-   * <pre>
+   * {{{
    * return formatter.format(this);
-   * </pre>
+   * }}}
    *
    * @param formatter  the formatter to use, not null
    * @return the formatted date-time string, not null

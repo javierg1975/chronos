@@ -1859,7 +1859,7 @@ final class ZoneRules extends Serializable {
    * <p>
    * There are various ways to handle the conversion from a {@code DateTime}.
    * One technique, using this method, would be:
-   * <pre>
+   * {{{
    * List&lt;ZoneOffset&gt; validOffsets = rules.getOffset(localDT);
    * if (validOffsets.size() == 1) {
    * // Normal case: only one valid offset
@@ -1868,7 +1868,7 @@ final class ZoneRules extends Serializable {
    * // Gap or Overlap: determine what to do from transition (which will be non-null)
    * ZoneOffsetTransition trans = rules.getTransition(localDT);
    * }
-   * </pre>
+   * }}}
    * <p>
    * In theory, it is possible for there to be more than two valid offsets.
    * This would happen if clocks to be put back more than once in quick succession.
@@ -1907,7 +1907,7 @@ final class ZoneRules extends Serializable {
    * <p>
    * There are various ways to handle the conversion from a {@code DateTime}.
    * One technique, using this method, would be:
-   * <pre>
+   * {{{
    * ZoneOffsetTransition trans = rules.getTransition(localDT);
    * if (trans == null) {
    * // Gap or Overlap: determine what to do from transition
@@ -1915,7 +1915,7 @@ final class ZoneRules extends Serializable {
    * // Normal case: only one valid offset
    * zoneOffset = rule.getOffset(localDT);
    * }
-   * </pre>
+   * }}}
    *
    * @param localDateTime  the local date-time to query for offset transition, not null, but null
    *                       may be ignored if the rules have a single offset for all instants

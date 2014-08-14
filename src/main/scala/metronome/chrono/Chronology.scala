@@ -11,12 +11,12 @@ package metronome.chrono
  * linked to the cycles of the Earth around the Sun, and the Moon around the Earth.
  * These shared concepts are defined by {@link ChronoField} and are available
  * for use by any {@code Chronology} implementation:
- * <pre>
+ * {{{
  * Date isoDate = ...
  * ThaiBuddhistDate thaiDate = ...
  * int isoYear = isoDate.get(ChronoField.YEAR);
  * int thaiYear = thaiDate.get(ChronoField.YEAR);
- * </pre>
+ * }}}
  * As shown, although the date objects are in different calendar systems, represented by different
  * {@code Chronology} instances, both can be queried using the same constant on {@code ChronoField}.
  * For a full discussion of the implications of this, see {@link ChronoLocalDate}.
@@ -1141,10 +1141,10 @@ abstract class Chronology extends Comparable[Chronology] {
   /**
    * Writes the Chronology using a
    * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(1);  // identifies this as a Chronology
    * out.writeUTF(getId());
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */
@@ -1363,11 +1363,11 @@ trait Era extends TemporalAccessor with TemporalAdjuster {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisEra.adjustInto(temporal);
    * temporal = temporal.with(thisEra);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *

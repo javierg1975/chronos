@@ -697,12 +697,12 @@ case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with Te
    * lengths of month and leap years.
    * <p>
    * For example this code returns a date on the last day of July:
-   * <pre>
+   * {{{
    * import static java.time.Month.*;
    * import static java.time.temporal.Adjusters.*;
    *
    * result = localDate.with(JULY).with(lastDayOfMonth());
-   * </pre>
+   * }}}
    * <p>
    * The result of this method is obtained by invoking the
    * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
@@ -1346,11 +1346,11 @@ case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with Te
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisLocalDate.adjustInto(temporal);
    * temporal = temporal.with(thisLocalDate);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -1383,11 +1383,11 @@ case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with Te
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, MONTHS);
    * amount = MONTHS.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -1468,11 +1468,11 @@ case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with Te
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link Period#between(Date, Date)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * period = start.until(end);
    * period = Period.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    *
    * @param endDateExclusive  the end date, exclusive, which may be in any chronology, not null
@@ -1697,13 +1697,13 @@ case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with Te
    * <p>
    * This checks to see if this date represents a point on the
    * local time-line after the other date.
-   * <pre>
+   * {{{
    * Date a = Date.of(2012, 6, 30);
    * Date b = Date.of(2012, 7, 1);
    * a.isAfter(b) == false
    * a.isAfter(a) == false
    * b.isAfter(a) == true
-   * </pre>
+   * }}}
    * <p>
    * This method only considers the position of the two dates on the local time-line.
    * It does not take into account the chronology, or calendar system.
@@ -1725,13 +1725,13 @@ case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with Te
    * <p>
    * This checks to see if this date represents a point on the
    * local time-line before the other date.
-   * <pre>
+   * {{{
    * Date a = Date.of(2012, 6, 30);
    * Date b = Date.of(2012, 7, 1);
    * a.isBefore(b) == true
    * a.isBefore(a) == false
    * b.isBefore(a) == false
-   * </pre>
+   * }}}
    * <p>
    * This method only considers the position of the two dates on the local time-line.
    * It does not take into account the chronology, or calendar system.
@@ -1753,13 +1753,13 @@ case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with Te
    * <p>
    * This checks to see if this date represents the same point on the
    * local time-line as the other date.
-   * <pre>
+   * {{{
    * Date a = Date.of(2012, 6, 30);
    * Date b = Date.of(2012, 7, 1);
    * a.isEqual(b) == false
    * a.isEqual(a) == true
    * b.isEqual(a) == false
-   * </pre>
+   * }}}
    * <p>
    * This method only considers the position of the two dates on the local time-line.
    * It does not take into account the chronology, or calendar system.
@@ -1809,12 +1809,12 @@ case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with Te
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(3);  // identifies this as a Date
    * out.writeInt(year);
    * out.writeByte(month);
    * out.writeByte(day);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */

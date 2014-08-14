@@ -206,11 +206,11 @@ trait ChronoPeriod extends TemporalAmount {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#plus(TemporalAmount)}.
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * dateTime = thisPeriod.addTo(dateTime);
    * dateTime = dateTime.plus(thisPeriod);
-   * </pre>
+   * }}}
    * <p>
    * The specified temporal must have the same chronology as this period.
    * This returns a temporal with the non-zero supported units added.
@@ -232,11 +232,11 @@ trait ChronoPeriod extends TemporalAmount {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#minus(TemporalAmount)}.
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * dateTime = thisPeriod.subtractFrom(dateTime);
    * dateTime = dateTime.minus(thisPeriod);
-   * </pre>
+   * }}}
    * <p>
    * The specified temporal must have the same chronology as this period.
    * This returns a temporal with the non-zero supported units subtracted.
@@ -515,13 +515,13 @@ final class ChronoPeriodImpl extends ChronoPeriod  {
   /**
    * Writes the Chronology using a
    * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(12);  // identifies this as a ChronoPeriodImpl
    * out.writeUTF(getId());  // the chronology
    * out.writeInt(years);
    * out.writeInt(months);
    * out.writeInt(days);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */

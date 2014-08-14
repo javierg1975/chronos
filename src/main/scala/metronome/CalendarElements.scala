@@ -333,14 +333,14 @@ final class DayOfWeek extends TemporalAccessor with TemporalAdjuster {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisDayOfWeek.adjustInto(temporal);
    * temporal = temporal.with(thisDayOfWeek);
-   * </pre>
+   * }}}
    * <p>
    * For example, given a date that is a Wednesday, the following are output:
-   * <pre>
+   * {{{
    * dateOnWed.with(MONDAY);     // two days earlier
    * dateOnWed.with(TUESDAY);    // one day earlier
    * dateOnWed.with(WEDNESDAY);  // same date
@@ -348,7 +348,7 @@ final class DayOfWeek extends TemporalAccessor with TemporalAdjuster {
    * dateOnWed.with(FRIDAY);     // two days later
    * dateOnWed.with(SATURDAY);   // three days later
    * dateOnWed.with(SUNDAY);     // four days later
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -855,20 +855,20 @@ final class Month extends TemporalAccessor with TemporalAdjuster {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisMonth.adjustInto(temporal);
    * temporal = temporal.with(thisMonth);
-   * </pre>
+   * }}}
    * <p>
    * For example, given a date in May, the following are output:
-   * <pre>
+   * {{{
    * dateInMay.with(JANUARY);    // four months earlier
    * dateInMay.with(APRIL);      // one months earlier
    * dateInMay.with(MAY);        // same date
    * dateInMay.with(JUNE);       // one month later
    * dateInMay.with(DECEMBER);   // seven months later
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -1379,11 +1379,11 @@ final class MonthDay extends TemporalAccessor with TemporalAdjuster with Compara
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisMonthDay.adjustInto(temporal);
    * temporal = temporal.with(thisMonthDay);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -1511,11 +1511,11 @@ final class MonthDay extends TemporalAccessor with TemporalAdjuster with Compara
   /**
    * Writes the object using a
    * <a href="../../../serialized-form.html#java.time.temporal.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(13);  // identifies this as a MonthDay
    * out.writeByte(month);
    * out.writeByte(day);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */
@@ -2266,11 +2266,11 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year]  {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisYear.adjustInto(temporal);
    * temporal = temporal.with(thisYear);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -2306,11 +2306,11 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year]  {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, YEARS);
    * amount = YEARS.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -2391,9 +2391,9 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year]  {
    * All possible combinations of year and month are valid.
    * <p>
    * This method can be used as part of a chain to produce a date:
-   * <pre>
+   * {{{
    * Date date = year.atMonth(month).atDay(day);
-   * </pre>
+   * }}}
    *
    * @param month  the month-of-year to use, not null
    * @return the year-month formed from this year and the specified month, not null
@@ -2409,9 +2409,9 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year]  {
    * All possible combinations of year and month are valid.
    * <p>
    * This method can be used as part of a chain to produce a date:
-   * <pre>
+   * {{{
    * Date date = year.atMonth(month).atDay(day);
-   * </pre>
+   * }}}
    *
    * @param month  the month-of-year to use, from 1 (January) to 12 (December)
    * @return the year-month formed from this year and the specified month, not null
@@ -2508,10 +2508,10 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year]  {
   /**
    * Writes the object using a
    * <a href="../../../serialized-form.html#java.time.temporal.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(11);  // identifies this as a Year
    * out.writeInt(year);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */
@@ -3391,11 +3391,11 @@ final class YearMonth extends Temporal with TemporalAdjuster with Comparable[Yea
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisYearMonth.adjustInto(temporal);
    * temporal = temporal.with(thisYearMonth);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -3431,11 +3431,11 @@ final class YearMonth extends Temporal with TemporalAdjuster with Comparable[Yea
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, MONTHS);
    * amount = MONTHS.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -3503,9 +3503,9 @@ final class YearMonth extends Temporal with TemporalAdjuster with Comparable[Yea
    * The day-of-month value must be valid for the year-month.
    * <p>
    * This method can be used as part of a chain to produce a date:
-   * <pre>
+   * {{{
    * Date date = year.atMonth(month).atDay(day);
-   * </pre>
+   * }}}
    *
    * @param dayOfMonth  the day-of-month to use, from 1 to 31
    * @return the date formed from this year-month and the specified day, not null
@@ -3524,9 +3524,9 @@ final class YearMonth extends Temporal with TemporalAdjuster with Comparable[Yea
    * into account leap years.
    * <p>
    * This method can be used as part of a chain to produce a date:
-   * <pre>
+   * {{{
    * Date date = year.atMonth(month).atEndOfMonth();
-   * </pre>
+   * }}}
    *
    * @return the last valid date of this year-month, not null
    */
@@ -3626,11 +3626,11 @@ final class YearMonth extends Temporal with TemporalAdjuster with Comparable[Yea
   /**
    * Writes the object using a
    * <a href="../../../serialized-form.html#java.time.temporal.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(12);  // identifies this as a YearMonth
    * out.writeInt(year);
    * out.writeByte(month);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */

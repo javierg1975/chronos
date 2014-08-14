@@ -99,11 +99,11 @@ object Duration {
    * The factory will alter the values of the second and nanosecond in order
    * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
    * For example, the following will result in the exactly the same duration:
-   * <pre>
+   * {{{
    * Duration.ofSeconds(3, 1);
    * Duration.ofSeconds(4, -999_999_999);
    * Duration.ofSeconds(2, 1000_000_001);
-   * </pre>
+   * }}}
    *
    * @param seconds  the number of seconds, positive or negative
    * @param nanoAdjustment  the nanosecond adjustment to the number of seconds, positive or negative
@@ -156,10 +156,10 @@ object Duration {
    * Obtains a {@code Duration} representing an amount in the specified unit.
    * <p>
    * The parameters represent the two parts of a phrase like '6 Hours'. For example:
-   * <pre>
+   * {{{
    * Duration.of(3, SECONDS);
    * Duration.of(465, HOURS);
-   * </pre>
+   * }}}
    * Only a subset of units are accepted by this method.
    * The unit must either have an {@linkplain TemporalUnit#isDurationEstimated() exact duration} or
    * be {@link ChronoUnit#DAYS} which is treated as 24 hours. Other units throw an exception.
@@ -232,7 +232,7 @@ object Duration {
    * not part of the ISO-8601 standard.
    * <p>
    * Examples:
-   * <pre>
+   * {{{
    * "PT20.345S" -- parses as "20.345 seconds"
    * "PT15M"     -- parses as "15 minutes" (where a minute is 60 seconds)
    * "PT10H"     -- parses as "10 hours" (where an hour is 3600 seconds)
@@ -241,7 +241,7 @@ object Duration {
    * "P-6H3M"    -- parses as "-6 hours and +3 minutes"
    * "-P6H3M"    -- parses as "-6 hours and -3 minutes"
    * "-P-6H+3M"  -- parses as "+6 hours and -3 minutes"
-   * </pre>
+   * }}}
    *
    * @param text  the text to parse, not null
    * @return the parsed duration, not null
@@ -942,11 +942,11 @@ final class Duration extends TemporalAmount with Comparable[Duration]  {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#plus(TemporalAmount)}.
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * dateTime = thisDuration.addTo(dateTime);
    * dateTime = dateTime.plus(thisDuration);
-   * </pre>
+   * }}}
    * <p>
    * The calculation will add the seconds, then nanos.
    * Only non-zero amounts will be added.
@@ -976,11 +976,11 @@ final class Duration extends TemporalAmount with Comparable[Duration]  {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#minus(TemporalAmount)}.
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * dateTime = thisDuration.subtractFrom(dateTime);
    * dateTime = dateTime.minus(thisDuration);
-   * </pre>
+   * }}}
    * <p>
    * The calculation will subtract the seconds, then nanos.
    * Only non-zero amounts will be added.
@@ -1135,12 +1135,12 @@ final class Duration extends TemporalAmount with Comparable[Duration]  {
    * The hours, minutes and seconds will all have the same sign.
    * <p>
    * Examples:
-   * <pre>
+   * {{{
    * "20.345 seconds"                 -- "PT20.345S
    * "15 minutes" (15 * 60 seconds)   -- "PT15M"
    * "10 hours" (10 * 3600 seconds)   -- "PT10H"
    * "2 days" (2 * 86400 seconds)     -- "PT48H"
-   * </pre>
+   * }}}
    * Note that multiples of 24 hours are not output as days to avoid confusion
    * with {@code Period}.
    *
@@ -1195,11 +1195,11 @@ final class Duration extends TemporalAmount with Comparable[Duration]  {
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(1);  // identifies this as a Duration
    * out.writeLong(seconds);
    * out.writeInt(nanos);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */
@@ -1409,7 +1409,7 @@ object Period {
    * Any week-based input is multiplied by 7 and treated as a number of days.
    * <p>
    * For example, the following are valid inputs:
-   * <pre>
+   * {{{
    * "P2Y"             -- Period.ofYears(2)
    * "P3M"             -- Period.ofMonths(3)
    * "P4W"             -- Period.ofWeeks(4)
@@ -1418,7 +1418,7 @@ object Period {
    * "P1Y2M3W4D"       -- Period.of(1, 2, 25)
    * "P-1Y2M"          -- Period.of(-1, 2, 0)
    * "-P1Y2M"          -- Period.of(-1, -2, 0)
-   * </pre>
+   * }}}
    *
    * @param text  the text to parse, not null
    * @return the parsed period, not null
@@ -1973,11 +1973,11 @@ final class Period extends ChronoPeriod  {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#plus(TemporalAmount)}.
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * dateTime = thisPeriod.addTo(dateTime);
    * dateTime = dateTime.plus(thisPeriod);
-   * </pre>
+   * }}}
    * <p>
    * The calculation operates as follows.
    * First, the chronology of the temporal is checked to ensure it is ISO chronology or null.
@@ -2026,11 +2026,11 @@ final class Period extends ChronoPeriod  {
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#minus(TemporalAmount)}.
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * dateTime = thisPeriod.subtractFrom(dateTime);
    * dateTime = dateTime.minus(thisPeriod);
-   * </pre>
+   * }}}
    * <p>
    * The calculation operates as follows.
    * First, the chronology of the temporal is checked to ensure it is ISO chronology or null.
@@ -2143,12 +2143,12 @@ final class Period extends ChronoPeriod  {
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(14);  // identifies this as a Period
    * out.writeInt(years);
    * out.writeInt(months);
    * out.writeInt(seconds);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */

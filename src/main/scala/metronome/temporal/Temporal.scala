@@ -1489,7 +1489,7 @@ object JulianFields {
    * of the date in question.
    * This amounts to the astronomical Julian Day, rounded to an integer {@code JDN = floor(JD + 0.5)}.
    * <p>
-   * <pre>
+   * {{{
    * | ISO date          |  Julian Day Number | Astronomical Julian Day |
    * | 1970-01-01T00:00  |         2,440,588  |         2,440,587.5     |
    * | 1970-01-01T06:00  |         2,440,588  |         2,440,587.75    |
@@ -1498,7 +1498,7 @@ object JulianFields {
    * | 1970-01-02T00:00  |         2,440,589  |         2,440,588.5     |
    * | 1970-01-02T06:00  |         2,440,589  |         2,440,588.75    |
    * | 1970-01-02T12:00  |         2,440,589  |         2,440,589.0     |
-   * </pre>
+   * }}}
    * <p>
    * Julian Days are sometimes taken to imply Universal Time or UTC, but this
    * implementation always uses the Julian Day number for the local date,
@@ -1529,7 +1529,7 @@ object JulianFields {
    * In {@linkplain ResolverStyle#LENIENT lenient mode} no validation occurs.
    * <p>
    * <h3>Astronomical and Scientific Notes</h3>
-   * <pre>
+   * {{{
    * | ISO date          | Modified Julian Day |      Decimal MJD |
    * | 1970-01-01T00:00  |             40,587  |       40,587.0   |
    * | 1970-01-01T06:00  |             40,587  |       40,587.25  |
@@ -1538,7 +1538,7 @@ object JulianFields {
    * | 1970-01-02T00:00  |             40,588  |       40,588.0   |
    * | 1970-01-02T06:00  |             40,588  |       40,588.25  |
    * | 1970-01-02T12:00  |             40,588  |       40,588.5   |
-   * </pre>
+   * }}}
    * <p>
    * Modified Julian Days are sometimes taken to imply Universal Time or UTC, but this
    * implementation always uses the Modified Julian Day for the local date,
@@ -1654,15 +1654,7 @@ object JulianFields {
 
 }
 
-final class JulianFields {
-  /**
-   * Restricted constructor.
-   */
-  private def  {
-
-    throw new AssertionError("Not instantiable")
-  }
-}
+sealed trait JulianFields
 
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
@@ -1823,22 +1815,21 @@ trait Temporal extends TemporalAccessor {
    * lengths of month and leap years.
    * <p>
    * Some example code indicating how and why this method is used:
-   * <pre>
+   * {{{
    * date = date.with(Month.JULY);        // most key classes implement TemporalAdjuster
    * date = date.with(lastDayOfMonth());  // static import from Adjusters
    * date = date.with(next(WEDNESDAY));   // static import from Adjusters and DayOfWeek
-   * </pre>
+   * }}}
    *
-   * @implSpec
      * <p>
    *   Implementations must not alter either this object or the specified temporal object.
    *   Instead, an adjusted copy of the original must be returned.
    *   This provides equivalent, safe behavior for immutable and mutable implementations.
    *   <p>
    *   The default implementation must behave equivalent to this code:
-   *   <pre>
+   *   {{{
    *   return adjuster.adjustInto(this);
-   *   </pre>
+   *   }}}
    *
    * @param adjuster  the adjuster to use, not null
    * @return an object of the same type with the specified adjustment made, not null
@@ -1891,11 +1882,11 @@ trait Temporal extends TemporalAccessor {
    * the {@link TemporalAmount} interface, such as {@link java.time.Duration}.
    * <p>
    * Some example code indicating how and why this method is used:
-   * <pre>
+   * {{{
    * date = date.plus(period);                // add a Period instance
    * date = date.plus(duration);              // add a Duration instance
    * date = date.plus(workingDays(6));        // example user-written workingDays method
-   * </pre>
+   * }}}
    * <p>
    * Note that calling {@code plus} followed by {@code minus} is not guaranteed to
    * return the same date-time.
@@ -1907,9 +1898,9 @@ trait Temporal extends TemporalAccessor {
    *   This provides equivalent, safe behavior for immutable and mutable implementations.
    *   <p>
    *   The default implementation must behave equivalent to this code:
-   *   <pre>
+   *   {{{
    *   return amount.addTo(this);
-   *   </pre>
+   *   }}}
    *
    * @param amount  the amount to add, not null
    * @return an object of the same type with the specified adjustment made, not null
@@ -1962,11 +1953,11 @@ trait Temporal extends TemporalAccessor {
    * the {@link TemporalAmount} interface, such as {@link java.time.Duration}.
    * <p>
    * Some example code indicating how and why this method is used:
-   * <pre>
+   * {{{
    * date = date.minus(period);               // subtract a Period instance
    * date = date.minus(duration);             // subtract a Duration instance
    * date = date.minus(workingDays(6));       // example user-written workingDays method
-   * </pre>
+   * }}}
    * <p>
    * Note that calling {@code plus} followed by {@code minus} is not guaranteed to
    * return the same date-time.
@@ -1978,9 +1969,9 @@ trait Temporal extends TemporalAccessor {
    *   This provides equivalent, safe behavior for immutable and mutable implementations.
    *   <p>
    *   The default implementation must behave equivalent to this code:
-   *   <pre>
+   *   {{{
    *   return amount.subtractFrom(this);
-   *   </pre>
+   *   }}}
    *
    * @param amount  the amount to subtract, not null
    * @return an object of the same type with the specified adjustment made, not null
@@ -2011,10 +2002,10 @@ trait Temporal extends TemporalAccessor {
    *   This provides equivalent, safe behavior for immutable and mutable implementations.
    *   <p>
    *   The default implementation must behave equivalent to this code:
-   *   <pre>
+   *   {{{
    *   return (amountToSubtract == Long.MIN_VALUE ?
    *   plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
-   *   </pre>
+   *   }}}
    *
    * @param amountToSubtract  the amount of the specified unit to subtract, may be negative
    * @param unit  the unit of the period to subtract, not null
@@ -2046,20 +2037,20 @@ trait Temporal extends TemporalAccessor {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * temporal = start.until(end, unit);
    * temporal = unit.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * For example, this method allows the number of days between two dates to
    * be calculated:
-   * <pre>
+   * {{{
    * long daysBetween = start.until(end, DAYS);
    * // or alternatively
    * long daysBetween = DAYS.between(start, end);
-   * </pre>
+   * }}}
    *
    * @implSpec
      * Implementations must begin by checking to ensure that the input temporal
@@ -2074,14 +2065,14 @@ trait Temporal extends TemporalAccessor {
    *                                                                                                                                                                                                                            the second argument.
    *                                                                                                                                                                                                                            <p>
    *                                                                                                                                                                                                                            In summary, implementations must behave in a manner equivalent to this pseudo-code:
-   *                                                                                                                                                                                                                            <pre>
+   *                                                                                                                                                                                                                            {{{
    *                                                                                                                                                                                                                            // convert the end temporal to the same type as this class
    *                                                                                                                                                                                                                            if (unit instanceof ChronoUnit) {
    *                                                                                                                                                                                                                            // if unit is supported, then calculate and return result
    *                                                                                                                                                                                                                            // else throw UnsupportedTemporalTypeException for unsupported units
    *                                                                                                                                                                                                                            }
    *                                                                                                                                                                                                                            return unit.between(this, convertedEndTemporal);
-   *                                                                                                                                                                                                                            </pre>
+   *                                                                                                                                                                                                                            }}}
    *                                                                                                                                                                                                                            <p>
    *                                                                                                                                                                                                                            Note that the unit's { @code between} method must only be invoked if the
    *                                                                                                                                                                                                                                                         two temporal objects have exactly the same type evaluated by { @code getClass()}.
@@ -2249,7 +2240,7 @@ trait TemporalAccessor {
    *                                                                                                                                                                                     read-only method is invoked.
    *                                                                                                                                                                                     <p>
    *                                                                                                                                                                                     The default implementation must behave equivalent to this code:
-   *                                                                                                                                                                                     <pre>
+   *                                                                                                                                                                                     {{{
    *                                                                                                                                                                                     if (field instanceof ChronoField) {
    *                                                                                                                                                                                     if (isSupported(field)) {
    *                                                                                                                                                                                     return field.range();
@@ -2257,7 +2248,7 @@ trait TemporalAccessor {
    *                                                                                                                                                                                     throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
    *                                                                                                                                                                                     }
    *                                                                                                                                                                                     return field.rangeRefinedBy(this);
-   *                                                                                                                                                                                     </pre>
+   *                                                                                                                                                                                     }}}
    *
    * @param field  the field to query the range for, not null
    * @return the range of valid values for the field, not null
@@ -2297,12 +2288,12 @@ trait TemporalAccessor {
    *                                                                                                                                                                                                                                  read-only method is invoked.
    *                                                                                                                                                                                                                                  <p>
    *                                                                                                                                                                                                                                  The default implementation must behave equivalent to this code:
-   *                                                                                                                                                                                                                                  <pre>
+   *                                                                                                                                                                                                                                  {{{
    *                                                                                                                                                                                                                                  if (range(field).isIntValue()) {
    *                                                                                                                                                                                                                                  return range(field).checkValidIntValue(getLong(field), field);
    *                                                                                                                                                                                                                                  }
    *                                                                                                                                                                                                                                  throw new UnsupportedTemporalTypeException("Invalid field " + field + " + for get() method, use getLong() instead");
-   *                                                                                                                                                                                                                                  </pre>
+   *                                                                                                                                                                                                                                  }}}
    *
    * @param field  the field to get, not null
    * @return the value for the field, within the valid range of values
@@ -2369,13 +2360,13 @@ trait TemporalAccessor {
    *
    * @implSpec
      * The default implementation must behave equivalent to this code:
-   *   <pre>
+   *   {{{
    *   if (query == TemporalQuery.zoneId() ||
    *   query == TemporalQuery.chronology() || query == TemporalQuery.precision()) {
    *   return null;
    *   }
    *   return query.queryFrom(this);
-   *   </pre>
+   *   }}}
    *   Future versions are permitted to add further queries to the if statement.
    *   <p>
    *   All classes implementing this interface and overriding this method must call
@@ -2387,12 +2378,12 @@ trait TemporalAccessor {
    *                                                                                   if statement of the default implementation, then it must do so.
    *                                                                                   For example, an application-defined { @code HourMin} class storing the hour
    *                                                                                                                               and minute must override this method as follows:
-   *                                                                                                                               <pre>
+   *                                                                                                                               {{{
    *                                                                                                                               if (query == TemporalQuery.precision()) {
    *                                                                                                                               return MINUTES;
    *                                                                                                                               }
    *                                                                                                                               return TemporalAccessor.super.query(query);
-   *                                                                                                                               </pre>
+   *                                                                                                                               }}}
    *                                                                                                                               <p>
    *                                                                                                                               Implementations must ensure that no observable state is altered when this
    *                                                                                                                               read-only method is invoked.
@@ -2483,11 +2474,11 @@ trait TemporalAccessor {
  * There are two equivalent ways of using a {@code TemporalAdjuster}.
  * The first is to invoke the method on this interface directly.
  * The second is to use {@link Temporal#with(TemporalAdjuster)}:
- * <pre>
+ * {{{
  * // these two lines are equivalent, but the second approach is recommended
  * temporal = thisAdjuster.adjustInto(temporal);
  * temporal = temporal.with(thisAdjuster);
- * </pre>
+ * }}}
  * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
  * as it is a lot clearer to read in code.
  * <p>
@@ -2510,7 +2501,7 @@ trait TemporalAccessor {
  *
  * @since 1.8
  */
-@FunctionalInterface object TemporalAdjuster {
+object TemporalAdjuster {
   /**
    * Obtains a {@code TemporalAdjuster} that wraps a date adjuster.
    * <p>
@@ -2520,10 +2511,10 @@ trait TemporalAccessor {
    * This is provided for convenience to make user-written adjusters simpler.
    * <p>
    * In general, user-written adjusters should be static constants:
-   * <pre>{@code
+   * {{{{@code
    * static TemporalAdjuster TWO_DAYS_LATER = TemporalAdjuster.ofDateAdjuster(
      *    date -> date.plusDays(2));
-     * }</pre>
+     * }}}}
    *
    * @param dateBasedAdjuster  the date-based adjuster, not null
    * @return the temporal adjuster wrapping on the date adjuster, not null
@@ -2542,9 +2533,9 @@ trait TemporalAccessor {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * temporal.with(DAY_OF_MONTH, 1);
-   * </pre>
+   * }}}
    *
    * @return the first day-of-month adjuster, not null
    */
@@ -2564,10 +2555,10 @@ trait TemporalAccessor {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * long lastDay = temporal.range(DAY_OF_MONTH).getMaximum();
    * temporal.with(DAY_OF_MONTH, lastDay);
-   * </pre>
+   * }}}
    *
    * @return the last day-of-month adjuster, not null
    */
@@ -2585,9 +2576,9 @@ trait TemporalAccessor {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * temporal.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
-   * </pre>
+   * }}}
    *
    * @return the first day of next month adjuster, not null
    */
@@ -2605,9 +2596,9 @@ trait TemporalAccessor {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * temporal.with(DAY_OF_YEAR, 1);
-   * </pre>
+   * }}}
    *
    * @return the first day-of-year adjuster, not null
    */
@@ -2625,10 +2616,10 @@ trait TemporalAccessor {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * long lastDay = temporal.range(DAY_OF_YEAR).getMaximum();
    * temporal.with(DAY_OF_YEAR, lastDay);
-   * </pre>
+   * }}}
    *
    * @return the last day-of-year adjuster, not null
    */
@@ -2645,9 +2636,9 @@ trait TemporalAccessor {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * temporal.with(DAY_OF_YEAR, 1).plus(1, YEARS);
-   * </pre>
+   * }}}
    *
    * @return the first day of next month adjuster, not null
    */
@@ -2814,7 +2805,7 @@ trait TemporalAccessor {
   }
 }
 
-@FunctionalInterface trait TemporalAdjuster {
+trait TemporalAdjuster {
   /**
    * Adjusts the specified temporal object.
    * <p>
@@ -2826,11 +2817,11 @@ trait TemporalAccessor {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisAdjuster.adjustInto(temporal);
    * temporal = temporal.with(thisAdjuster);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
    * as it is a lot clearer to read in code.
    *
@@ -2935,10 +2926,10 @@ object TemporalAdjusters {
    * This is provided for convenience to make user-written adjusters simpler.
    * <p>
    * In general, user-written adjusters should be static constants:
-   * <pre>
+   * {{{
    * public static TemporalAdjuster TWO_DAYS_LATER = TemporalAdjuster.ofDateAdjuster(
    * date -> date.plusDays(2));
-   * </pre>
+   * }}}
    *
    * @param dateBasedAdjuster  the date-based adjuster, not null
    * @return the temporal adjuster wrapping on the date adjuster, not null
@@ -2962,9 +2953,9 @@ object TemporalAdjusters {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * temporal.with(DAY_OF_MONTH, 1);
-   * </pre>
+   * }}}
    *
    * @return the first day-of-month adjuster, not null
    */
@@ -2984,10 +2975,10 @@ object TemporalAdjusters {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * long lastDay = temporal.range(DAY_OF_MONTH).getMaximum();
    * temporal.with(DAY_OF_MONTH, lastDay);
-   * </pre>
+   * }}}
    *
    * @return the last day-of-month adjuster, not null
    */
@@ -3005,9 +2996,9 @@ object TemporalAdjusters {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * temporal.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
-   * </pre>
+   * }}}
    *
    * @return the first day of next month adjuster, not null
    */
@@ -3025,9 +3016,9 @@ object TemporalAdjusters {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * temporal.with(DAY_OF_YEAR, 1);
-   * </pre>
+   * }}}
    *
    * @return the first day-of-year adjuster, not null
    */
@@ -3045,10 +3036,10 @@ object TemporalAdjusters {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * long lastDay = temporal.range(DAY_OF_YEAR).getMaximum();
    * temporal.with(DAY_OF_YEAR, lastDay);
-   * </pre>
+   * }}}
    *
    * @return the last day-of-year adjuster, not null
    */
@@ -3065,9 +3056,9 @@ object TemporalAdjusters {
    * <p>
    * The behavior is suitable for use with most calendar systems.
    * It is equivalent to:
-   * <pre>
+   * {{{
    * temporal.with(DAY_OF_YEAR, 1).plus(1, YEARS);
-   * </pre>
+   * }}}
    *
    * @return the first day of next month adjuster, not null
    */
@@ -3421,11 +3412,11 @@ trait TemporalAmount {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link Temporal#plus(TemporalAmount)}:
-   * <pre>
+   * {{{
    * // These two lines are equivalent, but the second approach is recommended
    * dateTime = amount.addTo(dateTime);
    * dateTime = dateTime.plus(adder);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code plus(TemporalAmount)},
    * as it is a lot clearer to read in code.
    *
@@ -3463,11 +3454,11 @@ trait TemporalAmount {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link Temporal#minus(TemporalAmount)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * dateTime = amount.subtractFrom(dateTime);
    * dateTime = dateTime.minus(amount);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code minus(TemporalAmount)},
    * as it is a lot clearer to read in code.
    *
@@ -3670,11 +3661,11 @@ trait TemporalField {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link TemporalAccessor#isSupported(TemporalField)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisField.isSupportedBy(temporal);
    * temporal = temporal.isSupported(thisField);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code isSupported(TemporalField)},
    * as it is a lot clearer to read in code.
    * <p>
@@ -3700,11 +3691,11 @@ trait TemporalField {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link TemporalAccessor#range(TemporalField)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisField.rangeRefinedBy(temporal);
    * temporal = temporal.range(thisField);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code range(TemporalField)},
    * as it is a lot clearer to read in code.
    * <p>
@@ -3728,11 +3719,11 @@ trait TemporalField {
    * The first is to invoke this method directly.
    * The second is to use {@link TemporalAccessor#getLong(TemporalField)}
    * (or {@link TemporalAccessor#get(TemporalField)}):
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisField.getFrom(temporal);
    * temporal = temporal.getLong(thisField);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code getLong(TemporalField)},
    * as it is a lot clearer to read in code.
    * <p>
@@ -3765,11 +3756,11 @@ trait TemporalField {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link Temporal#with(TemporalField, long)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisField.adjustInto(temporal);
    * temporal = temporal.with(thisField);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code with(TemporalField)},
    * as it is a lot clearer to read in code.
    * <p>
@@ -4078,11 +4069,11 @@ final class TemporalQueries {
  * There are two equivalent ways of using a {@code TemporalQuery}.
  * The first is to invoke the method on this interface directly.
  * The second is to use {@link TemporalAccessor#query(TemporalQuery)}:
- * <pre>
+ * {{{
  * // these two lines are equivalent, but the second approach is recommended
  * temporal = thisQuery.queryFrom(temporal);
  * temporal = temporal.query(thisQuery);
- * </pre>
+ * }}}
  * It is recommended to use the second approach, {@code query(TemporalQuery)},
  * as it is a lot clearer to read in code.
  * <p>
@@ -4096,7 +4087,7 @@ final class TemporalQueries {
  *
  * @since 1.8
  */
-@FunctionalInterface object TemporalQuery {
+object TemporalQuery {
   /**
    * A strict query for the {@code ZoneId}.
    * <p>
@@ -4301,7 +4292,7 @@ final class TemporalQueries {
   }
 }
 
-@FunctionalInterface trait TemporalQuery {
+trait TemporalQuery {
   /**
    * Queries the specified temporal object.
    * <p>
@@ -4313,11 +4304,11 @@ final class TemporalQueries {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link TemporalAccessor#query(TemporalQuery)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisQuery.queryFrom(temporal);
    * temporal = temporal.query(thisQuery);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code query(TemporalQuery)},
    * as it is a lot clearer to read in code.
    *
@@ -4340,7 +4331,7 @@ final class TemporalQueries {
    * @throws DateTimeException if unable to query
    * @throws ArithmeticException if numeric overflow occurs
    */
-  def queryFrom(temporal: TemporalAccessor): R
+  def queryFrom[R](temporal: TemporalAccessor): R
 }
 
 /*
@@ -4443,7 +4434,7 @@ trait TemporalUnit {
    *
    * @return the duration of this unit, which may be an estimate, not null
    */
-  def getDuration: Nothing
+  def getDuration: Duration
 
   /**
    * Checks if the duration of the unit is an estimate.
@@ -4539,11 +4530,11 @@ trait TemporalUnit {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link Temporal#plus(long, TemporalUnit)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisUnit.addTo(temporal);
    * temporal = temporal.plus(thisUnit);
-   * </pre>
+   * }}}
    * It is recommended to use the second approach, {@code plus(TemporalUnit)},
    * as it is a lot clearer to read in code.
    * <p>
@@ -4583,20 +4574,20 @@ trait TemporalUnit {
    * There are two equivalent ways of using this method.
    * The first is to invoke this method directly.
    * The second is to use {@link Temporal#until(Temporal, TemporalUnit)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * between = thisUnit.between(start, end);
    * between = start.until(end, thisUnit);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * For example, this method allows the number of days between two dates to
    * be calculated:
-   * <pre>
+   * {{{
    * long daysBetween = DAYS.between(start, end);
    * // or alternatively
    * long daysBetween = start.until(end, DAYS);
-   * </pre>
+   * }}}
    * <p>
    * Implementations should perform any queries or calculations using the units
    * available in {@link ChronoUnit} or the fields available in {@link ChronoField}.

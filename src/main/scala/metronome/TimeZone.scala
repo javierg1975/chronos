@@ -550,10 +550,10 @@ abstract class ZoneId extends Serializable {
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(7);  // identifies this as a ZoneId (not ZoneOffset)
    * out.writeUTF(zoneId);
-   * </pre>
+   * }}}
    * <p>
    * When read back in, the {@code ZoneId} will be created as though using
    * {@link #of(String)}, but without any exception in the case where the
@@ -1119,11 +1119,11 @@ final class ZoneOffset extends ZoneId with TemporalAccessor with TemporalAdjuste
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisOffset.adjustInto(temporal);
    * temporal = temporal.with(thisOffset);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -1193,14 +1193,14 @@ final class ZoneOffset extends ZoneId with TemporalAccessor with TemporalAdjuste
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(8);  // identifies this as a ZoneOffset
    * int offsetByte = totalSeconds % 900 == 0 ? totalSeconds / 900 : 127;
    * out.writeByte(offsetByte);
    * if (offsetByte == 127) {
    * out.writeInt(totalSeconds);
    * }
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */
@@ -1358,10 +1358,10 @@ final class ZoneRegion extends ZoneId  {
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(7);  // identifies this as a ZoneId (not ZoneOffset)
    * out.writeUTF(zoneId);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */

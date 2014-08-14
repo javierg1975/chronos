@@ -81,10 +81,10 @@ package metronome.format
  * {@code format(DateTimeFormatter formatter)}, and one for parsing,
  * {@code parse(CharSequence text, DateTimeFormatter formatter)}.
  * <p>For example:
- * <blockquote><pre>
+ * <blockquote>{{{
  * String text = date.toString(formatter);
  * Date date = Date.parse(text, formatter);
- * </pre></blockquote>
+ * }}}</blockquote>
  * <p>
  * In addition to the format, formatters can be created with desired Locale,
  * Chronology, ZoneId, and DecimalStyle.
@@ -229,15 +229,15 @@ package metronome.format
  * it is immutable and is thread-safe.
  * <p>
  * For example:
- * <blockquote><pre>
+ * <blockquote>{{{
  * DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
  * String text = date.toString(formatter);
  * Date date = Date.parse(text, formatter);
- * </pre></blockquote>
+ * }}}</blockquote>
  * <p>
  * All letters 'A' to 'Z' and 'a' to 'z' are reserved as pattern letters. The
  * following pattern letters are defined:
- * <pre>
+ * {{{
  * Symbol  Meaning                     Presentation      Examples
  * ------  -------                     ------------      -------
  * G       era                         text              AD; Anno Domini; A
@@ -284,7 +284,7 @@ package metronome.format
  * #       reserved for future use
  * {       reserved for future use
  * }       reserved for future use
- * </pre>
+ * }}}
  * <p>
  * The count of pattern letters determines the format.
  * <p>
@@ -630,19 +630,19 @@ object DateTimeFormatter {
    * <p>
    * The {@code SMART} behaviour handles the common "end of day" 24:00 value.
    * Processing in {@code LENIENT} mode also produces the same result:
-   * <pre>
+   * {{{
    * Text to parse        Parsed object                         Excess days
    * "2012-12-03T00:00"   DateTime.of(2012, 12, 3, 0, 0)   ZERO
    * "2012-12-03T24:00"   DateTime.of(2012, 12, 4, 0, 0)   ZERO
    * "00:00"              Time.of(0, 0)                    ZERO
    * "24:00"              Time.of(0, 0)                    Period.ofDays(1)
-   * </pre>
+   * }}}
    * The query can be used as follows:
-   * <pre>
+   * {{{
    * TemporalAccessor parsed = formatter.parse(str);
    * Time time = parsed.query(Time::from);
    * Period extraDays = parsed.query(DateTimeFormatter.parsedExcessDays());
-   * </pre>
+   * }}}
    * @return a query that provides access to the excess days that were parsed
    */
   final def parsedExcessDays: TemporalQuery[Period] = {
@@ -670,13 +670,13 @@ object DateTimeFormatter {
    * the leap-second, and zero if not. Note that applying a leap-second
    * smoothing mechanism, such as UTC-SLS, is the responsibility of the
    * application, as follows:
-   * <pre>
+   * {{{
    * TemporalAccessor parsed = formatter.parse(str);
    * Instant instant = parsed.query(Instant::from);
    * if (parsed.query(DateTimeFormatter.parsedLeapSecond())) {
    * // validate leap-second is correct and apply correct smoothing
    * }
-   * </pre>
+   * }}}
    * @return a query that provides access to whether a leap-second was parsed
    */
   final def parsedLeapSecond: TemporalQuery[Boolean] = {
@@ -1648,9 +1648,9 @@ final class DateTimeFormatter {
    * It parses the entire text to produce the required date-time.
    * The query is typically a method reference to a {@code from(TemporalAccessor)} method.
    * For example:
-   * <pre>
+   * {{{
    * DateTime dt = parser.parse(str, DateTime::from);
-   * </pre>
+   * }}}
    * If the parse completes without reading the entire length of the text,
    * or a problem occurs during parsing or merging, then an exception is thrown.
    *
@@ -1689,14 +1689,14 @@ final class DateTimeFormatter {
    * The result is associated with the first type that successfully parses.
    * Normally, applications will use {@code instanceof} to check the result.
    * For example:
-   * <pre>
+   * {{{
    * TemporalAccessor dt = parser.parseBest(str, ZonedDateTime::from, DateTime::from);
    * if (dt instanceof ZonedDateTime) {
    * ...
    * } else {
    * ...
    * }
-   * </pre>
+   * }}}
    * If the parse completes without reading the entire length of the text,
    * or a problem occurs during parsing or merging, then an exception is thrown.
    *
@@ -4916,14 +4916,14 @@ final class DateTimeFormatterBuilder {
    * year as "JNY", "FBY", "MCH" etc. These do not match the standard set of text
    * for localized month names. Using this method, a map can be created which
    * defines the connection between each value and the text:
-   * <pre>
+   * {{{
    * Map&lt;Long, String&gt; map = new HashMap&lt;&gt;();
    * map.put(1, "JNY");
    * map.put(2, "FBY");
    * map.put(3, "MCH");
    * ...
    * builder.appendText(MONTH_OF_YEAR, map);
-   * </pre>
+   * }}}
    * <p>
    * Other uses might be to output the value with a suffix, such as "1st", "2nd", "3rd",
    * or as Roman numerals "I", "II", "III", "IV".
@@ -5153,7 +5153,7 @@ final class DateTimeFormatterBuilder {
    * The parser uses the {@linkplain #parseCaseInsensitive() case sensitive} setting.
    * <p>
    * For example, the following will parse:
-   * <pre>
+   * {{{
    * "Europe/London"           -- ZoneId.of("Europe/London")
    * "Z"                       -- ZoneOffset.UTC
    * "UT"                      -- ZoneId.of("UT")
@@ -5163,7 +5163,7 @@ final class DateTimeFormatterBuilder {
    * "UT+01:30"                -- ZoneOffset.of("+01:30")
    * "UTC+01:30"               -- ZoneOffset.of("+01:30")
    * "GMT+01:30"               -- ZoneOffset.of("+01:30")
-   * </pre>
+   * }}}
    *
    * @return this, for chaining, not null
    * @see #appendZoneRegionId()
@@ -5204,7 +5204,7 @@ final class DateTimeFormatterBuilder {
    * The parser uses the {@linkplain #parseCaseInsensitive() case sensitive} setting.
    * <p>
    * For example, the following will parse:
-   * <pre>
+   * {{{
    * "Europe/London"           -- ZoneId.of("Europe/London")
    * "Z"                       -- ZoneOffset.UTC
    * "UT"                      -- ZoneId.of("UT")
@@ -5214,7 +5214,7 @@ final class DateTimeFormatterBuilder {
    * "UT+01:30"                -- ZoneOffset.of("+01:30")
    * "UTC+01:30"               -- ZoneOffset.of("+01:30")
    * "GMT+01:30"               -- ZoneOffset.of("+01:30")
-   * </pre>
+   * }}}
    * <p>
    * Note that this method is is identical to {@code appendZoneId()} except
    * in the mechanism used to obtain the zone.
@@ -5262,7 +5262,7 @@ final class DateTimeFormatterBuilder {
    * The parser uses the {@linkplain #parseCaseInsensitive() case sensitive} setting.
    * <p>
    * For example, the following will parse:
-   * <pre>
+   * {{{
    * "Europe/London"           -- ZoneId.of("Europe/London")
    * "Z"                       -- ZoneOffset.UTC
    * "UT"                      -- ZoneId.of("UT")
@@ -5272,7 +5272,7 @@ final class DateTimeFormatterBuilder {
    * "UT+01:30"                -- ZoneOffset.of("UT+01:30")
    * "UTC+01:30"               -- ZoneOffset.of("UTC+01:30")
    * "GMT+01:30"               -- ZoneOffset.of("GMT+01:30")
-   * </pre>
+   * }}}
    * <p>
    * Note that this method is is identical to {@code appendZoneId()} except
    * in the mechanism used to obtain the zone.
@@ -5516,7 +5516,7 @@ final class DateTimeFormatterBuilder {
    * The characters '#', '{' and '}' are reserved for future use.
    * The characters '[' and ']' indicate optional patterns.
    * The following pattern letters are defined:
-   * <pre>
+   * {{{
    * Symbol  Meaning                     Presentation      Examples
    * ------  -------                     ------------      -------
    * G       era                         text              AD; Anno Domini; A
@@ -5563,14 +5563,14 @@ final class DateTimeFormatterBuilder {
    * #       reserved for future use
    * {       reserved for future use
    * }       reserved for future use
-   * </pre>
+   * }}}
    * <p>
    * The count of pattern letters determine the format.
    * See <a href="DateTimeFormatter.html#patterns">DateTimeFormatter</a> for a user-focused description of the patterns.
    * The following tables define how the pattern letters map to the builder.
    * <p>
    * <b>Date fields</b>: Pattern letters to output a date.
-   * <pre>
+   * {{{
    * Pattern  Count  Equivalent builder methods
    * -------  -----  --------------------------
    * G       1      appendText(ChronoField.ERA, TextStyle.SHORT)
@@ -5637,10 +5637,10 @@ final class DateTimeFormatterBuilder {
    * ccc     3      appendText(ChronoField.DAY_OF_WEEK, TextStyle.SHORT_STANDALONE)
    * cccc    4      appendText(ChronoField.DAY_OF_WEEK, TextStyle.FULL_STANDALONE)
    * ccccc   5      appendText(ChronoField.DAY_OF_WEEK, TextStyle.NARROW_STANDALONE)
-   * </pre>
+   * }}}
    * <p>
    * <b>Time fields</b>: Pattern letters to output a time.
-   * <pre>
+   * {{{
    * Pattern  Count  Equivalent builder methods
    * -------  -----  --------------------------
    * a       1      appendText(ChronoField.AMPM_OF_DAY, TextStyle.SHORT)
@@ -5664,10 +5664,10 @@ final class DateTimeFormatterBuilder {
    * n..n    2..n   appendValue(ChronoField.NANO_OF_SECOND, n)
    * N       1      appendValue(ChronoField.NANO_OF_DAY)
    * N..N    2..n   appendValue(ChronoField.NANO_OF_DAY, n)
-   * </pre>
+   * }}}
    * <p>
    * <b>Zone ID</b>: Pattern letters to output {@code ZoneId}.
-   * <pre>
+   * {{{
    * Pattern  Count  Equivalent builder methods
    * -------  -----  --------------------------
    * VV      2      appendZoneId()
@@ -5675,10 +5675,10 @@ final class DateTimeFormatterBuilder {
    * zz      2      appendZoneText(TextStyle.SHORT)
    * zzz     3      appendZoneText(TextStyle.SHORT)
    * zzzz    4      appendZoneText(TextStyle.FULL)
-   * </pre>
+   * }}}
    * <p>
    * <b>Zone offset</b>: Pattern letters to output {@code ZoneOffset}.
-   * <pre>
+   * {{{
    * Pattern  Count  Equivalent builder methods
    * -------  -----  --------------------------
    * O       1      appendLocalizedOffsetPrefixed(TextStyle.SHORT);
@@ -5698,16 +5698,16 @@ final class DateTimeFormatterBuilder {
    * ZZZ     3      appendOffset("+HHMM","+0000")
    * ZZZZ    4      appendLocalizedOffset(TextStyle.FULL);
    * ZZZZZ   5      appendOffset("+HH:MM:ss","Z")
-   * </pre>
+   * }}}
    * <p>
    * <b>Modifiers</b>: Pattern letters that modify the rest of the pattern:
-   * <pre>
+   * {{{
    * Pattern  Count  Equivalent builder methods
    * -------  -----  --------------------------
    * [       1      optionalStart()
    * ]       1      optionalEnd()
    * p..p    1..n   padNext(n)
-   * </pre>
+   * }}}
    * <p>
    * Any sequence of letters not specified above, unrecognized letter or
    * reserved character will throw an exception.

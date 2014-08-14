@@ -163,11 +163,11 @@ object Instant {
    * The factory will alter the values of the second and nanosecond in order
    * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
    * For example, the following will result in the exactly the same instant:
-   * <pre>
+   * {{{
    * Instant.ofEpochSecond(3, 1);
    * Instant.ofEpochSecond(4, -999_999_999);
    * Instant.ofEpochSecond(2, 1000_000_001);
-   * </pre>
+   * }}}
    *
    * @param epochSecond  the number of seconds from 1970-01-01T00:00:00Z
    * @param nanoAdjustment  the nanosecond adjustment to the number of seconds, positive or negative
@@ -957,11 +957,11 @@ final class Instant extends Temporal with TemporalAdjuster with Comparable[Insta
    * <p>
    * In most cases, it is clearer to reverse the calling pattern by using
    * {@link Temporal#with(TemporalAdjuster)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent, but the second approach is recommended
    * temporal = thisInstant.adjustInto(temporal);
    * temporal = temporal.with(thisInstant);
-   * </pre>
+   * }}}
    * <p>
    * This instance is immutable and unaffected by this method call.
    *
@@ -991,11 +991,11 @@ final class Instant extends Temporal with TemporalAdjuster with Comparable[Insta
    * There are two equivalent ways of using this method.
    * The first is to invoke this method.
    * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
-   * <pre>
+   * {{{
    * // these two lines are equivalent
    * amount = start.until(end, SECONDS);
    * amount = SECONDS.between(start, end);
-   * </pre>
+   * }}}
    * The choice should be made based on which makes the code more readable.
    * <p>
    * The calculation is implemented in this method for {@link ChronoUnit}.
@@ -1204,11 +1204,11 @@ final class Instant extends Temporal with TemporalAdjuster with Comparable[Insta
   /**
    * Writes the object using a
    * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-   * <pre>
+   * {{{
    * out.writeByte(2);  // identifies this as an Instant
    * out.writeLong(seconds);
    * out.writeInt(nanos);
-   * </pre>
+   * }}}
    *
    * @return the instance of { @code Ser}, not null
    */

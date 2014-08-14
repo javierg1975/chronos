@@ -45,10 +45,10 @@ package metronome.chrono
  * to find the Chronology based on Locale supported BCP 47 extension mechanism
  * to request a specific calendar ("ca"). For example,
  * </p>
- * <pre>
+ * {{{
  * Locale locale = Locale.forLanguageTag("en-US-u-ca-islamic-umalqura");
  * Chronology chrono = Chronology.ofLocale(locale);
- * </pre>
+ * }}}
  *
  * @implSpec
  * This class is immutable and thread-safe.
@@ -161,9 +161,9 @@ object HijrahChronology {
    * Return the configuration properties from the resource.
    * <p>
    * The default location of the variant configuration resource is:
-   * <pre>
+   * {{{
    * "$java.home/lib/" + resource-name
-   * </pre>
+   * }}}
    *
    * @param resource the name of the calendar property resource
    * @return a Properties containing the properties read from the resource.

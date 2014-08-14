@@ -87,12 +87,12 @@ final class JapaneseChronology extends Chronology  {
    * The Japanese month and day-of-month are the same as those in the
    * ISO calendar system. They are not reset when the era changes.
    * For example:
-   * <pre>
+   * {{{
    * 6th Jan Showa 64 = ISO 1989-01-06
    * 7th Jan Showa 64 = ISO 1989-01-07
    * 8th Jan Heisei 1 = ISO 1989-01-08
    * 9th Jan Heisei 1 = ISO 1989-01-09
-   * </pre>
+   * }}}
    *
    * @param era  the Japanese era, not null
    * @param yearOfEra  the year-of-era
@@ -134,12 +134,12 @@ final class JapaneseChronology extends Chronology  {
    * This definition changes the normal meaning of day-of-year only in those years
    * where the year-of-era is reset to one due to a change in the era.
    * For example:
-   * <pre>
+   * {{{
    * 6th Jan Showa 64 = day-of-year 6
    * 7th Jan Showa 64 = day-of-year 7
    * 8th Jan Heisei 1 = day-of-year 1
    * 9th Jan Heisei 1 = day-of-year 2
-   * </pre>
+   * }}}
    *
    * @param era  the Japanese era, not null
    * @param yearOfEra  the year-of-era
@@ -457,12 +457,12 @@ object JapaneseDate {
    * The Japanese month and day-of-month are the same as those in the
    * ISO calendar system. They are not reset when the era changes.
    * For example:
-   * <pre>
+   * {{{
    * 6th Jan Showa 64 = ISO 1989-01-06
    * 7th Jan Showa 64 = ISO 1989-01-07
    * 8th Jan Heisei 1 = ISO 1989-01-08
    * 9th Jan Heisei 1 = ISO 1989-01-09
-   * </pre>
+   * }}}
    *
    * @param era  the Japanese era, not null
    * @param yearOfEra  the Japanese year-of-era
@@ -516,12 +516,12 @@ object JapaneseDate {
    * This definition changes the normal meaning of day-of-year only in those years
    * where the year-of-era is reset to one due to a change in the era.
    * For example:
-   * <pre>
+   * {{{
    * 6th Jan Showa 64 = day-of-year 6
    * 7th Jan Showa 64 = day-of-year 7
    * 8th Jan Heisei 1 = day-of-year 1
    * 9th Jan Heisei 1 = day-of-year 2
-   * </pre>
+   * }}}
    *
    * @param era  the Japanese era, not null
    * @param yearOfEra  the Japanese year-of-era
@@ -1007,10 +1007,10 @@ object JapaneseEra {
    * Returns an array of JapaneseEras.
    * <p>
    * This method may be used to iterate over the JapaneseEras as follows:
-   * <pre>
+   * {{{
    * for (JapaneseEra c : JapaneseEra.values())
    * System.out.println(c);
-   * </pre>
+   * }}}
    *
    * @return an array of JapaneseEras
    */
