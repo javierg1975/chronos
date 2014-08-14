@@ -109,7 +109,7 @@ package metronome
  * @since 1.8
  */
 
-final object Instant {
+object Instant {
   /**
    * Obtains the current instant from the system clock.
    * <p>
@@ -137,7 +137,7 @@ final object Instant {
    * @return the current instant, not null
    */
   def now(clock: Clock): Instant = {
-    Objects.requireNonNull(clock, "clock")
+    object
      clock.instant
   }
 
@@ -218,7 +218,7 @@ final object Instant {
     if (temporal.isInstanceOf[Instant]) {
        temporal.asInstanceOf[Instant]
     }
-    Objects.requireNonNull(temporal, "temporal")
+    object
     val instantSecs: Long = temporal.getLong(INSTANT_SECONDS)
     val nanoOfSecond: Int = temporal.get(NANO_OF_SECOND)
      Instant.ofEpochSecond(instantSecs, nanoOfSecond)
@@ -296,13 +296,10 @@ final object Instant {
    * an {@code int}.
    */
   final val MAX: Instant = Instant.ofEpochSecond(MAX_SECOND, 999 _999_999)
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -665713676816604388L
+
 }
 
-final class Instant extends Temporal with TemporalAdjuster with Comparable[Instant] with Serializable {
+final class Instant extends Temporal with TemporalAdjuster with Comparable[Instant]  {
   /**
    * Constructs an instance of {@code Instant} using seconds from the epoch of
    * 1970-01-01T00:00:00Z and nanosecond fraction of second.
@@ -938,7 +935,7 @@ final class Instant extends Temporal with TemporalAdjuster with Comparable[Insta
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.precision) {
        NANOS.asInstanceOf[R]
     }

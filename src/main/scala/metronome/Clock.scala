@@ -125,7 +125,7 @@ object Clock {
    * @return a clock that uses the best available system clock in the specified zone, not null
    */
   def system(zone: ZoneId): Clock = {
-    Objects.requireNonNull(zone, "zone")
+    object
      new Clock.SystemClock(zone)
   }
 
@@ -207,8 +207,8 @@ object Clock {
    * @throws ArithmeticException if the duration is too large to be represented as nanos
    */
   def tick(baseClock: Clock, tickDuration: Duration): Clock = {
-    Objects.requireNonNull(baseClock, "baseClock")
-    Objects.requireNonNull(tickDuration, "tickDuration")
+    object
+    object
     if (tickDuration.isNegative) {
       throw new IllegalArgumentException("Tick duration must not be negative")
     }
@@ -244,8 +244,8 @@ object Clock {
    * @return a clock that always returns the same instant, not null
    */
   def fixed(fixedInstant: Instant, zone: ZoneId): Clock = {
-    Objects.requireNonNull(fixedInstant, "fixedInstant")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
      new Clock.FixedClock(fixedInstant, zone)
   }
 
@@ -269,8 +269,8 @@ object Clock {
    * @return a clock based on the base clock with the duration added, not null
    */
   def offset(baseClock: Clock, offsetDuration: Duration): Clock = {
-    Objects.requireNonNull(baseClock, "baseClock")
-    Objects.requireNonNull(offsetDuration, "offsetDuration")
+    object
+    object
     if (offsetDuration == Duration.ZERO) {
        baseClock
     }
@@ -281,11 +281,11 @@ object Clock {
    * Implementation of a clock that always returns the latest time from
    * {@link System#currentTimeMillis()}.
    */
-  private[time] final object SystemClock {
+  private[time] object SystemClock {
     private final val serialVersionUID: Long = 6740630888130243051L
   }
 
-  private[time] final class SystemClock extends Clock with Serializable {
+  private[time] final class SystemClock extends Clock  {
     private[time] def this(zone: ZoneId) {
       this()
       this.zone = zone
@@ -332,11 +332,11 @@ object Clock {
    * Implementation of a clock that always returns the same instant.
    * This is typically used for testing.
    */
-  private[time] final object FixedClock {
+  private[time] object FixedClock {
     private final val serialVersionUID: Long = 7430389292664866958L
   }
 
-  private[time] final class FixedClock extends Clock with Serializable {
+  private[time] final class FixedClock extends Clock  {
     private[time] def this(fixedInstant: Instant, zone: ZoneId) {
       this()
       this.instant = fixedInstant
@@ -385,11 +385,11 @@ object Clock {
   /**
    * Implementation of a clock that adds an offset to an underlying clock.
    */
-  private[time] final object OffsetClock {
+  private[time] object OffsetClock {
     private final val serialVersionUID: Long = 2007484719125426256L
   }
 
-  private[time] final class OffsetClock extends Clock with Serializable {
+  private[time] final class OffsetClock extends Clock  {
     private[time] def this(baseClock: Clock, offset: Duration) {
       this()
       this.baseClock = baseClock
@@ -438,11 +438,11 @@ object Clock {
   /**
    * Implementation of a clock that adds an offset to an underlying clock.
    */
-  private[time] final object TickClock {
+  private[time] object TickClock {
     private final val serialVersionUID: Long = 6504659149906368850L
   }
 
-  private[time] final class TickClock extends Clock with Serializable {
+  private[time] final class TickClock extends Clock  {
     private[time] def this(baseClock: Clock, tickNanos: Long) {
       this()
       this.baseClock = baseClock

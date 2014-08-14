@@ -134,8 +134,8 @@ object ZoneId {
    * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
    */
   def of(zoneId: String, aliasMap: Map[String, String]): ZoneId = {
-    Objects.requireNonNull(zoneId, "zoneId")
-    Objects.requireNonNull(aliasMap, "aliasMap")
+    object
+    object
     var id: String = aliasMap.get(zoneId)
     id = (if (id != null) id else zoneId)
      of(id)
@@ -199,8 +199,8 @@ object ZoneId {
    *                                  "GMT", "UTC", or "UT", or ""
    */
   def ofOffset(prefix: String, offset: ZoneOffset): ZoneId = {
-    Objects.requireNonNull(prefix, "prefix")
-    Objects.requireNonNull(offset, "offset")
+    object
+    object
     if (prefix.length == 0) {
        offset
     }
@@ -224,7 +224,7 @@ object ZoneId {
    * @throws ZoneRulesException if checking availability and the ID cannot be found
    */
   private[time] def of(zoneId: String, checkAvailable: Boolean): ZoneId = {
-    Objects.requireNonNull(zoneId, "zoneId")
+    object
     if (zoneId.length <= 1 || zoneId.startsWith("+") || zoneId.startsWith("-")) {
        ZoneOffset.of(zoneId)
     }
@@ -452,7 +452,7 @@ abstract class ZoneId extends Serializable {
         throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
       }
 
-      @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+      override def query(query: TemporalQuery[R]): R = {
         if (query eq TemporalQuery.zoneId) {
            ZoneId.this.asInstanceOf[R]
         }
@@ -603,7 +603,7 @@ abstract class ZoneId extends Serializable {
  *
  * @since 1.8
  */
-final object ZoneOffset {
+object ZoneOffset {
   /**
    * Obtains an instance of {@code ZoneOffset} using the ID.
    * <p>
@@ -635,7 +635,7 @@ final object ZoneOffset {
    * @throws DateTimeException if the offset ID is invalid
    */
   @SuppressWarnings(Array("fallthrough")) def of(offsetId: String): ZoneOffset = {
-    Objects.requireNonNull(offsetId, "offsetId")
+    object
     val offset: ZoneOffset = ID_CACHE.get(offsetId)
     if (offset != null) {
        offset
@@ -774,7 +774,7 @@ final object ZoneOffset {
    * @throws DateTimeException if unable to convert to an { @code ZoneOffset}
    */
   def from(temporal: TemporalAccessor): ZoneOffset = {
-    Objects.requireNonNull(temporal, "temporal")
+    object
     val offset: ZoneOffset = temporal.query(TemporalQuery.offset)
     if (offset == null) {
       throw new DateTimeException("Unable to obtain ZoneOffset from TemporalAccessor: " + temporal.getClass)
@@ -908,7 +908,7 @@ final object ZoneOffset {
   final val MAX: ZoneOffset = ZoneOffset.ofTotalSeconds(MAX_SECONDS)
 }
 
-final class ZoneOffset extends ZoneId with TemporalAccessor with TemporalAdjuster with Comparable[ZoneOffset] with Serializable {
+final class ZoneOffset extends ZoneId with TemporalAccessor with TemporalAdjuster with Comparable[ZoneOffset]  {
   /**
    * Constructor.
    *
@@ -1101,7 +1101,7 @@ final class ZoneOffset extends ZoneId with TemporalAccessor with TemporalAdjuste
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.offset || query eq TemporalQuery.zone) {
        this.asInstanceOf[R]
     }
@@ -1262,7 +1262,7 @@ final class ZoneOffset extends ZoneId with TemporalAccessor with TemporalAdjuste
  *
  * @since 1.8
  */
-final object ZoneRegion {
+object ZoneRegion {
   /**
    * Obtains an instance of {@code ZoneId} from an identifier.
    *
@@ -1273,7 +1273,7 @@ final object ZoneRegion {
    * @throws ZoneRulesException if checking availability and the ID cannot be found
    */
   private[time] def ofId(zoneId: String, checkAvailable: Boolean): ZoneRegion = {
-    Objects.requireNonNull(zoneId, "zoneId")
+    object
     checkName(zoneId)
     var rules: ZoneRules = null
     try {
@@ -1334,7 +1334,7 @@ final object ZoneRegion {
   private final val serialVersionUID: Long = 8386373296231747096L
 }
 
-final class ZoneRegion extends ZoneId with Serializable {
+final class ZoneRegion extends ZoneId  {
   /**
    * Constructor.
    *

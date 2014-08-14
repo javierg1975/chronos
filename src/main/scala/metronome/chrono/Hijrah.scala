@@ -127,7 +127,7 @@ package metronome.chrono
  *
  * @since 1.8
  */
-final object HijrahChronology {
+object HijrahChronology {
   /**
    * For each Hijrah variant listed, create the HijrahChronology and register it.
    * Exceptions during initialization are logged but otherwise ignored.
@@ -171,14 +171,14 @@ final object HijrahChronology {
    */
   private def readConfigProperties(resource: String): Properties = {
     try {
-      return AccessController.doPrivileged(() -> {
+       AccessController.doPrivileged(() -> {
         String libDir = System.getProperty("java.home") + File.separator + "lib";
         File file = new File(libDir, resource);
         Properties props = new Properties();
         try (InputStream is = new FileInputStream(file)) {
           props.load(is);
         }
-        return props;
+         props;
       }.asInstanceOf[PrivilegedExceptionAction[Properties]])
     }
     catch {
@@ -218,7 +218,7 @@ final object HijrahChronology {
   private final val KEY_ISO_START: String = "iso-start"
 }
 
-final class HijrahChronology extends Chronology with Serializable {
+final class HijrahChronology extends Chronology  {
   /**
    * Create a HijrahChronology for the named variant.
    * The resource and calendar type are retrieved from properties
@@ -272,7 +272,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @see #getCalendarType()
    */
   def getId: String = {
-    return typeId
+     typeId
   }
 
   /**
@@ -287,7 +287,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @see #getId()
    */
   def getCalendarType: String = {
-    return calendarType
+     calendarType
   }
 
   /**
@@ -303,7 +303,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @throws ClassCastException if the { @code era} is not a { @code HijrahEra}
    */
   override def date(era: Era, yearOfEra: Int, month: Int, dayOfMonth: Int): HijrahDate = {
-    return date(prolepticYear(era, yearOfEra), month, dayOfMonth)
+     date(prolepticYear(era, yearOfEra), month, dayOfMonth)
   }
 
   /**
@@ -317,7 +317,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @throws DateTimeException if unable to create the date
    */
   def date(prolepticYear: Int, month: Int, dayOfMonth: Int): HijrahDate = {
-    return HijrahDate.of(this, prolepticYear, month, dayOfMonth)
+     HijrahDate.of(this, prolepticYear, month, dayOfMonth)
   }
 
   /**
@@ -332,7 +332,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @throws ClassCastException if the { @code era} is not a { @code HijrahEra}
    */
   override def dateYearDay(era: Era, yearOfEra: Int, dayOfYear: Int): HijrahDate = {
-    return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear)
+     dateYearDay(prolepticYear(era, yearOfEra), dayOfYear)
   }
 
   /**
@@ -350,7 +350,7 @@ final class HijrahChronology extends Chronology with Serializable {
     if (dayOfYear > date.lengthOfYear) {
       throw new DateTimeException("Invalid dayOfYear: " + dayOfYear)
     }
-    return date.plusDays(dayOfYear - 1)
+     date.plusDays(dayOfYear - 1)
   }
 
   /**
@@ -361,38 +361,38 @@ final class HijrahChronology extends Chronology with Serializable {
    * @throws DateTimeException if unable to create the date
    */
   def dateEpochDay(epochDay: Long): HijrahDate = {
-    return HijrahDate.ofEpochDay(this, epochDay)
+     HijrahDate.ofEpochDay(this, epochDay)
   }
 
   override def dateNow: HijrahDate = {
-    return dateNow(Clock.systemDefaultZone)
+     dateNow(Clock.systemDefaultZone)
   }
 
   override def dateNow(zone: ZoneId): HijrahDate = {
-    return dateNow(Clock.system(zone))
+     dateNow(Clock.system(zone))
   }
 
   override def dateNow(clock: Clock): HijrahDate = {
-    return date(LocalDate.now(clock))
+     date(LocalDate.now(clock))
   }
 
   def date(temporal: TemporalAccessor): HijrahDate = {
     if (temporal.isInstanceOf[HijrahDate]) {
-      return temporal.asInstanceOf[HijrahDate]
+       temporal.asInstanceOf[HijrahDate]
     }
-    return HijrahDate.ofEpochDay(this, temporal.getLong(EPOCH_DAY))
+     HijrahDate.ofEpochDay(this, temporal.getLong(EPOCH_DAY))
   }
 
-  @SuppressWarnings(Array("unchecked")) override def localDateTime(temporal: TemporalAccessor): ChronoLocalDateTime[HijrahDate] = {
-    return super.localDateTime(temporal).asInstanceOf[ChronoLocalDateTime[HijrahDate]]
+  override def localDateTime(temporal: TemporalAccessor): ChronoLocalDateTime[HijrahDate] = {
+     super.localDateTime(temporal).asInstanceOf[ChronoLocalDateTime[HijrahDate]]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def zonedDateTime(temporal: TemporalAccessor): ChronoZonedDateTime[HijrahDate] = {
-    return super.zonedDateTime(temporal).asInstanceOf[ChronoZonedDateTime[HijrahDate]]
+  override def zonedDateTime(temporal: TemporalAccessor): ChronoZonedDateTime[HijrahDate] = {
+     super.zonedDateTime(temporal).asInstanceOf[ChronoZonedDateTime[HijrahDate]]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def zonedDateTime(instant: Instant, zone: ZoneId): ChronoZonedDateTime[HijrahDate] = {
-    return super.zonedDateTime(instant, zone).asInstanceOf[ChronoZonedDateTime[HijrahDate]]
+  override def zonedDateTime(instant: Instant, zone: ZoneId): ChronoZonedDateTime[HijrahDate] = {
+     super.zonedDateTime(instant, zone).asInstanceOf[ChronoZonedDateTime[HijrahDate]]
   }
 
   def isLeapYear(prolepticYear: Long): Boolean = {
@@ -402,27 +402,27 @@ final class HijrahChronology extends Chronology with Serializable {
       throw new DateTimeException("Hijrah date out of range")
     }
     val len: Int = getYearLength(prolepticYear.asInstanceOf[Int])
-    return (len > 354)
+     (len > 354)
   }
 
   def prolepticYear(era: Era, yearOfEra: Int): Int = {
     if (era.isInstanceOf[HijrahEra] == false) {
       throw new ClassCastException("Era must be HijrahEra")
     }
-    return yearOfEra
+     yearOfEra
   }
 
   def eraOf(eraValue: Int): HijrahEra = {
     eraValue match {
       case 1 =>
-        return HijrahEra.AH
+         HijrahEra.AH
       case _ =>
         throw new DateTimeException("invalid Hijrah era")
     }
   }
 
   def eras: List[Era] = {
-    return Arrays.asList[Era](HijrahEra.values)
+     Arrays.asList[Era](HijrahEra.values)
   }
 
   def range(field: ChronoField): ValueRange = {
@@ -431,25 +431,25 @@ final class HijrahChronology extends Chronology with Serializable {
       val f: ChronoField = field
       f match {
         case DAY_OF_MONTH =>
-          return ValueRange.of(1, 1, getMinimumMonthLength, getMaximumMonthLength)
+           ValueRange.of(1, 1, getMinimumMonthLength, getMaximumMonthLength)
         case DAY_OF_YEAR =>
-          return ValueRange.of(1, getMaximumDayOfYear)
+           ValueRange.of(1, getMaximumDayOfYear)
         case ALIGNED_WEEK_OF_MONTH =>
-          return ValueRange.of(1, 5)
+           ValueRange.of(1, 5)
         case YEAR =>
         case YEAR_OF_ERA =>
-          return ValueRange.of(getMinimumYear, getMaximumYear)
+           ValueRange.of(getMinimumYear, getMaximumYear)
         case ERA =>
-          return ValueRange.of(1, 1)
+           ValueRange.of(1, 1)
         case _ =>
-          return field.range
+           field.range
       }
     }
-    return field.range
+     field.range
   }
 
   def resolveDate(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): HijrahDate = {
-    return super.resolveDate(fieldValues, resolverStyle).asInstanceOf[HijrahDate]
+     super.resolveDate(fieldValues, resolverStyle).asInstanceOf[HijrahDate]
   }
 
   /**
@@ -461,7 +461,7 @@ final class HijrahChronology extends Chronology with Serializable {
     if (prolepticYear < getMinimumYear || prolepticYear > getMaximumYear) {
       throw new DateTimeException("Invalid Hijrah year: " + prolepticYear)
     }
-    return prolepticYear.asInstanceOf[Int]
+     prolepticYear.asInstanceOf[Int]
   }
 
   private[chrono] def checkValidDayOfYear(dayOfYear: Int) {
@@ -497,7 +497,7 @@ final class HijrahChronology extends Chronology with Serializable {
     dateInfo(0) = year
     dateInfo(1) = month + 1
     dateInfo(2) = date + 1
-    return dateInfo
+     dateInfo
   }
 
   /**
@@ -518,7 +518,7 @@ final class HijrahChronology extends Chronology with Serializable {
     if (dayOfMonth < 1 || dayOfMonth > getMonthLength(prolepticYear, monthOfYear)) {
       throw new DateTimeException("Invalid Hijrah day of month: " + dayOfMonth)
     }
-    return epochMonthToEpochDay(epochMonth) + (dayOfMonth - 1)
+     epochMonthToEpochDay(epochMonth) + (dayOfMonth - 1)
   }
 
   /**
@@ -529,7 +529,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return the day of year, 1-origin
    */
   private[chrono] def getDayOfYear(prolepticYear: Int, month: Int): Int = {
-    return yearMonthToDayOfYear(prolepticYear, (month - 1))
+     yearMonthToDayOfYear(prolepticYear, (month - 1))
   }
 
   /**
@@ -544,7 +544,7 @@ final class HijrahChronology extends Chronology with Serializable {
     if (epochMonth < 0 || epochMonth >= hijrahEpochMonthStartDays.length) {
       throw new DateTimeException("Invalid Hijrah date, year: " + prolepticYear + ", month: " + monthOfYear)
     }
-    return epochMonthLength(epochMonth)
+     epochMonthLength(epochMonth)
   }
 
   /**
@@ -555,7 +555,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return year length in days
    */
   private[chrono] def getYearLength(prolepticYear: Int): Int = {
-    return yearMonthToDayOfYear(prolepticYear, 12)
+     yearMonthToDayOfYear(prolepticYear, 12)
   }
 
   /**
@@ -564,7 +564,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return the minimum
    */
   private[chrono] def getMinimumYear: Int = {
-    return epochMonthToYear(0)
+     epochMonthToYear(0)
   }
 
   /**
@@ -573,7 +573,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return the minimum
    */
   private[chrono] def getMaximumYear: Int = {
-    return epochMonthToYear(hijrahEpochMonthStartDays.length - 1) - 1
+     epochMonthToYear(hijrahEpochMonthStartDays.length - 1) - 1
   }
 
   /**
@@ -582,7 +582,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return maximum day-of-month
    */
   private[chrono] def getMaximumMonthLength: Int = {
-    return maxMonthLength
+     maxMonthLength
   }
 
   /**
@@ -591,7 +591,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return smallest maximum day-of-month
    */
   private[chrono] def getMinimumMonthLength: Int = {
-    return minMonthLength
+     minMonthLength
   }
 
   /**
@@ -600,7 +600,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return maximum day-of-year
    */
   private[chrono] def getMaximumDayOfYear: Int = {
-    return maxYearLength
+     maxYearLength
   }
 
   /**
@@ -609,7 +609,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return smallest maximum day-of-year
    */
   private[chrono] def getSmallestMaximumDayOfYear: Int = {
-    return minYearLength
+     minYearLength
   }
 
   /**
@@ -625,7 +625,7 @@ final class HijrahChronology extends Chronology with Serializable {
     if (ndx < 0) {
       ndx = -ndx - 2
     }
-    return ndx
+     ndx
   }
 
   /**
@@ -635,7 +635,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return the Hijrah Year
    */
   private def epochMonthToYear(epochMonth: Int): Int = {
-    return (epochMonth + hijrahStartEpochMonth) / 12
+     (epochMonth + hijrahStartEpochMonth) / 12
   }
 
   /**
@@ -645,7 +645,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return the epochMonth for the beginning of the year.
    */
   private def yearToEpochMonth(year: Int): Int = {
-    return (year * 12) - hijrahStartEpochMonth
+     (year * 12) - hijrahStartEpochMonth
   }
 
   /**
@@ -655,7 +655,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return the month of the Hijrah Year
    */
   private def epochMonthToMonth(epochMonth: Int): Int = {
-    return (epochMonth + hijrahStartEpochMonth) % 12
+     (epochMonth + hijrahStartEpochMonth) % 12
   }
 
   /**
@@ -665,7 +665,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return the epochDay for the start of the epochMonth.
    */
   private def epochMonthToEpochDay(epochMonth: Int): Int = {
-    return hijrahEpochMonthStartDays(epochMonth)
+     hijrahEpochMonthStartDays(epochMonth)
   }
 
   /**
@@ -677,7 +677,7 @@ final class HijrahChronology extends Chronology with Serializable {
    */
   private def yearMonthToDayOfYear(prolepticYear: Int, month: Int): Int = {
     val epochMonthFirst: Int = yearToEpochMonth(prolepticYear)
-    return epochMonthToEpochDay(epochMonthFirst + month) - epochMonthToEpochDay(epochMonthFirst)
+     epochMonthToEpochDay(epochMonthFirst + month) - epochMonthToEpochDay(epochMonthFirst)
   }
 
   /**
@@ -688,7 +688,7 @@ final class HijrahChronology extends Chronology with Serializable {
    * @return the length in days of the epochMonth
    */
   private def epochMonthLength(epochMonth: Int): Int = {
-    return hijrahEpochMonthStartDays(epochMonth + 1) - hijrahEpochMonthStartDays(epochMonth)
+     hijrahEpochMonthStartDays(epochMonth + 1) - hijrahEpochMonthStartDays(epochMonth)
   }
 
   /**
@@ -705,7 +705,7 @@ final class HijrahChronology extends Chronology with Serializable {
   private def loadCalendarData {
     try {
       val resourceName: String = calendarProperties.getProperty(PROP_PREFIX + typeId)
-      Objects.requireNonNull(resourceName, "Resource missing for calendar: " + PROP_PREFIX + typeId)
+
       val props: Properties = readConfigProperties(resourceName)
       val years: Map[Integer, Array[Int]] = new HashMap[Integer, Array[Int]]
       var minYear: Int = Integer.MAX_VALUE
@@ -840,7 +840,7 @@ final class HijrahChronology extends Chronology with Serializable {
     if (epochMonth != epochMonths.length) {
       throw new IllegalStateException("Did not fill epochMonths exactly: ndx = " + epochMonth + " should be " + epochMonths.length)
     }
-    return epochMonths
+     epochMonths
   }
 
   /**
@@ -875,7 +875,7 @@ final class HijrahChronology extends Chronology with Serializable {
         })
       }
     }
-    return months
+     months
   }
 
   /**
@@ -894,7 +894,7 @@ final class HijrahChronology extends Chronology with Serializable {
       ymd(0) = Integer.valueOf(string.substring(0, 4))
       ymd(1) = Integer.valueOf(string.substring(5, 7))
       ymd(2) = Integer.valueOf(string.substring(8, 10))
-      return ymd
+       ymd
     }
     catch {
       case ex: NumberFormatException => {
@@ -991,7 +991,7 @@ final class HijrahChronology extends Chronology with Serializable {
  *
  * @since 1.8
  */
-final object HijrahDate {
+object HijrahDate {
   /**
    * Obtains an instance of {@code HijrahDate} from the Hijrah proleptic year,
    * month-of-year and day-of-month.
@@ -1003,7 +1003,7 @@ final object HijrahDate {
    * @throws DateTimeException if the value of any field is out of range
    */
   private[chrono] def of(chrono: HijrahChronology, prolepticYear: Int, monthOfYear: Int, dayOfMonth: Int): HijrahDate = {
-    return new HijrahDate(chrono, prolepticYear, monthOfYear, dayOfMonth)
+     new HijrahDate(chrono, prolepticYear, monthOfYear, dayOfMonth)
   }
 
   /**
@@ -1013,7 +1013,7 @@ final object HijrahDate {
    * @return a HijrahDate for the epoch day; non-null
    */
   private[chrono] def ofEpochDay(chrono: HijrahChronology, epochDay: Long): HijrahDate = {
-    return new HijrahDate(chrono, epochDay)
+     new HijrahDate(chrono, epochDay)
   }
 
   /**
@@ -1029,7 +1029,7 @@ final object HijrahDate {
    * @return the current date using the system clock and default time-zone, not null
    */
   def now: HijrahDate = {
-    return now(Clock.systemDefaultZone)
+     now(Clock.systemDefaultZone)
   }
 
   /**
@@ -1046,7 +1046,7 @@ final object HijrahDate {
    * @return the current date using the system clock, not null
    */
   def now(zone: ZoneId): HijrahDate = {
-    return now(Clock.system(zone))
+     now(Clock.system(zone))
   }
 
   /**
@@ -1062,7 +1062,7 @@ final object HijrahDate {
    * @throws DateTimeException if the current date cannot be obtained
    */
   def now(clock: Clock): HijrahDate = {
-    return HijrahDate.ofEpochDay(HijrahChronology.INSTANCE, LocalDate.now(clock).toEpochDay)
+     HijrahDate.ofEpochDay(HijrahChronology.INSTANCE, LocalDate.now(clock).toEpochDay)
   }
 
   /**
@@ -1080,7 +1080,7 @@ final object HijrahDate {
    *                           or if the day-of-month is invalid for the month-year
    */
   def of(prolepticYear: Int, month: Int, dayOfMonth: Int): HijrahDate = {
-    return HijrahChronology.INSTANCE.date(prolepticYear, month, dayOfMonth)
+     HijrahChronology.INSTANCE.date(prolepticYear, month, dayOfMonth)
   }
 
   /**
@@ -1101,7 +1101,7 @@ final object HijrahDate {
    * @throws DateTimeException if unable to convert to a { @code HijrahDate}
    */
   def from(temporal: TemporalAccessor): HijrahDate = {
-    return HijrahChronology.INSTANCE.date(temporal)
+     HijrahChronology.INSTANCE.date(temporal)
   }
 
   private[chrono] def readExternal(in: ObjectInput): HijrahDate = {
@@ -1109,16 +1109,13 @@ final object HijrahDate {
     val year: Int = in.readInt
     val month: Int = in.readByte
     val dayOfMonth: Int = in.readByte
-    return chrono.date(year, month, dayOfMonth)
+     chrono.date(year, month, dayOfMonth)
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -5207853542612002020L
+
 }
 
-final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalDate with Serializable {
+final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalDate  {
   /**
    * Constructs an {@code HijrahDate} with the proleptic-year, month-of-year and
    * day-of-month fields.
@@ -1160,7 +1157,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @return the Hijrah chronology, not null
    */
   def getChronology: HijrahChronology = {
-    return chrono
+     chrono
   }
 
   /**
@@ -1172,7 +1169,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @return the era applicable at this date, not null
    */
   override def getEra: HijrahEra = {
-    return HijrahEra.AH
+     HijrahEra.AH
   }
 
   /**
@@ -1184,7 +1181,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @return the length of the month in days
    */
   def lengthOfMonth: Int = {
-    return chrono.getMonthLength(prolepticYear, monthOfYear)
+     chrono.getMonthLength(prolepticYear, monthOfYear)
   }
 
   /**
@@ -1197,7 +1194,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @return the length of the year in days
    */
   override def lengthOfYear: Int = {
-    return chrono.getYearLength(prolepticYear)
+     chrono.getYearLength(prolepticYear)
   }
 
   override def range(field: TemporalField): ValueRange = {
@@ -1206,56 +1203,56 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
         val f: ChronoField = field.asInstanceOf[ChronoField]
         f match {
           case DAY_OF_MONTH =>
-            return ValueRange.of(1, lengthOfMonth)
+             ValueRange.of(1, lengthOfMonth)
           case DAY_OF_YEAR =>
-            return ValueRange.of(1, lengthOfYear)
+             ValueRange.of(1, lengthOfYear)
           case ALIGNED_WEEK_OF_MONTH =>
-            return ValueRange.of(1, 5)
+             ValueRange.of(1, 5)
         }
-        return getChronology.range(f)
+         getChronology.range(f)
       }
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
     }
-    return field.rangeRefinedBy(this)
+     field.rangeRefinedBy(this)
   }
 
   def getLong(field: TemporalField): Long = {
     if (field.isInstanceOf[ChronoField]) {
       field.asInstanceOf[ChronoField] match {
         case DAY_OF_WEEK =>
-          return getDayOfWeek
+           getDayOfWeek
         case ALIGNED_DAY_OF_WEEK_IN_MONTH =>
-          return ((getDayOfWeek - 1) % 7) + 1
+           ((getDayOfWeek - 1) % 7) + 1
         case ALIGNED_DAY_OF_WEEK_IN_YEAR =>
-          return ((getDayOfYear - 1) % 7) + 1
+           ((getDayOfYear - 1) % 7) + 1
         case DAY_OF_MONTH =>
-          return this.dayOfMonth
+           this.dayOfMonth
         case DAY_OF_YEAR =>
-          return this.getDayOfYear
+           this.getDayOfYear
         case EPOCH_DAY =>
-          return toEpochDay
+           toEpochDay
         case ALIGNED_WEEK_OF_MONTH =>
-          return ((dayOfMonth - 1) / 7) + 1
+           ((dayOfMonth - 1) / 7) + 1
         case ALIGNED_WEEK_OF_YEAR =>
-          return ((getDayOfYear - 1) / 7) + 1
+           ((getDayOfYear - 1) / 7) + 1
         case MONTH_OF_YEAR =>
-          return monthOfYear
+           monthOfYear
         case PROLEPTIC_MONTH =>
-          return getProlepticMonth
+           getProlepticMonth
         case YEAR_OF_ERA =>
-          return prolepticYear
+           prolepticYear
         case YEAR =>
-          return prolepticYear
+           prolepticYear
         case ERA =>
-          return getEraValue
+           getEraValue
       }
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
     }
-    return field.getFrom(this)
+     field.getFrom(this)
   }
 
   private def getProlepticMonth: Long = {
-    return prolepticYear * 12L + monthOfYear - 1
+     prolepticYear * 12L + monthOfYear - 1
   }
 
   override def `with`(field: TemporalField, newValue: Long): HijrahDate = {
@@ -1265,35 +1262,35 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
       val nvalue: Int = newValue.asInstanceOf[Int]
       f match {
         case DAY_OF_WEEK =>
-          return plusDays(newValue - getDayOfWeek)
+           plusDays(newValue - getDayOfWeek)
         case ALIGNED_DAY_OF_WEEK_IN_MONTH =>
-          return plusDays(newValue - getLong(ALIGNED_DAY_OF_WEEK_IN_MONTH))
+           plusDays(newValue - getLong(ALIGNED_DAY_OF_WEEK_IN_MONTH))
         case ALIGNED_DAY_OF_WEEK_IN_YEAR =>
-          return plusDays(newValue - getLong(ALIGNED_DAY_OF_WEEK_IN_YEAR))
+           plusDays(newValue - getLong(ALIGNED_DAY_OF_WEEK_IN_YEAR))
         case DAY_OF_MONTH =>
-          return resolvePreviousValid(prolepticYear, monthOfYear, nvalue)
+           resolvePreviousValid(prolepticYear, monthOfYear, nvalue)
         case DAY_OF_YEAR =>
-          return plusDays(Math.min(nvalue, lengthOfYear) - getDayOfYear)
+           plusDays(Math.min(nvalue, lengthOfYear) - getDayOfYear)
         case EPOCH_DAY =>
-          return new HijrahDate(chrono, newValue)
+           new HijrahDate(chrono, newValue)
         case ALIGNED_WEEK_OF_MONTH =>
-          return plusDays((newValue - getLong(ALIGNED_WEEK_OF_MONTH)) * 7)
+           plusDays((newValue - getLong(ALIGNED_WEEK_OF_MONTH)) * 7)
         case ALIGNED_WEEK_OF_YEAR =>
-          return plusDays((newValue - getLong(ALIGNED_WEEK_OF_YEAR)) * 7)
+           plusDays((newValue - getLong(ALIGNED_WEEK_OF_YEAR)) * 7)
         case MONTH_OF_YEAR =>
-          return resolvePreviousValid(prolepticYear, nvalue, dayOfMonth)
+           resolvePreviousValid(prolepticYear, nvalue, dayOfMonth)
         case PROLEPTIC_MONTH =>
-          return plusMonths(newValue - getProlepticMonth)
+           plusMonths(newValue - getProlepticMonth)
         case YEAR_OF_ERA =>
-          return resolvePreviousValid(if (prolepticYear >= 1) nvalue else 1 - nvalue, monthOfYear, dayOfMonth)
+           resolvePreviousValid(if (prolepticYear >= 1) nvalue else 1 - nvalue, monthOfYear, dayOfMonth)
         case YEAR =>
-          return resolvePreviousValid(nvalue, monthOfYear, dayOfMonth)
+           resolvePreviousValid(nvalue, monthOfYear, dayOfMonth)
         case ERA =>
-          return resolvePreviousValid(1 - prolepticYear, monthOfYear, dayOfMonth)
+           resolvePreviousValid(1 - prolepticYear, monthOfYear, dayOfMonth)
       }
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
     }
-    return super.`with`(field, newValue)
+     super.`with`(field, newValue)
   }
 
   private def resolvePreviousValid(prolepticYear: Int, month: Int, day: Int): HijrahDate = {
@@ -1301,7 +1298,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
     if (day > monthDays) {
       day = monthDays
     }
-    return HijrahDate.of(chrono, prolepticYear, month, day)
+     HijrahDate.of(chrono, prolepticYear, month, day)
   }
 
   /**
@@ -1311,7 +1308,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @throws ArithmeticException { @inheritDoc}
    */
   override def `with`(adjuster: TemporalAdjuster): HijrahDate = {
-    return super.`with`(adjuster)
+     super.`with`(adjuster)
   }
 
   /**
@@ -1326,10 +1323,10 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    */
   def withVariant(chronology: HijrahChronology): HijrahDate = {
     if (chrono eq chronology) {
-      return this
+       this
     }
     val monthDays: Int = chronology.getDayOfYear(prolepticYear, monthOfYear)
-    return HijrahDate.of(chronology, prolepticYear, monthOfYear, if ((dayOfMonth > monthDays)) monthDays else dayOfMonth)
+     HijrahDate.of(chronology, prolepticYear, monthOfYear, if ((dayOfMonth > monthDays)) monthDays else dayOfMonth)
   }
 
   /**
@@ -1338,7 +1335,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @throws ArithmeticException { @inheritDoc}
    */
   override def plus(amount: TemporalAmount): HijrahDate = {
-    return super.plus(amount)
+     super.plus(amount)
   }
 
   /**
@@ -1347,11 +1344,11 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amount: TemporalAmount): HijrahDate = {
-    return super.minus(amount)
+     super.minus(amount)
   }
 
   override def toEpochDay: Long = {
-    return chrono.getEpochDay(prolepticYear, monthOfYear, dayOfMonth)
+     chrono.getEpochDay(prolepticYear, monthOfYear, dayOfMonth)
   }
 
   /**
@@ -1362,7 +1359,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @return the day-of-year
    */
   private def getDayOfYear: Int = {
-    return chrono.getDayOfYear(prolepticYear, monthOfYear) + dayOfMonth
+     chrono.getDayOfYear(prolepticYear, monthOfYear) + dayOfMonth
   }
 
   /**
@@ -1372,7 +1369,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    */
   private def getDayOfWeek: Int = {
     val dow0: Int = Math.floorMod(toEpochDay + 3, 7).asInstanceOf[Int]
-    return dow0 + 1
+     dow0 + 1
   }
 
   /**
@@ -1381,7 +1378,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @return the Era of this date; computed from epochDay
    */
   private def getEraValue: Int = {
-    return (if (prolepticYear > 1) 1 else 0)
+     (if (prolepticYear > 1) 1 else 0)
   }
 
   /**
@@ -1390,62 +1387,62 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @return true if this date is in a leap year
    */
   override def isLeapYear: Boolean = {
-    return chrono.isLeapYear(prolepticYear)
+     chrono.isLeapYear(prolepticYear)
   }
 
   private[chrono] def plusYears(years: Long): HijrahDate = {
     if (years == 0) {
-      return this
+       this
     }
     val newYear: Int = Math.addExact(this.prolepticYear, years.asInstanceOf[Int])
-    return resolvePreviousValid(newYear, monthOfYear, dayOfMonth)
+     resolvePreviousValid(newYear, monthOfYear, dayOfMonth)
   }
 
   private[chrono] def plusMonths(monthsToAdd: Long): HijrahDate = {
     if (monthsToAdd == 0) {
-      return this
+       this
     }
     val monthCount: Long = prolepticYear * 12L + (monthOfYear - 1)
     val calcMonths: Long = monthCount + monthsToAdd
     val newYear: Int = chrono.checkValidYear(Math.floorDiv(calcMonths, 12L))
     val newMonth: Int = Math.floorMod(calcMonths, 12L).asInstanceOf[Int] + 1
-    return resolvePreviousValid(newYear, newMonth, dayOfMonth)
+     resolvePreviousValid(newYear, newMonth, dayOfMonth)
   }
 
   private[chrono] override def plusWeeks(weeksToAdd: Long): HijrahDate = {
-    return super.plusWeeks(weeksToAdd)
+     super.plusWeeks(weeksToAdd)
   }
 
   private[chrono] def plusDays(days: Long): HijrahDate = {
-    return new HijrahDate(chrono, toEpochDay + days)
+     new HijrahDate(chrono, toEpochDay + days)
   }
 
   override def plus(amountToAdd: Long, unit: TemporalUnit): HijrahDate = {
-    return super.plus(amountToAdd, unit)
+     super.plus(amountToAdd, unit)
   }
 
   override def minus(amountToSubtract: Long, unit: TemporalUnit): HijrahDate = {
-    return super.minus(amountToSubtract, unit)
+     super.minus(amountToSubtract, unit)
   }
 
   private[chrono] override def minusYears(yearsToSubtract: Long): HijrahDate = {
-    return super.minusYears(yearsToSubtract)
+     super.minusYears(yearsToSubtract)
   }
 
   private[chrono] override def minusMonths(monthsToSubtract: Long): HijrahDate = {
-    return super.minusMonths(monthsToSubtract)
+     super.minusMonths(monthsToSubtract)
   }
 
   private[chrono] override def minusWeeks(weeksToSubtract: Long): HijrahDate = {
-    return super.minusWeeks(weeksToSubtract)
+     super.minusWeeks(weeksToSubtract)
   }
 
   private[chrono] override def minusDays(daysToSubtract: Long): HijrahDate = {
-    return super.minusDays(daysToSubtract)
+     super.minusDays(daysToSubtract)
   }
 
-  @SuppressWarnings(Array("unchecked")) final override def atTime(localTime: LocalTime): ChronoLocalDateTime[HijrahDate] = {
-    return super.atTime(localTime).asInstanceOf[ChronoLocalDateTime[HijrahDate]]
+  final override def atTime(localTime: LocalTime): ChronoLocalDateTime[HijrahDate] = {
+     super.atTime(localTime).asInstanceOf[ChronoLocalDateTime[HijrahDate]]
   }
 
   def until(endDate: ChronoLocalDate): ChronoPeriod = {
@@ -1463,11 +1460,11 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
     }
     val years: Long = totalMonths / 12
     val months: Int = (totalMonths % 12).asInstanceOf[Int]
-    return getChronology.period(Math.toIntExact(years), months, days)
+     getChronology.period(Math.toIntExact(years), months, days)
   }
 
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.HIJRAH_DATE_TYPE, this)
+     new Ser(Ser.HIJRAH_DATE_TYPE, this)
   }
 
   private[chrono] def writeExternal(out: ObjectOutput) {
@@ -1485,7 +1482,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @return the resolved date, never null
    */
   private def readResolve: AnyRef = {
-    return this
+     this
   }
 
   /**
@@ -1523,7 +1520,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
  *
  * @since 1.8
  */
-final object HijrahEra {
+object HijrahEra {
   /**
    * Obtains an instance of {@code HijrahEra} from an {@code int} value.
    * <p>
@@ -1535,7 +1532,7 @@ final object HijrahEra {
    */
   def of(hijrahEra: Int): HijrahEra = {
     if (hijrahEra == 1) {
-      return AH
+       AH
     }
     else {
       throw new DateTimeException("Invalid era: " + hijrahEra)
@@ -1544,7 +1541,7 @@ final object HijrahEra {
 
   private[chrono] def readExternal(in: DataInput): HijrahEra = {
     val eraValue: Byte = in.readByte
-    return HijrahEra.of(eraValue)
+     HijrahEra.of(eraValue)
   }
 
   /**
@@ -1563,7 +1560,7 @@ final class HijrahEra extends Era {
    * @return the era value, 1 (AH)
    */
   def getValue: Int = {
-    return 1
+     1
   }
 
   /**
@@ -1592,13 +1589,13 @@ final class HijrahEra extends Era {
    */
   override def range(field: TemporalField): ValueRange = {
     if (field eq ERA) {
-      return ValueRange.of(1, 1)
+       ValueRange.of(1, 1)
     }
-    return Era.super.range(field)
+     Era.super.range(field)
   }
 
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.HIJRAH_ERA_TYPE, this)
+     new Ser(Ser.HIJRAH_ERA_TYPE, this)
   }
 
   private[chrono] def writeExternal(out: DataOutput) {

@@ -30,7 +30,7 @@ import metronome.temporal.{TemporalAdjuster, TemporalAccessor}
  *
  * @since 1.8
  */
-final object DayOfWeek {
+object DayOfWeek {
   /**
    * Obtains an instance of {@code DayOfWeek} from an {@code int} value.
    * <p>
@@ -311,7 +311,7 @@ final class DayOfWeek extends TemporalAccessor with TemporalAdjuster {
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.precision) {
        DAYS.asInstanceOf[R]
     }
@@ -386,7 +386,7 @@ final class DayOfWeek extends TemporalAccessor with TemporalAdjuster {
  *
  * @since 1.8
  */
-final object Month {
+object Month {
   /**
    * Obtains an instance of {@code Month} from an {@code int} value.
    * <p>
@@ -832,7 +832,7 @@ final class Month extends TemporalAccessor with TemporalAdjuster {
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.chronology) {
        IsoChronology.INSTANCE.asInstanceOf[R]
     }
@@ -916,7 +916,7 @@ final class Month extends TemporalAccessor with TemporalAdjuster {
  *
  * @since 1.8
  */
-final object MonthDay {
+object MonthDay {
   /**
    * Obtains the current month-day from the system clock in the default time-zone.
    * <p>
@@ -980,7 +980,7 @@ final object MonthDay {
    *                           or if the day-of-month is invalid for the month
    */
   def of(month: Month, dayOfMonth: Int): MonthDay = {
-    Objects.requireNonNull(month, "month")
+    object
     DAY_OF_MONTH.checkValidValue(dayOfMonth)
     if (dayOfMonth > month.maxLength) {
       throw new DateTimeException("Illegal value for DayOfMonth field, value " + dayOfMonth + " is not valid for month " + month.name)
@@ -1069,7 +1069,7 @@ final object MonthDay {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): MonthDay = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.parse(text, MonthDay.from)
   }
 
@@ -1079,17 +1079,14 @@ final object MonthDay {
      MonthDay.of(month, day)
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -939150713474957432L
+
   /**
    * Parser.
    */
   private final val PARSER: DateTimeFormatter = new DateTimeFormatterBuilder().appendLiteral("--").appendValue(MONTH_OF_YEAR, 2).appendLiteral('-').appendValue(DAY_OF_MONTH, 2).toFormatter
 }
 
-final class MonthDay extends TemporalAccessor with TemporalAdjuster with Comparable[MonthDay] with Serializable {
+final class MonthDay extends TemporalAccessor with TemporalAdjuster with Comparable[MonthDay]  {
   /**
    * Constructor, previously validated.
    *
@@ -1315,7 +1312,7 @@ final class MonthDay extends TemporalAccessor with TemporalAdjuster with Compara
    * @return a { @code MonthDay} based on this month-day with the requested month, not null
    */
   def `with`(month: Month): MonthDay = {
-    Objects.requireNonNull(month, "month")
+    object
     if (month.getValue == this.month) {
        this
     }
@@ -1361,7 +1358,7 @@ final class MonthDay extends TemporalAccessor with TemporalAdjuster with Compara
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.chronology) {
        IsoChronology.INSTANCE.asInstanceOf[R]
     }
@@ -1413,7 +1410,7 @@ final class MonthDay extends TemporalAccessor with TemporalAdjuster with Compara
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.format(this)
   }
 
@@ -1579,7 +1576,7 @@ final class MonthDay extends TemporalAccessor with TemporalAdjuster with Compara
  *
  * @since 1.8
  */
-final object Year {
+object Year {
   /**
    * Obtains the current year from the system clock in the default time-zone.
    * <p>
@@ -1667,7 +1664,7 @@ final object Year {
     if (temporal.isInstanceOf[Year]) {
        temporal.asInstanceOf[Year]
     }
-    Objects.requireNonNull(temporal, "temporal")
+    object
     try {
       if ((IsoChronology.INSTANCE == Chronology.from(temporal)) == false) {
         temporal = Date.from(temporal)
@@ -1706,7 +1703,7 @@ final object Year {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): Year = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.parse(text, Year.from)
   }
 
@@ -1745,17 +1742,14 @@ final object Year {
    * The maximum supported year, '+999,999,999'.
    */
   final val MAX_VALUE: Int = 999 _999_999
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -23038383694477807L
+
   /**
    * Parser.
    */
   private final val PARSER: DateTimeFormatter = new DateTimeFormatterBuilder().appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD).toFormatter
 }
 
-final class Year extends Temporal with TemporalAdjuster with Comparable[Year] with Serializable {
+final class Year extends Temporal with TemporalAdjuster with Comparable[Year]  {
   /**
    * Constructor.
    *
@@ -2249,7 +2243,7 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year] wi
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.chronology) {
        IsoChronology.INSTANCE.asInstanceOf[R]
     }
@@ -2370,7 +2364,7 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year] wi
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.format(this)
   }
 
@@ -2566,7 +2560,7 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year] wi
  *
  * @since 1.8
  */
-final object YearMonth {
+object YearMonth {
   /**
    * Obtains the current year-month from the system clock in the default time-zone.
    * <p>
@@ -2623,7 +2617,7 @@ final object YearMonth {
    * @throws DateTimeException if the year value is invalid
    */
   def of(year: Int, month: Month): YearMonth = {
-    Objects.requireNonNull(month, "month")
+    object
      of(year, month.getValue)
   }
 
@@ -2664,7 +2658,7 @@ final object YearMonth {
     if (temporal.isInstanceOf[YearMonth]) {
        temporal.asInstanceOf[YearMonth]
     }
-    Objects.requireNonNull(temporal, "temporal")
+    object
     try {
       if ((IsoChronology.INSTANCE == Chronology.from(temporal)) == false) {
         temporal = Date.from(temporal)
@@ -2704,7 +2698,7 @@ final object YearMonth {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): YearMonth = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.parse(text, YearMonth.from)
   }
 
@@ -2724,7 +2718,7 @@ final object YearMonth {
   private final val PARSER: DateTimeFormatter = new DateTimeFormatterBuilder().appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD).appendLiteral('-').appendValue(MONTH_OF_YEAR, 2).toFormatter
 }
 
-final class YearMonth extends Temporal with TemporalAdjuster with Comparable[YearMonth] with Serializable {
+final class YearMonth extends Temporal with TemporalAdjuster with Comparable[YearMonth]  {
   /**
    * Constructor.
    *
@@ -3374,7 +3368,7 @@ final class YearMonth extends Temporal with TemporalAdjuster with Comparable[Yea
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.chronology) {
        IsoChronology.INSTANCE.asInstanceOf[R]
     }
@@ -3497,7 +3491,7 @@ final class YearMonth extends Temporal with TemporalAdjuster with Comparable[Yea
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.format(this)
   }
 

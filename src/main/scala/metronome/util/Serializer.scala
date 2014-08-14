@@ -26,7 +26,7 @@ import metronome.core._
  * @serial include
  * @since 1.8
  */
-final object Ser {
+object Ser {
   private[time] def writeInternal(`type`: Byte, `object`: AnyRef, out: ObjectOutput) {
     out.writeByte(`type`)
     `type` match {
@@ -117,10 +117,7 @@ final object Ser {
     }
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -7683839454370182990L
+
   private[time] final val DURATION_TYPE: Byte = 1
   private[time] final val INSTANT_TYPE: Byte = 2
   private[time] final val LOCAL_DATE_TYPE: Byte = 3
@@ -137,7 +134,7 @@ final object Ser {
   private[time] final val PERIOD_TYPE: Byte = 14
 }
 
-final class Ser extends Externalizable {
+final class Ser  {
   /**
    * Constructor for deserialization.
    */

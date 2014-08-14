@@ -446,7 +446,7 @@ package metronome.format
  *
  * @since 1.8
  */
-final object DateTimeFormatter {
+object DateTimeFormatter {
   /**
    * Creates a formatter using the specified pattern.
    * <p>
@@ -468,7 +468,7 @@ final object DateTimeFormatter {
    * @see DateTimeFormatterBuilder#appendPattern(String)
    */
   def ofPattern(pattern: String): DateTimeFormatter = {
-    return new DateTimeFormatterBuilder().appendPattern(pattern).toFormatter
+     new DateTimeFormatterBuilder().appendPattern(pattern).toFormatter
   }
 
   /**
@@ -492,7 +492,7 @@ final object DateTimeFormatter {
    * @see DateTimeFormatterBuilder#appendPattern(String)
    */
   def ofPattern(pattern: String, locale: Locale): DateTimeFormatter = {
-    return new DateTimeFormatterBuilder().appendPattern(pattern).toFormatter(locale)
+     new DateTimeFormatterBuilder().appendPattern(pattern).toFormatter(locale)
   }
 
   /**
@@ -518,8 +518,8 @@ final object DateTimeFormatter {
    * @return the date formatter, not null
    */
   def ofLocalizedDate(dateStyle: FormatStyle): DateTimeFormatter = {
-    Objects.requireNonNull(dateStyle, "dateStyle")
-    return new DateTimeFormatterBuilder().appendLocalized(dateStyle, null).toFormatter(ResolverStyle.SMART, IsoChronology.INSTANCE)
+
+     new DateTimeFormatterBuilder().appendLocalized(dateStyle, null).toFormatter(ResolverStyle.SMART, IsoChronology.INSTANCE)
   }
 
   /**
@@ -545,8 +545,8 @@ final object DateTimeFormatter {
    * @return the time formatter, not null
    */
   def ofLocalizedTime(timeStyle: FormatStyle): DateTimeFormatter = {
-    Objects.requireNonNull(timeStyle, "timeStyle")
-    return new DateTimeFormatterBuilder().appendLocalized(null, timeStyle).toFormatter(ResolverStyle.SMART, IsoChronology.INSTANCE)
+
+     new DateTimeFormatterBuilder().appendLocalized(null, timeStyle).toFormatter(ResolverStyle.SMART, IsoChronology.INSTANCE)
   }
 
   /**
@@ -572,8 +572,8 @@ final object DateTimeFormatter {
    * @return the date-time formatter, not null
    */
   def ofLocalizedDateTime(dateTimeStyle: FormatStyle): DateTimeFormatter = {
-    Objects.requireNonNull(dateTimeStyle, "dateTimeStyle")
-    return new DateTimeFormatterBuilder().appendLocalized(dateTimeStyle, dateTimeStyle).toFormatter(ResolverStyle.SMART, IsoChronology.INSTANCE)
+
+     new DateTimeFormatterBuilder().appendLocalized(dateTimeStyle, dateTimeStyle).toFormatter(ResolverStyle.SMART, IsoChronology.INSTANCE)
   }
 
   /**
@@ -600,9 +600,9 @@ final object DateTimeFormatter {
    * @return the date, time or date-time formatter, not null
    */
   def ofLocalizedDateTime(dateStyle: FormatStyle, timeStyle: FormatStyle): DateTimeFormatter = {
-    Objects.requireNonNull(dateStyle, "dateStyle")
-    Objects.requireNonNull(timeStyle, "timeStyle")
-    return new DateTimeFormatterBuilder().appendLocalized(dateStyle, timeStyle).toFormatter(ResolverStyle.SMART, IsoChronology.INSTANCE)
+
+
+     new DateTimeFormatterBuilder().appendLocalized(dateStyle, timeStyle).toFormatter(ResolverStyle.SMART, IsoChronology.INSTANCE)
   }
 
   /**
@@ -646,7 +646,7 @@ final object DateTimeFormatter {
    * @return a query that provides access to the excess days that were parsed
    */
   final def parsedExcessDays: TemporalQuery[Period] = {
-    return PARSED_EXCESS_DAYS
+     PARSED_EXCESS_DAYS
   }
 
   /**
@@ -680,7 +680,7 @@ final object DateTimeFormatter {
    * @return a query that provides access to whether a leap-second was parsed
    */
   final def parsedLeapSecond: TemporalQuery[Boolean] = {
-    return PARSED_LEAP_SECOND
+     PARSED_LEAP_SECOND
   }
 
   /**
@@ -1070,16 +1070,16 @@ final object DateTimeFormatter {
   final val RFC_1123_DATE_TIME: DateTimeFormatter = null
   private final val PARSED_EXCESS_DAYS: TemporalQuery[Period] = t -> {
     if (t instanceof Parsed) {
-      return ((Parsed) t).excessDays;
+       ((Parsed) t).excessDays;
     } else {
-      return Period.ZERO;
+       Period.ZERO;
     }
   }
   private final val PARSED_LEAP_SECOND: TemporalQuery[Boolean] = t -> {
     if (t instanceof Parsed) {
-      return ((Parsed) t).leapSecond;
+       ((Parsed) t).leapSecond;
     } else {
-      return Boolean.FALSE;
+       Boolean.FALSE;
     }
   }
 
@@ -1096,9 +1096,9 @@ final object DateTimeFormatter {
     }
 
     def format(obj: AnyRef, toAppendTo: StringBuffer, pos: FieldPosition): StringBuffer = {
-      Objects.requireNonNull(obj, "obj")
-      Objects.requireNonNull(toAppendTo, "toAppendTo")
-      Objects.requireNonNull(pos, "pos")
+
+
+
       if (obj.isInstanceOf[TemporalAccessor] == false) {
         throw new IllegalArgumentException("Format target must implement TemporalAccessor")
       }
@@ -1112,16 +1112,16 @@ final object DateTimeFormatter {
           throw new IllegalArgumentException(ex.getMessage, ex)
         }
       }
-      return toAppendTo
+       toAppendTo
     }
 
     override def parseObject(text: String): AnyRef = {
-      Objects.requireNonNull(text, "text")
+
       try {
         if (parseType == null) {
-          return formatter.parseResolved0(text, null)
+           formatter.parseResolved0(text, null)
         }
-        return formatter.parse(text, parseType)
+         formatter.parse(text, parseType)
       }
       catch {
         case ex: DateTimeParseException => {
@@ -1134,7 +1134,7 @@ final object DateTimeFormatter {
     }
 
     def parseObject(text: String, pos: ParsePosition): AnyRef = {
-      Objects.requireNonNull(text, "text")
+
       var unresolved: Parsed = null
       try {
         unresolved = formatter.parseUnresolved0(text, pos)
@@ -1144,26 +1144,26 @@ final object DateTimeFormatter {
           if (pos.getErrorIndex < 0) {
             pos.setErrorIndex(0)
           }
-          return null
+           null
         }
       }
       if (unresolved == null) {
         if (pos.getErrorIndex < 0) {
           pos.setErrorIndex(0)
         }
-        return null
+         null
       }
       try {
         val resolved: TemporalAccessor = unresolved.resolve(formatter.resolverStyle, formatter.resolverFields)
         if (parseType == null) {
-          return resolved
+           resolved
         }
-        return resolved.query(parseType)
+         resolved.query(parseType)
       }
       catch {
         case ex: RuntimeException => {
           pos.setErrorIndex(0)
-          return null
+           null
         }
       }
     }
@@ -1190,11 +1190,11 @@ final class DateTimeFormatter {
    */
   private[format] def this(printerParser: DateTimeFormatterBuilder.CompositePrinterParser, locale: Locale, decimalStyle: DecimalStyle, resolverStyle: ResolverStyle, resolverFields: Set[TemporalField], chrono: Chronology, zone: ZoneId) {
     this()
-    this.printerParser = Objects.requireNonNull(printerParser, "printerParser")
+    this.printerParser =
     this.resolverFields = resolverFields
-    this.locale = Objects.requireNonNull(locale, "locale")
-    this.decimalStyle = Objects.requireNonNull(decimalStyle, "decimalStyle")
-    this.resolverStyle = Objects.requireNonNull(resolverStyle, "resolverStyle")
+    this.locale =
+    this.decimalStyle =
+    this.resolverStyle =
     this.chrono = chrono
     this.zone = zone
   }
@@ -1208,7 +1208,7 @@ final class DateTimeFormatter {
    * @return the locale of this formatter, not null
    */
   def getLocale: Locale = {
-    return locale
+     locale
   }
 
   /**
@@ -1224,9 +1224,9 @@ final class DateTimeFormatter {
    */
   def withLocale(locale: Locale): DateTimeFormatter = {
     if (this.locale == locale) {
-      return this
+       this
     }
-    return new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
+     new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
   }
 
   /**
@@ -1235,7 +1235,7 @@ final class DateTimeFormatter {
    * @return the locale of this formatter, not null
    */
   def getDecimalStyle: DecimalStyle = {
-    return decimalStyle
+     decimalStyle
   }
 
   /**
@@ -1248,9 +1248,9 @@ final class DateTimeFormatter {
    */
   def withDecimalStyle(decimalStyle: DecimalStyle): DateTimeFormatter = {
     if (this.decimalStyle == decimalStyle) {
-      return this
+       this
     }
-    return new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
+     new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
   }
 
   /**
@@ -1263,7 +1263,7 @@ final class DateTimeFormatter {
    * @return the override chronology of this formatter, null if no override
    */
   def getChronology: Chronology = {
-    return chrono
+     chrono
   }
 
   /**
@@ -1301,9 +1301,9 @@ final class DateTimeFormatter {
    */
   def withChronology(chrono: Chronology): DateTimeFormatter = {
     if (Objects.equals(this.chrono, chrono)) {
-      return this
+       this
     }
-    return new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
+     new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
   }
 
   /**
@@ -1316,7 +1316,7 @@ final class DateTimeFormatter {
    * @return the override zone of this formatter, null if no override
    */
   def getZone: ZoneId = {
-    return zone
+     zone
   }
 
   /**
@@ -1357,9 +1357,9 @@ final class DateTimeFormatter {
    */
   def withZone(zone: ZoneId): DateTimeFormatter = {
     if (Objects.equals(this.zone, zone)) {
-      return this
+       this
     }
-    return new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
+     new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
   }
 
   /**
@@ -1373,7 +1373,7 @@ final class DateTimeFormatter {
    * @return the resolver style of this formatter, not null
    */
   def getResolverStyle: ResolverStyle = {
-    return resolverStyle
+     resolverStyle
   }
 
   /**
@@ -1396,11 +1396,11 @@ final class DateTimeFormatter {
    * @return a formatter based on this formatter with the requested resolver style, not null
    */
   def withResolverStyle(resolverStyle: ResolverStyle): DateTimeFormatter = {
-    Objects.requireNonNull(resolverStyle, "resolverStyle")
+
     if (Objects.equals(this.resolverStyle, resolverStyle)) {
-      return this
+       this
     }
-    return new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
+     new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
   }
 
   /**
@@ -1414,7 +1414,7 @@ final class DateTimeFormatter {
    * @return the immutable set of resolver fields of this formatter, null if no fields
    */
   def getResolverFields: Set[TemporalField] = {
-    return resolverFields
+     resolverFields
   }
 
   /**
@@ -1457,13 +1457,13 @@ final class DateTimeFormatter {
    * @return a formatter based on this formatter with the requested resolver style, not null
    */
   def withResolverFields(resolverFields: TemporalField*): DateTimeFormatter = {
-    Objects.requireNonNull(resolverFields, "resolverFields")
+
     var fields: Set[TemporalField] = new HashSet[TemporalField](Arrays.asList(resolverFields))
     if (Objects.equals(this.resolverFields, fields)) {
-      return this
+       this
     }
     fields = Collections.unmodifiableSet(fields)
-    return new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, fields, chrono, zone)
+     new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, fields, chrono, zone)
   }
 
   /**
@@ -1506,12 +1506,12 @@ final class DateTimeFormatter {
    * @return a formatter based on this formatter with the requested resolver style, not null
    */
   def withResolverFields(resolverFields: Set[TemporalField]): DateTimeFormatter = {
-    Objects.requireNonNull(resolverFields, "resolverFields")
+
     if (Objects.equals(this.resolverFields, resolverFields)) {
-      return this
+       this
     }
     resolverFields = Collections.unmodifiableSet(new HashSet[TemporalField](resolverFields))
-    return new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
+     new DateTimeFormatter(printerParser, locale, decimalStyle, resolverStyle, resolverFields, chrono, zone)
   }
 
   /**
@@ -1526,7 +1526,7 @@ final class DateTimeFormatter {
   def format(temporal: TemporalAccessor): String = {
     val buf: StringBuilder = new StringBuilder(32)
     formatTo(temporal, buf)
-    return buf.toString
+     buf.toString
   }
 
   /**
@@ -1545,8 +1545,8 @@ final class DateTimeFormatter {
    * @throws DateTimeException if an error occurs during formatting
    */
   def formatTo(temporal: TemporalAccessor, appendable: Appendable) {
-    Objects.requireNonNull(temporal, "temporal")
-    Objects.requireNonNull(appendable, "appendable")
+
+
     try {
       val context: DateTimePrintContext = new DateTimePrintContext(temporal, this)
       if (appendable.isInstanceOf[StringBuilder]) {
@@ -1581,9 +1581,9 @@ final class DateTimeFormatter {
    * @throws DateTimeParseException if unable to parse the requested result
    */
   def parse(text: CharSequence): TemporalAccessor = {
-    Objects.requireNonNull(text, "text")
+
     try {
-      return parseResolved0(text, null)
+       parseResolved0(text, null)
     }
     catch {
       case ex: DateTimeParseException => {
@@ -1626,10 +1626,10 @@ final class DateTimeFormatter {
    * @throws IndexOutOfBoundsException if the position is invalid
    */
   def parse(text: CharSequence, position: ParsePosition): TemporalAccessor = {
-    Objects.requireNonNull(text, "text")
-    Objects.requireNonNull(position, "position")
+
+
     try {
-      return parseResolved0(text, position)
+       parseResolved0(text, position)
     }
     catch {
       case ex: Any => {
@@ -1661,10 +1661,10 @@ final class DateTimeFormatter {
    * @throws DateTimeParseException if unable to parse the requested result
    */
   def parse(text: CharSequence, query: TemporalQuery[T]): T = {
-    Objects.requireNonNull(text, "text")
-    Objects.requireNonNull(query, "query")
+
+
     try {
-      return parseResolved0(text, null).query(query)
+       parseResolved0(text, null).query(query)
     }
     catch {
       case ex: DateTimeParseException => {
@@ -1708,8 +1708,8 @@ final class DateTimeFormatter {
    * @throws DateTimeParseException if unable to parse the requested result
    */
   def parseBest(text: CharSequence, queries: TemporalQuery[_]*): TemporalAccessor = {
-    Objects.requireNonNull(text, "text")
-    Objects.requireNonNull(queries, "queries")
+
+
     if (queries.length < 2) {
       throw new IllegalArgumentException("At least two queries must be specified")
     }
@@ -1717,7 +1717,7 @@ final class DateTimeFormatter {
       val resolved: TemporalAccessor = parseResolved0(text, null)
       for (query <- queries) {
         try {
-          return resolved.query(query).asInstanceOf[TemporalAccessor]
+           resolved.query(query).asInstanceOf[TemporalAccessor]
         }
         catch {
           case ex: RuntimeException => {
@@ -1744,7 +1744,7 @@ final class DateTimeFormatter {
     else {
       abbr = text.toString
     }
-    return new DateTimeParseException("Text '" + abbr + "' could not be parsed: " + ex.getMessage, text, 0, ex)
+     new DateTimeParseException("Text '" + abbr + "' could not be parsed: " + ex.getMessage, text, 0, ex)
   }
 
   /**
@@ -1778,7 +1778,7 @@ final class DateTimeFormatter {
         throw new DateTimeParseException("Text '" + abbr + "' could not be parsed, unparsed text found at index " + pos.getIndex, text, pos.getIndex)
       }
     }
-    return unresolved.resolve(resolverStyle, resolverFields)
+     unresolved.resolve(resolverStyle, resolverFields)
   }
 
   /**
@@ -1821,21 +1821,21 @@ final class DateTimeFormatter {
    * @throws IndexOutOfBoundsException if the position is invalid
    */
   def parseUnresolved(text: CharSequence, position: ParsePosition): TemporalAccessor = {
-    return parseUnresolved0(text, position)
+     parseUnresolved0(text, position)
   }
 
   private def parseUnresolved0(text: CharSequence, position: ParsePosition): Parsed = {
-    Objects.requireNonNull(text, "text")
-    Objects.requireNonNull(position, "position")
+
+
     val context: DateTimeParseContext = new DateTimeParseContext(this)
     var pos: Int = position.getIndex
     pos = printerParser.parse(context, text, pos)
     if (pos < 0) {
       position.setErrorIndex(~pos)
-      return null
+       null
     }
     position.setIndex(pos)
-    return context.toParsed
+     context.toParsed
   }
 
   /**
@@ -1845,7 +1845,7 @@ final class DateTimeFormatter {
    * @return the printer/parser, not null
    */
   private[format] def toPrinterParser(optional: Boolean): DateTimeFormatterBuilder.CompositePrinterParser = {
-    return printerParser.withOptional(optional)
+     printerParser.withOptional(optional)
   }
 
   /**
@@ -1862,7 +1862,7 @@ final class DateTimeFormatter {
    * @return this formatter as a classic format instance, not null
    */
   def toFormat: Format = {
-    return new DateTimeFormatter.ClassicFormat(this, null)
+     new DateTimeFormatter.ClassicFormat(this, null)
   }
 
   /**
@@ -1882,8 +1882,8 @@ final class DateTimeFormatter {
    * @return this formatter as a classic format instance, not null
    */
   def toFormat(parseQuery: TemporalQuery[_]): Format = {
-    Objects.requireNonNull(parseQuery, "parseQuery")
-    return new DateTimeFormatter.ClassicFormat(this, parseQuery)
+
+     new DateTimeFormatter.ClassicFormat(this, parseQuery)
   }
 
   /**
@@ -1894,7 +1894,7 @@ final class DateTimeFormatter {
   override def toString: String = {
     var pattern: String = printerParser.toString
     pattern = if (pattern.startsWith("[")) pattern else pattern.substring(1, pattern.length - 1)
-    return pattern
+     pattern
   }
 
   /**
@@ -2019,7 +2019,7 @@ final class DateTimeFormatter {
  *
  * @since 1.8
  */
-final object DateTimeFormatterBuilder {
+object DateTimeFormatterBuilder {
   /**
    * Gets the formatting pattern for date and time styles for a locale and chronology.
    * The locale and chronology are used to lookup the locale specific format
@@ -2033,14 +2033,14 @@ final object DateTimeFormatterBuilder {
    * @throws IllegalArgumentException if both dateStyle and timeStyle are null
    */
   def getLocalizedDateTimePattern(dateStyle: FormatStyle, timeStyle: FormatStyle, chrono: Chronology, locale: Locale): String = {
-    Objects.requireNonNull(locale, "locale")
-    Objects.requireNonNull(chrono, "chrono")
+
+
     if (dateStyle == null && timeStyle == null) {
       throw new IllegalArgumentException("Either dateStyle or timeStyle must be non-null")
     }
     val lr: Nothing = LocaleProviderAdapter.getResourceBundleBased.getLocaleResources(locale)
     val pattern: String = lr.getJavaTimeDateTimePattern(convertStyle(timeStyle), convertStyle(dateStyle), chrono.getCalendarType)
-    return pattern
+     pattern
   }
 
   /**
@@ -2051,9 +2051,9 @@ final object DateTimeFormatterBuilder {
    */
   private def convertStyle(style: FormatStyle): Int = {
     if (style == null) {
-      return -1
+       -1
     }
-    return style.ordinal
+     style.ordinal
   }
 
   /**
@@ -2061,7 +2061,7 @@ final object DateTimeFormatterBuilder {
    */
   private final val QUERY_REGION_ONLY: TemporalQuery[ZoneId] = (temporal) -> {
     ZoneId zone = temporal.query(TemporalQuery.zoneId());
-    return (zone != null && zone instanceof ZoneOffset == false ? zone: null);
+     (zone != null && zone instanceof ZoneOffset == false ? zone: null);
   }
   /** Map of letters to fields. */
   private final val FIELD_MAP: Map[Character, TemporalField] = new HashMap[Character, TemporalField]
@@ -2070,7 +2070,7 @@ final object DateTimeFormatterBuilder {
    */
   private[format] final val LENGTH_SORT: Nothing = new Nothing {
     def compare(str1: String, str2: String): Int = {
-      return if (str1.length == str2.length) str1.compareTo(str2) else str1.length - str2.length
+       if (str1.length == str2.length) str1.compareTo(str2) else str1.length - str2.length
     }
   }
 
@@ -2100,7 +2100,7 @@ final object DateTimeFormatterBuilder {
    *   for each format that occurs. The context must not be stored in an instance
    *   variable or shared with any other threads.
    */
-  private[format] abstract trait DateTimePrinterParser {
+  private[format] trait DateTimePrinterParser {
     /**
      * Prints the date-time object to the buffer.
      * <p>
@@ -2156,9 +2156,9 @@ final object DateTimeFormatterBuilder {
      */
     def withOptional(optional: Boolean): DateTimeFormatterBuilder.CompositePrinterParser = {
       if (optional == this.optional) {
-        return this
+         this
       }
-      return new DateTimeFormatterBuilder.CompositePrinterParser(printerParsers, optional)
+       new DateTimeFormatterBuilder.CompositePrinterParser(printerParsers, optional)
     }
 
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
@@ -2170,7 +2170,7 @@ final object DateTimeFormatterBuilder {
         for (pp <- printerParsers) {
           if (pp.format(context, buf) == false) {
             buf.setLength(length)
-            return true
+             true
           }
         }
       }
@@ -2179,7 +2179,7 @@ final object DateTimeFormatterBuilder {
           context.endOptional
         }
       }
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -2190,11 +2190,11 @@ final object DateTimeFormatterBuilder {
           pos = pp.parse(context, text, pos)
           if (pos < 0) {
             context.endOptional(false)
-            return position
+             position
           }
         }
         context.endOptional(true)
-        return pos
+         pos
       }
       else {
         for (pp <- printerParsers) {
@@ -2203,7 +2203,7 @@ final object DateTimeFormatterBuilder {
             break //todo: break is not supported
           }
         }
-        return position
+         position
       }
     }
 
@@ -2216,7 +2216,7 @@ final object DateTimeFormatterBuilder {
         }
         buf.append(if (optional) "]" else ")")
       }
-      return buf.toString
+       buf.toString
     }
 
     private final val printerParsers: Array[DateTimeFormatterBuilder.DateTimePrinterParser] = null
@@ -2244,7 +2244,7 @@ final object DateTimeFormatterBuilder {
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val preLen: Int = buf.length
       if (printerParser.format(context, buf) == false) {
-        return false
+         false
       }
       val len: Int = buf.length - preLen
       if (len > padWidth) {
@@ -2261,7 +2261,7 @@ final object DateTimeFormatterBuilder {
           })
         }
       }
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -2270,12 +2270,12 @@ final object DateTimeFormatterBuilder {
         throw new IndexOutOfBoundsException
       }
       if (position == text.length) {
-        return ~position
+         ~position
       }
       var endPos: Int = position + padWidth
       if (endPos > text.length) {
         if (strict) {
-          return ~position
+           ~position
         }
         endPos = text.length
       }
@@ -2286,13 +2286,13 @@ final object DateTimeFormatterBuilder {
       text = text.subSequence(0, endPos)
       val resultPos: Int = printerParser.parse(context, text, pos)
       if (resultPos != endPos && strict) {
-        return ~(position + pos)
+         ~(position + pos)
       }
-      return resultPos
+       resultPos
     }
 
     override def toString: String = {
-      return "Pad(" + printerParser + "," + padWidth + (if (padChar == ' ') ")" else ",'" + padChar + "')")
+       "Pad(" + printerParser + "," + padWidth + (if (padChar == ' ') ")" else ",'" + padChar + "')")
     }
 
     private final val printerParser: DateTimeFormatterBuilder.DateTimePrinterParser = null
@@ -2303,7 +2303,7 @@ final object DateTimeFormatterBuilder {
   /**
    * Enumeration to apply simple parse settings.
    */
-  private[format] final object SettingsParser {
+  private[format] object SettingsParser {
     final val SENSITIVE: = null
     final val INSENSITIVE: = null
     final val STRICT: = null
@@ -2312,7 +2312,7 @@ final object DateTimeFormatterBuilder {
 
   private[format] final class SettingsParser extends DateTimePrinterParser {
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -2330,19 +2330,19 @@ final object DateTimeFormatterBuilder {
           context.setStrict(false)
           break //todo: break is not supported
       }
-      return position
+       position
     }
 
     override def toString: String = {
       ordinal match {
         case 0 =>
-          return "ParseCaseSensitive(true)"
+           "ParseCaseSensitive(true)"
         case 1 =>
-          return "ParseCaseSensitive(false)"
+           "ParseCaseSensitive(false)"
         case 2 =>
-          return "ParseStrict(true)"
+           "ParseStrict(true)"
         case 3 =>
-          return "ParseStrict(false)"
+           "ParseStrict(false)"
       }
       throw new IllegalStateException("Unreachable")
     }
@@ -2359,14 +2359,14 @@ final object DateTimeFormatterBuilder {
     }
 
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
       if (context.getParsed(field) == null) {
         context.setParsedField(field, value, position, position)
       }
-      return position
+       position
     }
 
     private final val field: TemporalField = null
@@ -2384,28 +2384,28 @@ final object DateTimeFormatterBuilder {
 
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       buf.append(literal)
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
       val length: Int = text.length
       if (position == length) {
-        return ~position
+         ~position
       }
       val ch: Char = text.charAt(position)
       if (ch != literal) {
         if (context.isCaseSensitive || (Character.toUpperCase(ch) != Character.toUpperCase(literal) && Character.toLowerCase(ch) != Character.toLowerCase(literal))) {
-          return ~position
+           ~position
         }
       }
-      return position + 1
+       position + 1
     }
 
     override def toString: String = {
       if (literal == '\'') {
-        return "''"
+         "''"
       }
-      return "'" + literal + "'"
+       "'" + literal + "'"
     }
 
     private final val literal: Char = 0
@@ -2422,7 +2422,7 @@ final object DateTimeFormatterBuilder {
 
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       buf.append(literal)
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -2431,14 +2431,14 @@ final object DateTimeFormatterBuilder {
         throw new IndexOutOfBoundsException
       }
       if (context.subSequenceEquals(text, position, literal, 0, literal.length) == false) {
-        return ~position
+         ~position
       }
-      return position + literal.length
+       position + literal.length
     }
 
     override def toString: String = {
       val converted: String = literal.replace("'", "''")
-      return "'" + converted + "'"
+       "'" + converted + "'"
     }
 
     private final val literal: String = null
@@ -2498,9 +2498,9 @@ final object DateTimeFormatterBuilder {
      */
     private[format] def withFixedWidth: DateTimeFormatterBuilder.NumberPrinterParser = {
       if (subsequentWidth == -1) {
-        return this
+         this
       }
-      return new DateTimeFormatterBuilder.NumberPrinterParser(field, minWidth, maxWidth, signStyle, -1)
+       new DateTimeFormatterBuilder.NumberPrinterParser(field, minWidth, maxWidth, signStyle, -1)
     }
 
     /**
@@ -2510,13 +2510,13 @@ final object DateTimeFormatterBuilder {
      * @return a new updated printer-parser, not null
      */
     private[format] def withSubsequentWidth(subsequentWidth: Int): DateTimeFormatterBuilder.NumberPrinterParser = {
-      return new DateTimeFormatterBuilder.NumberPrinterParser(field, minWidth, maxWidth, signStyle, this.subsequentWidth + subsequentWidth)
+       new DateTimeFormatterBuilder.NumberPrinterParser(field, minWidth, maxWidth, signStyle, this.subsequentWidth + subsequentWidth)
     }
 
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val valueLong: Long = context.getValue(field)
       if (valueLong == null) {
-        return false
+         false
       }
       val value: Long = getValue(valueLong)
       val decimalStyle: DecimalStyle = context.getDecimalStyle
@@ -2560,7 +2560,7 @@ final object DateTimeFormatterBuilder {
         }
       }
       buf.append(str)
-      return true
+       true
     }
 
     /**
@@ -2570,44 +2570,44 @@ final object DateTimeFormatterBuilder {
      * @return the value
      */
     private[format] def getValue(value: Long): Long = {
-      return value
+       value
     }
 
     private[format] def isFixedWidth: Boolean = {
-      return subsequentWidth == -1
+       subsequentWidth == -1
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
       val length: Int = text.length
       if (position == length) {
-        return ~position
+         ~position
       }
       val sign: Char = text.charAt(position)
       var negative: Boolean = false
       var positive: Boolean = false
       if (sign == context.getDecimalStyle.getPositiveSign) {
         if (signStyle.parse(true, context.isStrict, minWidth == maxWidth) == false) {
-          return ~position
+           ~position
         }
         positive = true
         position += 1
       }
       else if (sign == context.getDecimalStyle.getNegativeSign) {
         if (signStyle.parse(false, context.isStrict, minWidth == maxWidth) == false) {
-          return ~position
+           ~position
         }
         negative = true
         position += 1
       }
       else {
         if (signStyle eq SignStyle.ALWAYS && context.isStrict) {
-          return ~position
+           ~position
         }
       }
       val effMinWidth: Int = (if (context.isStrict || isFixedWidth) minWidth else 1)
       val minEndPos: Int = position + effMinWidth
       if (minEndPos > length) {
-        return ~position
+         ~position
       }
       var effMaxWidth: Int = (if (context.isStrict || isFixedWidth) maxWidth else 9) + Math.max(subsequentWidth, 0)
       var total: Long = 0
@@ -2626,7 +2626,7 @@ final object DateTimeFormatterBuilder {
               if (digit < 0) {
                 pos -= 1
                 if (pos < minEndPos) {
-                  return ~position
+                   ~position
                 }
                 break //todo: break is not supported
               }
@@ -2659,13 +2659,13 @@ final object DateTimeFormatterBuilder {
       if (negative) {
         if (totalBig != null) {
           if ((totalBig == BigInteger.ZERO) && context.isStrict) {
-            return ~(position - 1)
+             ~(position - 1)
           }
           totalBig = totalBig.negate
         }
         else {
           if (total == 0 && context.isStrict) {
-            return ~(position - 1)
+             ~(position - 1)
           }
           total = -total
         }
@@ -2674,12 +2674,12 @@ final object DateTimeFormatterBuilder {
         val parseLen: Int = pos - position
         if (positive) {
           if (parseLen <= minWidth) {
-            return ~(position - 1)
+             ~(position - 1)
           }
         }
         else {
           if (parseLen > minWidth) {
-            return ~position
+             ~position
           }
         }
       }
@@ -2688,9 +2688,9 @@ final object DateTimeFormatterBuilder {
           totalBig = totalBig.divide(BigInteger.TEN)
           pos -= 1
         }
-        return setValue(context, totalBig.longValue, position, pos)
+         setValue(context, totalBig.longValue, position, pos)
       }
-      return setValue(context, total, position, pos)
+       setValue(context, total, position, pos)
     }
 
     /**
@@ -2703,17 +2703,17 @@ final object DateTimeFormatterBuilder {
      * @return the new position
      */
     private[format] def setValue(context: DateTimeParseContext, value: Long, errorPos: Int, successPos: Int): Int = {
-      return context.setParsedField(field, value, errorPos, successPos)
+       context.setParsedField(field, value, errorPos, successPos)
     }
 
     override def toString: String = {
       if (minWidth == 1 && maxWidth == 19 && signStyle eq SignStyle.NORMAL) {
-        return "Value(" + field + ")"
+         "Value(" + field + ")"
       }
       if (minWidth == maxWidth && signStyle eq SignStyle.NOT_NEGATIVE) {
-        return "Value(" + field + "," + minWidth + ")"
+         "Value(" + field + "," + minWidth + ")"
       }
-      return "Value(" + field + "," + minWidth + "," + maxWidth + "," + signStyle + ")"
+       "Value(" + field + "," + minWidth + "," + maxWidth + "," + signStyle + ")"
     }
 
     private[format] final val field: TemporalField = null
@@ -2774,9 +2774,9 @@ final object DateTimeFormatterBuilder {
     private[format] override def getValue(value: Long): Long = {
       val absValue: Long = Math.abs(value)
       if (value >= baseValue && value < baseValue + EXCEED_POINTS(minWidth)) {
-        return absValue % EXCEED_POINTS(minWidth)
+         absValue % EXCEED_POINTS(minWidth)
       }
-      return absValue % EXCEED_POINTS(maxWidth)
+       absValue % EXCEED_POINTS(maxWidth)
     }
 
     private[format] override def setValue(context: DateTimeParseContext, value: Long, errorPos: Int, successPos: Int): Int = {
@@ -2795,7 +2795,7 @@ final object DateTimeFormatterBuilder {
           value += range
         }
       }
-      return context.setParsedField(field, value, errorPos, successPos)
+       context.setParsedField(field, value, errorPos, successPos)
     }
 
     /**
@@ -2805,9 +2805,9 @@ final object DateTimeFormatterBuilder {
      */
     private[format] override def withFixedWidth: DateTimeFormatterBuilder.ReducedPrinterParser = {
       if (subsequentWidth == -1) {
-        return this
+         this
       }
-      return new DateTimeFormatterBuilder.ReducedPrinterParser(field, minWidth, maxWidth, baseValue, -1)
+       new DateTimeFormatterBuilder.ReducedPrinterParser(field, minWidth, maxWidth, baseValue, -1)
     }
 
     /**
@@ -2817,11 +2817,11 @@ final object DateTimeFormatterBuilder {
      * @return a new updated printer-parser, not null
      */
     private[format] override def withSubsequentWidth(subsequentWidth: Int): DateTimeFormatterBuilder.ReducedPrinterParser = {
-      return new DateTimeFormatterBuilder.ReducedPrinterParser(field, minWidth, maxWidth, baseValue, this.subsequentWidth + subsequentWidth)
+       new DateTimeFormatterBuilder.ReducedPrinterParser(field, minWidth, maxWidth, baseValue, this.subsequentWidth + subsequentWidth)
     }
 
     override def toString: String = {
-      return "ReducedValue(" + field + "," + minWidth + "," + maxWidth + "," + baseValue + ")"
+       "ReducedValue(" + field + "," + minWidth + "," + maxWidth + "," + baseValue + ")"
     }
 
     private final val baseValue: Int = 0
@@ -2841,7 +2841,7 @@ final object DateTimeFormatterBuilder {
      */
     private[format] def this(field: TemporalField, minWidth: Int, maxWidth: Int, decimalPoint: Boolean) {
       this()
-      Objects.requireNonNull(field, "field")
+
       if (field.range.isFixed == false) {
         throw new IllegalArgumentException("Field must have a fixed set of values: " + field)
       }
@@ -2863,7 +2863,7 @@ final object DateTimeFormatterBuilder {
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val value: Long = context.getValue(field)
       if (value == null) {
-        return false
+         false
       }
       val decimalStyle: DecimalStyle = context.getDecimalStyle
       var fraction: Nothing = convertToFraction(value)
@@ -2895,7 +2895,7 @@ final object DateTimeFormatterBuilder {
         }
         buf.append(str)
       }
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -2903,17 +2903,17 @@ final object DateTimeFormatterBuilder {
       val effectiveMax: Int = (if (context.isStrict) maxWidth else 9)
       val length: Int = text.length
       if (position == length) {
-        return (if (effectiveMin > 0) ~position else position)
+         (if (effectiveMin > 0) ~position else position)
       }
       if (decimalPoint) {
         if (text.charAt(position) != context.getDecimalStyle.getDecimalSeparator) {
-          return (if (effectiveMin > 0) ~position else position)
+           (if (effectiveMin > 0) ~position else position)
         }
         position += 1
       }
       val minEndPos: Int = position + effectiveMin
       if (minEndPos > length) {
-        return ~position
+         ~position
       }
       val maxEndPos: Int = Math.min(position + effectiveMax, length)
       var total: Int = 0
@@ -2925,7 +2925,7 @@ final object DateTimeFormatterBuilder {
         val digit: Int = context.getDecimalStyle.convertToDigit(ch)
         if (digit < 0) {
           if (pos < minEndPos) {
-            return ~position
+             ~position
           }
           pos -= 1
           break //todo: break is not supported
@@ -2934,7 +2934,7 @@ final object DateTimeFormatterBuilder {
       }
       val fraction: Nothing = new Nothing(total).movePointLeft(pos - position)
       val value: Long = convertFromFraction(fraction)
-      return context.setParsedField(field, value, position, pos)
+       context.setParsedField(field, value, position, pos)
     }
 
     /**
@@ -2960,7 +2960,7 @@ final object DateTimeFormatterBuilder {
       val rangeBD: Nothing = BigDecimal.valueOf(range.getMaximum).subtract(minBD).add(BigDecimal.ONE)
       val valueBD: Nothing = BigDecimal.valueOf(value).subtract(minBD)
       val fraction: Nothing = valueBD.divide(rangeBD, 9, RoundingMode.FLOOR)
-      return if (fraction.compareTo(BigDecimal.ZERO) eq 0) BigDecimal.ZERO else fraction.stripTrailingZeros
+       if (fraction.compareTo(BigDecimal.ZERO) eq 0) BigDecimal.ZERO else fraction.stripTrailingZeros
     }
 
     /**
@@ -2984,12 +2984,12 @@ final object DateTimeFormatterBuilder {
       val minBD: Nothing = BigDecimal.valueOf(range.getMinimum)
       val rangeBD: Nothing = BigDecimal.valueOf(range.getMaximum).subtract(minBD).add(BigDecimal.ONE)
       val valueBD: Nothing = fraction.multiply(rangeBD).setScale(0, RoundingMode.FLOOR).add(minBD)
-      return valueBD.longValueExact
+       valueBD.longValueExact
     }
 
     override def toString: String = {
       val decimal: String = (if (decimalPoint) ",DecimalPoint" else "")
-      return "Fraction(" + field + "," + minWidth + "," + maxWidth + decimal + ")"
+       "Fraction(" + field + "," + minWidth + "," + maxWidth + decimal + ")"
     }
 
     private final val field: TemporalField = null
@@ -3019,7 +3019,7 @@ final object DateTimeFormatterBuilder {
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val value: Long = context.getValue(field)
       if (value == null) {
-        return false
+         false
       }
       var text: String = null
       val chrono: Chronology = context.getTemporal.query(TemporalQuery.chronology)
@@ -3030,10 +3030,10 @@ final object DateTimeFormatterBuilder {
         text = provider.getText(chrono, field, value, textStyle, context.getLocale)
       }
       if (text == null) {
-        return numberPrinterParser.format(context, buf)
+         numberPrinterParser.format(context, buf)
       }
       buf.append(text)
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, parseText: CharSequence, position: Int): Int = {
@@ -3055,14 +3055,14 @@ final object DateTimeFormatterBuilder {
           val entry: Nothing = it.next
           val itText: String = entry.getKey
           if (context.subSequenceEquals(itText, 0, parseText, position, itText.length)) {
-            return context.setParsedField(field, entry.getValue, position, position + itText.length)
+             context.setParsedField(field, entry.getValue, position, position + itText.length)
           }
         }
         if (context.isStrict) {
-          return ~position
+           ~position
         }
       }
-      return numberPrinterParser.parse(context, parseText, position)
+       numberPrinterParser.parse(context, parseText, position)
     }
 
     /**
@@ -3073,14 +3073,14 @@ final object DateTimeFormatterBuilder {
       if (numberPrinterParser == null) {
         numberPrinterParser = new DateTimeFormatterBuilder.NumberPrinterParser(field, 1, 19, SignStyle.NORMAL)
       }
-      return numberPrinterParser
+       numberPrinterParser
     }
 
     override def toString: String = {
       if (textStyle eq TextStyle.FULL) {
-        return "Text(" + field + ")"
+         "Text(" + field + ")"
       }
-      return "Text(" + field + "," + textStyle + ")"
+       "Text(" + field + "," + textStyle + ")"
     }
 
     private final val field: TemporalField = null
@@ -3097,7 +3097,7 @@ final object DateTimeFormatterBuilder {
   /**
    * Prints or parses an ISO-8601 instant.
    */
-  private[format] final object InstantPrinterParser {
+  private[format] object InstantPrinterParser {
     private final val SECONDS_PER_10000_YEARS: Long = 146097L * 25L * 86400L
     private final val SECONDS_0000_TO_1970: Long = ((146097L * 5L) - (30L * 365L + 7L)) * 86400L
   }
@@ -3115,7 +3115,7 @@ final object DateTimeFormatterBuilder {
         inNanos = context.getTemporal.getLong(NANO_OF_SECOND)
       }
       if (inSecs == null) {
-        return false
+         false
       }
       val inSec: Long = inSecs
       var inNano: Int = NANO_OF_SECOND.checkValidIntValue(if (inNanos != null) inNanos else 0)
@@ -3173,7 +3173,7 @@ final object DateTimeFormatterBuilder {
           }
       }
       buf.append('Z')
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -3183,7 +3183,7 @@ final object DateTimeFormatterBuilder {
       val newContext: DateTimeParseContext = context.copy
       val pos: Int = parser.parse(newContext, text, position)
       if (pos < 0) {
-        return pos
+         pos
       }
       val yearParsed: Long = newContext.getParsed(YEAR)
       val month: Int = newContext.getParsed(MONTH_OF_YEAR).intValue
@@ -3212,16 +3212,16 @@ final object DateTimeFormatterBuilder {
       }
       catch {
         case ex: RuntimeException => {
-          return ~position
+           ~position
         }
       }
       var successPos: Int = text.length
       successPos = context.setParsedField(INSTANT_SECONDS, instantSecs, position, successPos)
-      return context.setParsedField(NANO_OF_SECOND, nano, position, successPos)
+       context.setParsedField(NANO_OF_SECOND, nano, position, successPos)
     }
 
     override def toString: String = {
-      return "Instant()"
+       "Instant()"
     }
 
     private final val fractionalDigits: Int = 0
@@ -3230,7 +3230,7 @@ final object DateTimeFormatterBuilder {
   /**
    * Prints or parses an offset ID.
    */
-  private[format] final object OffsetIdPrinterParser {
+  private[format] object OffsetIdPrinterParser {
     private[format] final val PATTERNS: Array[String] = Array[String]("+HH", "+HHmm", "+HH:mm", "+HHMM", "+HH:MM", "+HHMMss", "+HH:MM:ss", "+HHMMSS", "+HH:MM:SS")
     private[format] final val INSTANCE_ID_Z: DateTimeFormatterBuilder.OffsetIdPrinterParser = new DateTimeFormatterBuilder.OffsetIdPrinterParser("+HH:MM:ss", "Z")
     private[format] final val INSTANCE_ID_ZERO: DateTimeFormatterBuilder.OffsetIdPrinterParser = new DateTimeFormatterBuilder.OffsetIdPrinterParser("+HH:MM:ss", "0")
@@ -3245,8 +3245,8 @@ final object DateTimeFormatterBuilder {
      */
     private[format] def this(pattern: String, noOffsetText: String) {
       this()
-      Objects.requireNonNull(pattern, "pattern")
-      Objects.requireNonNull(noOffsetText, "noOffsetText")
+
+
       this.`type` = checkPattern(pattern)
       this.noOffsetText = noOffsetText
     }
@@ -3257,7 +3257,7 @@ final object DateTimeFormatterBuilder {
         while (i < PATTERNS.length) {
           {
             if (PATTERNS(i) == pattern) {
-              return i
+               i
             }
           }
           ({
@@ -3271,7 +3271,7 @@ final object DateTimeFormatterBuilder {
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val offsetSecs: Long = context.getValue(OFFSET_SECONDS)
       if (offsetSecs == null) {
-        return false
+         false
       }
       val totalSecs: Int = Math.toIntExact(offsetSecs)
       if (totalSecs == 0) {
@@ -3297,7 +3297,7 @@ final object DateTimeFormatterBuilder {
           buf.append(noOffsetText)
         }
       }
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -3305,15 +3305,15 @@ final object DateTimeFormatterBuilder {
       val noOffsetLen: Int = noOffsetText.length
       if (noOffsetLen == 0) {
         if (position == length) {
-          return context.setParsedField(OFFSET_SECONDS, 0, position, position)
+           context.setParsedField(OFFSET_SECONDS, 0, position, position)
         }
       }
       else {
         if (position == length) {
-          return ~position
+           ~position
         }
         if (context.subSequenceEquals(text, position, noOffsetText, 0, noOffsetLen)) {
-          return context.setParsedField(OFFSET_SECONDS, 0, position, position + noOffsetLen)
+           context.setParsedField(OFFSET_SECONDS, 0, position, position + noOffsetLen)
         }
       }
       val sign: Char = text.charAt(position)
@@ -3323,13 +3323,13 @@ final object DateTimeFormatterBuilder {
         array(0) = position + 1
         if ((parseNumber(array, 1, text, true) || parseNumber(array, 2, text, `type` >= 3) || parseNumber(array, 3, text, false)) == false) {
           val offsetSecs: Long = negative * (array(1) * 3600L + array(2) * 60L + array(3))
-          return context.setParsedField(OFFSET_SECONDS, offsetSecs, position, array(0))
+           context.setParsedField(OFFSET_SECONDS, offsetSecs, position, array(0))
         }
       }
       if (noOffsetLen == 0) {
-        return context.setParsedField(OFFSET_SECONDS, 0, position, position + noOffsetLen)
+         context.setParsedField(OFFSET_SECONDS, 0, position, position + noOffsetLen)
       }
-      return ~position
+       ~position
     }
 
     /**
@@ -3343,17 +3343,17 @@ final object DateTimeFormatterBuilder {
      */
     private def parseNumber(array: Array[Int], arrayIndex: Int, parseText: CharSequence, required: Boolean): Boolean = {
       if ((`type` + 3) / 2 < arrayIndex) {
-        return false
+         false
       }
       var pos: Int = array(0)
       if ((`type` % 2) == 0 && arrayIndex > 1) {
         if (pos + 1 > parseText.length || parseText.charAt(pos) != ':') {
-          return required
+           required
         }
         pos += 1
       }
       if (pos + 2 > parseText.length) {
-        return required
+         required
       }
       val ch1: Char = parseText.charAt(({
         pos += 1; pos - 1
@@ -3362,20 +3362,20 @@ final object DateTimeFormatterBuilder {
         pos += 1; pos - 1
       }))
       if (ch1 < '0' || ch1 > '9' || ch2 < '0' || ch2 > '9') {
-        return required
+         required
       }
       val value: Int = (ch1 - 48) * 10 + (ch2 - 48)
       if (value < 0 || value > 59) {
-        return required
+         required
       }
       array(arrayIndex) = value
       array(0) = pos
-      return false
+       false
     }
 
     override def toString: String = {
       val converted: String = noOffsetText.replace("'", "''")
-      return "Offset(" + PATTERNS(`type`) + ",'" + converted + "')"
+       "Offset(" + PATTERNS(`type`) + ",'" + converted + "')"
     }
 
     private final val noOffsetText: String = null
@@ -3385,9 +3385,9 @@ final object DateTimeFormatterBuilder {
   /**
    * Prints or parses an offset ID.
    */
-  private[format] final object LocalizedOffsetIdPrinterParser {
+  private[format] object LocalizedOffsetIdPrinterParser {
     private def appendHMS(buf: StringBuilder, t: Int): StringBuilder = {
-      return buf.append((t / 10 + '0').asInstanceOf[Char]).append((t % 10 + '0').asInstanceOf[Char])
+       buf.append((t / 10 + '0').asInstanceOf[Char]).append((t % 10 + '0').asInstanceOf[Char])
     }
   }
 
@@ -3405,7 +3405,7 @@ final object DateTimeFormatterBuilder {
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val offsetSecs: Long = context.getValue(OFFSET_SECONDS)
       if (offsetSecs == null) {
-        return false
+         false
       }
       val gmtText: String = "GMT"
       if (gmtText != null) {
@@ -3441,15 +3441,15 @@ final object DateTimeFormatterBuilder {
           }
         }
       }
-      return true
+       true
     }
 
     private[format] def getDigit(text: CharSequence, position: Int): Int = {
       val c: Char = text.charAt(position)
       if (c < '0' || c > '9') {
-        return -1
+         -1
       }
-      return c - '0'
+       c - '0'
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -3458,13 +3458,13 @@ final object DateTimeFormatterBuilder {
       val gmtText: String = "GMT"
       if (gmtText != null) {
         if (!context.subSequenceEquals(text, pos, gmtText, 0, gmtText.length)) {
-          return ~position
+           ~position
         }
         pos += gmtText.length
       }
       var negative: Int = 0
       if (pos == end) {
-        return context.setParsedField(OFFSET_SECONDS, 0, position, pos)
+         context.setParsedField(OFFSET_SECONDS, 0, position, pos)
       }
       val sign: Char = text.charAt(pos)
       if (sign == '+') {
@@ -3474,7 +3474,7 @@ final object DateTimeFormatterBuilder {
         negative = -1
       }
       else {
-        return context.setParsedField(OFFSET_SECONDS, 0, position, pos)
+         context.setParsedField(OFFSET_SECONDS, 0, position, pos)
       }
       pos += 1
       var h: Int = 0
@@ -3490,7 +3490,7 @@ final object DateTimeFormatterBuilder {
         if (h1 < 0 || h2 < 0 || text.charAt(({
           pos += 1; pos - 1
         })) != ':') {
-          return ~position
+           ~position
         }
         h = h1 * 10 + h2
         val m1: Int = getDigit(text, ({
@@ -3500,7 +3500,7 @@ final object DateTimeFormatterBuilder {
           pos += 1; pos - 1
         }))
         if (m1 < 0 || m2 < 0) {
-          return ~position
+           ~position
         }
         m = m1 * 10 + m2
         if (pos + 2 < end && text.charAt(pos) == ':') {
@@ -3517,7 +3517,7 @@ final object DateTimeFormatterBuilder {
           pos += 1; pos - 1
         }))
         if (h < 0) {
-          return ~position
+           ~position
         }
         if (pos < end) {
           val h2: Int = getDigit(text, pos)
@@ -3546,11 +3546,11 @@ final object DateTimeFormatterBuilder {
         }
       }
       val offsetSecs: Long = negative * (h * 3600L + m * 60L + s)
-      return context.setParsedField(OFFSET_SECONDS, offsetSecs, position, pos)
+       context.setParsedField(OFFSET_SECONDS, offsetSecs, position, pos)
     }
 
     override def toString: String = {
-      return "LocalizedOffset(" + style + ")"
+       "LocalizedOffset(" + style + ")"
     }
 
     private final val style: TextStyle = null
@@ -3559,7 +3559,7 @@ final object DateTimeFormatterBuilder {
   /**
    * Prints or parses a zone ID.
    */
-  private[format] final object ZoneTextPrinterParser {
+  private[format] object ZoneTextPrinterParser {
     private final val STD: Int = 0
     private final val DST: Int = 1
     private final val GENERIC: Int = 2
@@ -3570,7 +3570,7 @@ final object DateTimeFormatterBuilder {
     private[format] def this(textStyle: TextStyle, preferredZones: Set[ZoneId]) {
       this()
       `super`(TemporalQuery.zone, "ZoneText(" + textStyle + ")")
-      this.textStyle = Objects.requireNonNull(textStyle, "textStyle")
+      this.textStyle =
       if (preferredZones != null && preferredZones.size != 0) {
         this.preferredZones = new HashSet[String]
         import scala.collection.JavaConversions._
@@ -3582,7 +3582,7 @@ final object DateTimeFormatterBuilder {
 
     private def getDisplayName(id: String, `type`: Int, locale: Locale): String = {
       if (textStyle eq TextStyle.NARROW) {
-        return null
+         null
       }
       var names: Array[String] = null
       val ref: Nothing = cache.get(id)
@@ -3594,7 +3594,7 @@ final object DateTimeFormatterBuilder {
       })) == null) {
         names = TimeZoneNameUtility.retrieveDisplayNames(id, locale)
         if (names == null) {
-          return null
+           null
         }
         names = Arrays.copyOfRange(names, 0, 7)
         names(5) = TimeZoneNameUtility.retrieveGenericDisplayName(id, TimeZone.LONG, locale)
@@ -3613,17 +3613,17 @@ final object DateTimeFormatterBuilder {
       }
       `type` match {
         case STD =>
-          return names(textStyle.zoneNameStyleIndex + 1)
+           names(textStyle.zoneNameStyleIndex + 1)
         case DST =>
-          return names(textStyle.zoneNameStyleIndex + 3)
+           names(textStyle.zoneNameStyleIndex + 3)
       }
-      return names(textStyle.zoneNameStyleIndex + 5)
+       names(textStyle.zoneNameStyleIndex + 5)
     }
 
     override def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val zone: ZoneId = context.getValue(TemporalQuery.zoneId)
       if (zone == null) {
-        return false
+         false
       }
       var zname: String = zone.getId
       if (!(zone.isInstanceOf[ZoneOffset])) {
@@ -3634,12 +3634,12 @@ final object DateTimeFormatterBuilder {
         }
       }
       buf.append(zname)
-      return true
+       true
     }
 
     protected override def getTree(context: DateTimeParseContext): DateTimeFormatterBuilder.PrefixTree = {
       if (textStyle eq TextStyle.NARROW) {
-        return super.getTree(context)
+         super.getTree(context)
       }
       val locale: Locale = context.getLocale
       val isCaseSensitive: Boolean = context.isCaseSensitive
@@ -3688,7 +3688,7 @@ final object DateTimeFormatterBuilder {
         }
         cached.put(locale, new Nothing(regionIdsSize, new Nothing(tree)))
       }
-      return tree
+       tree
     }
 
     /** The text style to output. */
@@ -3722,10 +3722,10 @@ final object DateTimeFormatterBuilder {
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val zone: ZoneId = context.getValue(query)
       if (zone == null) {
-        return false
+         false
       }
       buf.append(zone.getId)
-      return true
+       true
     }
 
     protected def getTree(context: DateTimeParseContext): DateTimeFormatterBuilder.PrefixTree = {
@@ -3746,7 +3746,7 @@ final object DateTimeFormatterBuilder {
           }
         }
       }
-      return cached.getValue
+       cached.getValue
     }
 
     /**
@@ -3760,22 +3760,22 @@ final object DateTimeFormatterBuilder {
         throw new IndexOutOfBoundsException
       }
       if (position == length) {
-        return ~position
+         ~position
       }
       val nextChar: Char = text.charAt(position)
       if (nextChar == '+' || nextChar == '-') {
-        return parseOffsetBased(context, text, position, position, OffsetIdPrinterParser.INSTANCE_ID_Z)
+         parseOffsetBased(context, text, position, position, OffsetIdPrinterParser.INSTANCE_ID_Z)
       }
       else if (length >= position + 2) {
         val nextNextChar: Char = text.charAt(position + 1)
         if (context.charEquals(nextChar, 'U') && context.charEquals(nextNextChar, 'T')) {
           if (length >= position + 3 && context.charEquals(text.charAt(position + 2), 'C')) {
-            return parseOffsetBased(context, text, position, position + 3, OffsetIdPrinterParser.INSTANCE_ID_ZERO)
+             parseOffsetBased(context, text, position, position + 3, OffsetIdPrinterParser.INSTANCE_ID_ZERO)
           }
-          return parseOffsetBased(context, text, position, position + 2, OffsetIdPrinterParser.INSTANCE_ID_ZERO)
+           parseOffsetBased(context, text, position, position + 2, OffsetIdPrinterParser.INSTANCE_ID_ZERO)
         }
         else if (context.charEquals(nextChar, 'G') && length >= position + 3 && context.charEquals(nextNextChar, 'M') && context.charEquals(text.charAt(position + 2), 'T')) {
-          return parseOffsetBased(context, text, position, position + 3, OffsetIdPrinterParser.INSTANCE_ID_ZERO)
+           parseOffsetBased(context, text, position, position + 3, OffsetIdPrinterParser.INSTANCE_ID_ZERO)
         }
       }
       val tree: DateTimeFormatterBuilder.PrefixTree = getTree(context)
@@ -3784,12 +3784,12 @@ final object DateTimeFormatterBuilder {
       if (parsedZoneId == null) {
         if (context.charEquals(nextChar, 'Z')) {
           context.setParsed(ZoneOffset.UTC)
-          return position + 1
+           position + 1
         }
-        return ~position
+         ~position
       }
       context.setParsed(ZoneId.of(parsedZoneId))
-      return ppos.getIndex
+       ppos.getIndex
     }
 
     /**
@@ -3808,36 +3808,36 @@ final object DateTimeFormatterBuilder {
       val prefix: String = text.toString.substring(prefixPos, position).toUpperCase
       if (position >= text.length) {
         context.setParsed(ZoneId.of(prefix))
-        return position
+         position
       }
       if (text.charAt(position) == '0' || context.charEquals(text.charAt(position), 'Z')) {
         context.setParsed(ZoneId.of(prefix))
-        return position
+         position
       }
       val newContext: DateTimeParseContext = context.copy
       val endPos: Int = parser.parse(newContext, text, position)
       try {
         if (endPos < 0) {
           if (parser eq OffsetIdPrinterParser.INSTANCE_ID_Z) {
-            return ~prefixPos
+             ~prefixPos
           }
           context.setParsed(ZoneId.of(prefix))
-          return position
+           position
         }
         val offset: Int = newContext.getParsed(OFFSET_SECONDS).longValue.asInstanceOf[Int]
         val zoneOffset: ZoneOffset = ZoneOffset.ofTotalSeconds(offset)
         context.setParsed(ZoneId.ofOffset(prefix, zoneOffset))
-        return endPos
+         endPos
       }
       catch {
         case dte: DateTimeException => {
-          return ~prefixPos
+           ~prefixPos
         }
       }
     }
 
     override def toString: String = {
-      return description
+       description
     }
 
     private final val query: TemporalQuery[ZoneId] = null
@@ -3856,9 +3856,9 @@ final object DateTimeFormatterBuilder {
      */
     def newTree(context: DateTimeParseContext): DateTimeFormatterBuilder.PrefixTree = {
       if (context.isCaseSensitive) {
-        return new DateTimeFormatterBuilder.PrefixTree("", null, null)
+         new DateTimeFormatterBuilder.PrefixTree("", null, null)
       }
-      return new DateTimeFormatterBuilder.PrefixTree#CI("", null, null)
+       new DateTimeFormatterBuilder.PrefixTree#CI("", null, null)
     }
 
     /**
@@ -3874,7 +3874,7 @@ final object DateTimeFormatterBuilder {
       for (k <- keys) {
         tree.add0(k, k)
       }
-      return tree
+       tree
     }
 
     /**
@@ -3887,17 +3887,17 @@ final object DateTimeFormatterBuilder {
       }
 
       protected override def newNode(k: String, v: String, child: DateTimeFormatterBuilder.PrefixTree): DateTimeFormatterBuilder.PrefixTree#CI = {
-        return new DateTimeFormatterBuilder.PrefixTree#CI(k, v, child)
+         new DateTimeFormatterBuilder.PrefixTree#CI(k, v, child)
       }
 
       protected override def isEqual(c1: Char, c2: Char): Boolean = {
-        return DateTimeParseContext.charEqualsIgnoreCase(c1, c2)
+         DateTimeParseContext.charEqualsIgnoreCase(c1, c2)
       }
 
       protected override def prefixOf(text: CharSequence, off: Int, end: Int): Boolean = {
         var len: Int = key.length
         if (len > end - off) {
-          return false
+           false
         }
         val off0: Int = 0
         while (({
@@ -3908,10 +3908,10 @@ final object DateTimeFormatterBuilder {
           })), text.charAt(({
             off += 1; off - 1
           })))) {
-            return false
+             false
           }
         }
-        return true
+         true
       }
     }
 
@@ -3926,11 +3926,11 @@ final object DateTimeFormatterBuilder {
       }
 
       protected override def newNode(k: String, v: String, child: DateTimeFormatterBuilder.PrefixTree): DateTimeFormatterBuilder.PrefixTree#CI = {
-        return new DateTimeFormatterBuilder.PrefixTree#LENIENT(k, v, child)
+         new DateTimeFormatterBuilder.PrefixTree#LENIENT(k, v, child)
       }
 
       private def isLenientChar(c: Char): Boolean = {
-        return c == ' ' || c == '_' || c == '/'
+         c == ' ' || c == '_' || c == '/'
       }
 
       protected override def toKey(k: String): String = {
@@ -3948,7 +3948,7 @@ final object DateTimeFormatterBuilder {
                   }
                   i += 1
                 }
-                return sb.toString
+                 sb.toString
               }
             }
             ({
@@ -3956,7 +3956,7 @@ final object DateTimeFormatterBuilder {
             })
           }
         }
-        return k
+         k
       }
 
       override def `match`(text: CharSequence, pos: ParsePosition): String = {
@@ -3974,11 +3974,11 @@ final object DateTimeFormatterBuilder {
           })), text.charAt(({
             off += 1; off - 1
           })))) {
-            return null
+             null
           }
         }
         if (koff != len) {
-          return null
+           null
         }
         if (child != null && off != end) {
           var off0: Int = off
@@ -3992,7 +3992,7 @@ final object DateTimeFormatterBuilder {
                 pos.setIndex(off0)
                 val found: String = c.`match`(text, pos)
                 if (found != null) {
-                  return found
+                   found
                 }
                 break //todo: break is not supported
               }
@@ -4001,7 +4001,7 @@ final object DateTimeFormatterBuilder {
           }
         }
         pos.setIndex(off)
-        return value
+         value
       }
     }
 
@@ -4032,7 +4032,7 @@ final object DateTimeFormatterBuilder {
       if (sibling != null) {
         copy.sibling = sibling.copyTree
       }
-      return copy
+       copy
     }
 
     /**
@@ -4043,7 +4043,7 @@ final object DateTimeFormatterBuilder {
      * @return  true if the pair is added successfully
      */
     def add(k: String, v: String): Boolean = {
-      return add0(k, v)
+       add0(k, v)
     }
 
     private def add0(k: String, v: String): Boolean = {
@@ -4055,17 +4055,17 @@ final object DateTimeFormatterBuilder {
           var c: DateTimeFormatterBuilder.PrefixTree = child
           while (c != null) {
             if (isEqual(c.c0, subKey.charAt(0))) {
-              return c.add0(subKey, v)
+               c.add0(subKey, v)
             }
             c = c.sibling
           }
           c = newNode(subKey, v, null)
           c.sibling = child
           child = c
-          return true
+           true
         }
         value = v
-        return true
+         true
       }
       val n1: DateTimeFormatterBuilder.PrefixTree = newNode(key.substring(prefixLen), value, child)
       key = k.substring(0, prefixLen)
@@ -4078,7 +4078,7 @@ final object DateTimeFormatterBuilder {
       else {
         value = v
       }
-      return true
+       true
     }
 
     /**
@@ -4091,7 +4091,7 @@ final object DateTimeFormatterBuilder {
      */
     def `match`(text: CharSequence, off: Int, end: Int): String = {
       if (!prefixOf(text, off, end)) {
-        return null
+         null
       }
       if (child != null && (({
         off += key.length; off
@@ -4101,14 +4101,14 @@ final object DateTimeFormatterBuilder {
           if (isEqual(c.c0, text.charAt(off))) {
             val found: String = c.`match`(text, off, end)
             if (found != null) {
-              return found
+               found
             }
-            return value
+             value
           }
           c = c.sibling
         } while (c != null)
       }
-      return value
+       value
     }
 
     /**
@@ -4124,7 +4124,7 @@ final object DateTimeFormatterBuilder {
       var off: Int = pos.getIndex
       val end: Int = text.length
       if (!prefixOf(text, off, end)) {
-        return null
+         null
       }
       off += key.length
       if (child != null && off != end) {
@@ -4134,7 +4134,7 @@ final object DateTimeFormatterBuilder {
             pos.setIndex(off)
             val found: String = c.`match`(text, pos)
             if (found != null) {
-              return found
+               found
             }
             break //todo: break is not supported
           }
@@ -4142,28 +4142,28 @@ final object DateTimeFormatterBuilder {
         } while (c != null)
       }
       pos.setIndex(off)
-      return value
+       value
     }
 
     protected def toKey(k: String): String = {
-      return k
+       k
     }
 
     protected def newNode(k: String, v: String, child: DateTimeFormatterBuilder.PrefixTree): DateTimeFormatterBuilder.PrefixTree = {
-      return new DateTimeFormatterBuilder.PrefixTree(k, v, child)
+       new DateTimeFormatterBuilder.PrefixTree(k, v, child)
     }
 
     protected def isEqual(c1: Char, c2: Char): Boolean = {
-      return c1 == c2
+       c1 == c2
     }
 
     protected def prefixOf(text: CharSequence, off: Int, end: Int): Boolean = {
       if (text.isInstanceOf[String]) {
-        return (text.asInstanceOf[String]).startsWith(key, off)
+         (text.asInstanceOf[String]).startsWith(key, off)
       }
       var len: Int = key.length
       if (len > end - off) {
-        return false
+         false
       }
       val off0: Int = 0
       while (({
@@ -4174,21 +4174,21 @@ final object DateTimeFormatterBuilder {
         })), text.charAt(({
           off += 1; off - 1
         })))) {
-          return false
+           false
         }
       }
-      return true
+       true
     }
 
     private def prefixLength(k: String): Int = {
       var off: Int = 0
       while (off < k.length && off < key.length) {
         if (!isEqual(k.charAt(off), key.charAt(off))) {
-          return off
+           off
         }
         off += 1
       }
-      return off
+       off
     }
 
     protected var key: String = null
@@ -4210,7 +4210,7 @@ final object DateTimeFormatterBuilder {
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val chrono: Chronology = context.getValue(TemporalQuery.chronology)
       if (chrono == null) {
-        return false
+         false
       }
       if (textStyle == null) {
         buf.append(chrono.getId)
@@ -4218,7 +4218,7 @@ final object DateTimeFormatterBuilder {
       else {
         buf.append(getChronologyName(chrono, context.getLocale))
       }
-      return true
+       true
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
@@ -4244,10 +4244,10 @@ final object DateTimeFormatterBuilder {
         }
       }
       if (bestMatch == null) {
-        return ~position
+         ~position
       }
       context.setParsed(bestMatch)
-      return position + matchLen
+       position + matchLen
     }
 
     /**
@@ -4263,7 +4263,7 @@ final object DateTimeFormatterBuilder {
     private def getChronologyName(chrono: Chronology, locale: Locale): String = {
       val key: String = "calendarname." + chrono.getCalendarType
       val name: String = DateTimeTextProvider.getLocalizedResource(key, locale)
-      return if (name != null) name else chrono.getId
+       if (name != null) name else chrono.getId
     }
 
     /** The text style to output, null means the ID. */
@@ -4273,7 +4273,7 @@ final object DateTimeFormatterBuilder {
   /**
    * Prints or parses a localized pattern.
    */
-  private[format] final object LocalizedPrinterParser {
+  private[format] object LocalizedPrinterParser {
     /** Cache of formatters. */
     private final val FORMATTER_CACHE: Nothing = new Nothing(16, 0.75f, 2)
   }
@@ -4293,12 +4293,12 @@ final object DateTimeFormatterBuilder {
 
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
       val chrono: Chronology = Chronology.from(context.getTemporal)
-      return formatter(context.getLocale, chrono).toPrinterParser(false).format(context, buf)
+       formatter(context.getLocale, chrono).toPrinterParser(false).format(context, buf)
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
       val chrono: Chronology = context.getEffectiveChronology
-      return formatter(context.getLocale, chrono).toPrinterParser(false).parse(context, text, position)
+       formatter(context.getLocale, chrono).toPrinterParser(false).parse(context, text, position)
     }
 
     /**
@@ -4323,11 +4323,11 @@ final object DateTimeFormatterBuilder {
           formatter = old
         }
       }
-      return formatter
+       formatter
     }
 
     override def toString: String = {
-      return "Localized(" + (if (dateStyle != null) dateStyle else "") + "," + (if (timeStyle != null) timeStyle else "") + ")"
+       "Localized(" + (if (dateStyle != null) dateStyle else "") + "," + (if (timeStyle != null) timeStyle else "") + ")"
     }
 
     private final val dateStyle: FormatStyle = null
@@ -4355,11 +4355,11 @@ final object DateTimeFormatterBuilder {
     }
 
     def format(context: DateTimePrintContext, buf: StringBuilder): Boolean = {
-      return printerParser(context.getLocale).format(context, buf)
+       printerParser(context.getLocale).format(context, buf)
     }
 
     def parse(context: DateTimeParseContext, text: CharSequence, position: Int): Int = {
-      return printerParser(context.getLocale).parse(context, text, position)
+       printerParser(context.getLocale).parse(context, text, position)
     }
 
     /**
@@ -4376,10 +4376,10 @@ final object DateTimeFormatterBuilder {
         case 'Y' =>
           field = weekDef.weekBasedYear
           if (count == 2) {
-            return new DateTimeFormatterBuilder.ReducedPrinterParser(field, 2, 2, 2000, 0)
+             new DateTimeFormatterBuilder.ReducedPrinterParser(field, 2, 2, 2000, 0)
           }
           else {
-            return new DateTimeFormatterBuilder.NumberPrinterParser(field, count, 19, if ((count < 4)) SignStyle.NORMAL else SignStyle.EXCEEDS_PAD, -1)
+             new DateTimeFormatterBuilder.NumberPrinterParser(field, count, 19, if ((count < 4)) SignStyle.NORMAL else SignStyle.EXCEEDS_PAD, -1)
           }
         case 'e' =>
         case 'c' =>
@@ -4394,7 +4394,7 @@ final object DateTimeFormatterBuilder {
         case _ =>
           throw new IllegalStateException("unreachable")
       }
-      return new DateTimeFormatterBuilder.NumberPrinterParser(field, (if (count == 2) 2 else 1), 2, SignStyle.NOT_NEGATIVE)
+       new DateTimeFormatterBuilder.NumberPrinterParser(field, (if (count == 2) 2 else 1), 2, SignStyle.NOT_NEGATIVE)
     }
 
     override def toString: String = {
@@ -4430,7 +4430,7 @@ final object DateTimeFormatterBuilder {
         sb.append(count)
       }
       sb.append(")")
-      return sb.toString
+       sb.toString
     }
 
     private var chr: Char = 0
@@ -4483,7 +4483,7 @@ final class DateTimeFormatterBuilder {
    */
   def parseCaseSensitive: DateTimeFormatterBuilder = {
     appendInternal(SettingsParser.SENSITIVE)
-    return this
+     this
   }
 
   /**
@@ -4503,7 +4503,7 @@ final class DateTimeFormatterBuilder {
    */
   def parseCaseInsensitive: DateTimeFormatterBuilder = {
     appendInternal(SettingsParser.INSENSITIVE)
-    return this
+     this
   }
 
   /**
@@ -4521,7 +4521,7 @@ final class DateTimeFormatterBuilder {
    */
   def parseStrict: DateTimeFormatterBuilder = {
     appendInternal(SettingsParser.STRICT)
-    return this
+     this
   }
 
   /**
@@ -4540,7 +4540,7 @@ final class DateTimeFormatterBuilder {
    */
   def parseLenient: DateTimeFormatterBuilder = {
     appendInternal(SettingsParser.LENIENT)
-    return this
+     this
   }
 
   /**
@@ -4571,9 +4571,9 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def parseDefaulting(field: TemporalField, value: Long): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(field, "field")
+
     appendInternal(new DateTimeFormatterBuilder.DefaultValueParser(field, value))
-    return this
+     this
   }
 
   /**
@@ -4595,9 +4595,9 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def appendValue(field: TemporalField): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(field, "field")
+
     appendValue(new DateTimeFormatterBuilder.NumberPrinterParser(field, 1, 19, SignStyle.NORMAL))
-    return this
+     this
   }
 
   /**
@@ -4649,13 +4649,13 @@ final class DateTimeFormatterBuilder {
    * @throws IllegalArgumentException if the width is invalid
    */
   def appendValue(field: TemporalField, width: Int): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(field, "field")
+
     if (width < 1 || width > 19) {
       throw new IllegalArgumentException("The width must be from 1 to 19 inclusive but was " + width)
     }
     val pp: DateTimeFormatterBuilder.NumberPrinterParser = new DateTimeFormatterBuilder.NumberPrinterParser(field, width, width, SignStyle.NOT_NEGATIVE)
     appendValue(pp)
-    return this
+     this
   }
 
   /**
@@ -4691,10 +4691,10 @@ final class DateTimeFormatterBuilder {
    */
   def appendValue(field: TemporalField, minWidth: Int, maxWidth: Int, signStyle: SignStyle): DateTimeFormatterBuilder = {
     if (minWidth == maxWidth && signStyle eq SignStyle.NOT_NEGATIVE) {
-      return appendValue(field, maxWidth)
+       appendValue(field, maxWidth)
     }
-    Objects.requireNonNull(field, "field")
-    Objects.requireNonNull(signStyle, "signStyle")
+
+
     if (minWidth < 1 || minWidth > 19) {
       throw new IllegalArgumentException("The minimum width must be from 1 to 19 inclusive but was " + minWidth)
     }
@@ -4706,7 +4706,7 @@ final class DateTimeFormatterBuilder {
     }
     val pp: DateTimeFormatterBuilder.NumberPrinterParser = new DateTimeFormatterBuilder.NumberPrinterParser(field, minWidth, maxWidth, signStyle)
     appendValue(pp)
-    return this
+     this
   }
 
   /**
@@ -4743,7 +4743,7 @@ final class DateTimeFormatterBuilder {
    * @see #appendValueReduced(java.time.temporal.TemporalField, int, int, int)
    */
   def appendValueReduced(field: TemporalField, width: Int, baseValue: Int): DateTimeFormatterBuilder = {
-    return appendValueReduced(field, width, width, baseValue)
+     appendValueReduced(field, width, width, baseValue)
   }
 
   /**
@@ -4783,10 +4783,10 @@ final class DateTimeFormatterBuilder {
    * @throws IllegalArgumentException if the width or base value is invalid
    */
   def appendValueReduced(field: TemporalField, width: Int, maxWidth: Int, baseValue: Int): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(field, "field")
+
     val pp: DateTimeFormatterBuilder.ReducedPrinterParser = new DateTimeFormatterBuilder.ReducedPrinterParser(field, width, maxWidth, baseValue)
     appendValue(pp)
-    return this
+     this
   }
 
   /**
@@ -4821,7 +4821,7 @@ final class DateTimeFormatterBuilder {
     else {
       active.valueParserIndex = appendInternal(pp)
     }
-    return this
+     this
   }
 
   /**
@@ -4858,7 +4858,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendFraction(field: TemporalField, minWidth: Int, maxWidth: Int, decimalPoint: Boolean): DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.FractionPrinterParser(field, minWidth, maxWidth, decimalPoint))
-    return this
+     this
   }
 
   /**
@@ -4877,7 +4877,7 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def appendText(field: TemporalField): DateTimeFormatterBuilder = {
-    return appendText(field, TextStyle.FULL)
+     appendText(field, TextStyle.FULL)
   }
 
   /**
@@ -4896,10 +4896,10 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def appendText(field: TemporalField, textStyle: TextStyle): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(field, "field")
-    Objects.requireNonNull(textStyle, "textStyle")
+
+
     appendInternal(new DateTimeFormatterBuilder.TextPrinterParser(field, textStyle, DateTimeTextProvider.getInstance))
-    return this
+     this
   }
 
   /**
@@ -4937,22 +4937,22 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def appendText(field: TemporalField, textLookup: Map[Long, String]): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(field, "field")
-    Objects.requireNonNull(textLookup, "textLookup")
+
+
     val copy: Map[Long, String] = new Nothing(textLookup)
     val map: Map[TextStyle, Map[Long, String]] = Collections.singletonMap(TextStyle.FULL, copy)
     val store: Nothing = new Nothing(map)
     val provider: DateTimeTextProvider = new DateTimeTextProvider {
       override def getText(field: TemporalField, value: Long, style: TextStyle, locale: Locale): String = {
-        return store.getText(value, style)
+         store.getText(value, style)
       }
 
       override def getTextIterator(field: TemporalField, style: TextStyle, locale: Locale): Nothing = {
-        return store.getTextIterator(style)
+         store.getTextIterator(style)
       }
     }
     appendInternal(new DateTimeFormatterBuilder.TextPrinterParser(field, TextStyle.FULL, provider))
-    return this
+     this
   }
 
   /**
@@ -4982,7 +4982,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendInstant: DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.InstantPrinterParser(-2))
-    return this
+     this
   }
 
   /**
@@ -5025,7 +5025,7 @@ final class DateTimeFormatterBuilder {
       throw new IllegalArgumentException("The fractional digits must be from -1 to 9 inclusive but was " + fractionalDigits)
     }
     appendInternal(new DateTimeFormatterBuilder.InstantPrinterParser(fractionalDigits))
-    return this
+     this
   }
 
   /**
@@ -5038,7 +5038,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendOffsetId: DateTimeFormatterBuilder = {
     appendInternal(OffsetIdPrinterParser.INSTANCE_ID_Z)
-    return this
+     this
   }
 
   /**
@@ -5081,7 +5081,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendOffset(pattern: String, noOffsetText: String): DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.OffsetIdPrinterParser(pattern, noOffsetText))
-    return this
+     this
   }
 
   /**
@@ -5114,12 +5114,12 @@ final class DateTimeFormatterBuilder {
    * full} nor { @link TextStyle#SHORT short}
    */
   def appendLocalizedOffset(style: TextStyle): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(style, "style")
+
     if (style ne TextStyle.FULL && style ne TextStyle.SHORT) {
       throw new IllegalArgumentException("Style must be either full or short")
     }
     appendInternal(new DateTimeFormatterBuilder.LocalizedOffsetIdPrinterParser(style))
-    return this
+     this
   }
 
   /**
@@ -5170,7 +5170,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendZoneId: DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.ZoneIdPrinterParser(TemporalQuery.zoneId, "ZoneId()"))
-    return this
+     this
   }
 
   /**
@@ -5226,7 +5226,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendZoneRegionId: DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.ZoneIdPrinterParser(QUERY_REGION_ONLY, "ZoneRegionId()"))
-    return this
+     this
   }
 
   /**
@@ -5282,7 +5282,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendZoneOrOffsetId: DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.ZoneIdPrinterParser(TemporalQuery.zone, "ZoneOrOffsetId()"))
-    return this
+     this
   }
 
   /**
@@ -5318,7 +5318,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendZoneText(textStyle: TextStyle): DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.ZoneTextPrinterParser(textStyle, null))
-    return this
+     this
   }
 
   /**
@@ -5358,9 +5358,9 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def appendZoneText(textStyle: TextStyle, preferredZones: Set[ZoneId]): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(preferredZones, "preferredZones")
+
     appendInternal(new DateTimeFormatterBuilder.ZoneTextPrinterParser(textStyle, preferredZones))
-    return this
+     this
   }
 
   /**
@@ -5384,7 +5384,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendChronologyId: DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.ChronoPrinterParser(null))
-    return this
+     this
   }
 
   /**
@@ -5398,9 +5398,9 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def appendChronologyText(textStyle: TextStyle): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(textStyle, "textStyle")
+
     appendInternal(new DateTimeFormatterBuilder.ChronoPrinterParser(textStyle))
-    return this
+     this
   }
 
   /**
@@ -5436,7 +5436,7 @@ final class DateTimeFormatterBuilder {
       throw new IllegalArgumentException("Either the date or time style must be non-null")
     }
     appendInternal(new DateTimeFormatterBuilder.LocalizedPrinterParser(dateStyle, timeStyle))
-    return this
+     this
   }
 
   /**
@@ -5449,7 +5449,7 @@ final class DateTimeFormatterBuilder {
    */
   def appendLiteral(literal: Char): DateTimeFormatterBuilder = {
     appendInternal(new DateTimeFormatterBuilder.CharLiteralPrinterParser(literal))
-    return this
+     this
   }
 
   /**
@@ -5463,7 +5463,7 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def appendLiteral(literal: String): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(literal, "literal")
+
     if (literal.length > 0) {
       if (literal.length == 1) {
         appendInternal(new DateTimeFormatterBuilder.CharLiteralPrinterParser(literal.charAt(0)))
@@ -5472,7 +5472,7 @@ final class DateTimeFormatterBuilder {
         appendInternal(new DateTimeFormatterBuilder.StringLiteralPrinterParser(literal))
       }
     }
-    return this
+     this
   }
 
   /**
@@ -5485,9 +5485,9 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def append(formatter: DateTimeFormatter): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(formatter, "formatter")
+
     appendInternal(formatter.toPrinterParser(false))
-    return this
+     this
   }
 
   /**
@@ -5504,9 +5504,9 @@ final class DateTimeFormatterBuilder {
    * @return this, for chaining, not null
    */
   def appendOptional(formatter: DateTimeFormatter): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(formatter, "formatter")
+
     appendInternal(formatter.toPrinterParser(true))
-    return this
+     this
   }
 
   /**
@@ -5730,9 +5730,9 @@ final class DateTimeFormatterBuilder {
    * @throws IllegalArgumentException if the pattern is invalid
    */
   def appendPattern(pattern: String): DateTimeFormatterBuilder = {
-    Objects.requireNonNull(pattern, "pattern")
+
     parsePattern(pattern)
-    return this
+     this
   }
 
   private def parsePattern(pattern: String) {
@@ -6057,7 +6057,7 @@ final class DateTimeFormatterBuilder {
    * @throws IllegalArgumentException if pad width is too small
    */
   def padNext(padWidth: Int): DateTimeFormatterBuilder = {
-    return padNext(padWidth, ' ')
+     padNext(padWidth, ' ')
   }
 
   /**
@@ -6088,7 +6088,7 @@ final class DateTimeFormatterBuilder {
     active.padNextWidth = padWidth
     active.padNextChar = padChar
     active.valueParserIndex = -1
-    return this
+     this
   }
 
   /**
@@ -6114,7 +6114,7 @@ final class DateTimeFormatterBuilder {
   def optionalStart: DateTimeFormatterBuilder = {
     active.valueParserIndex = -1
     active = new DateTimeFormatterBuilder(active, true)
-    return this
+     this
   }
 
   /**
@@ -6154,7 +6154,7 @@ final class DateTimeFormatterBuilder {
     else {
       active = active.parent
     }
-    return this
+     this
   }
 
   /**
@@ -6164,7 +6164,7 @@ final class DateTimeFormatterBuilder {
    * @return the index into the active parsers list
    */
   private def appendInternal(pp: DateTimeFormatterBuilder.DateTimePrinterParser): Int = {
-    Objects.requireNonNull(pp, "pp")
+
     if (active.padNextWidth > 0) {
       if (pp != null) {
         pp = new DateTimeFormatterBuilder.PadPrinterParserDecorator(pp, active.padNextWidth, active.padNextChar)
@@ -6174,7 +6174,7 @@ final class DateTimeFormatterBuilder {
     }
     active.printerParsers.add(pp)
     active.valueParserIndex = -1
-    return active.printerParsers.size - 1
+     active.printerParsers.size - 1
   }
 
   /**
@@ -6194,7 +6194,7 @@ final class DateTimeFormatterBuilder {
    * @return the created formatter, not null
    */
   def toFormatter: DateTimeFormatter = {
-    return toFormatter(Locale.getDefault(Locale.Category.FORMAT))
+     toFormatter(Locale.getDefault(Locale.Category.FORMAT))
   }
 
   /**
@@ -6215,7 +6215,7 @@ final class DateTimeFormatterBuilder {
    * @return the created formatter, not null
    */
   def toFormatter(locale: Locale): DateTimeFormatter = {
-    return toFormatter(locale, ResolverStyle.SMART, null)
+     toFormatter(locale, ResolverStyle.SMART, null)
   }
 
   /**
@@ -6226,7 +6226,7 @@ final class DateTimeFormatterBuilder {
    * @return the created formatter, not null
    */
   private[format] def toFormatter(resolverStyle: ResolverStyle, chrono: Chronology): DateTimeFormatter = {
-    return toFormatter(Locale.getDefault(Locale.Category.FORMAT), resolverStyle, chrono)
+     toFormatter(Locale.getDefault(Locale.Category.FORMAT), resolverStyle, chrono)
   }
 
   /**
@@ -6237,12 +6237,12 @@ final class DateTimeFormatterBuilder {
    * @return the created formatter, not null
    */
   private def toFormatter(locale: Locale, resolverStyle: ResolverStyle, chrono: Chronology): DateTimeFormatter = {
-    Objects.requireNonNull(locale, "locale")
+
     while (active.parent != null) {
       optionalEnd
     }
     val pp: DateTimeFormatterBuilder.CompositePrinterParser = new DateTimeFormatterBuilder.CompositePrinterParser(printerParsers, false)
-    return new DateTimeFormatter(pp, locale, DecimalStyle.STANDARD, resolverStyle, null, chrono, null)
+     new DateTimeFormatter(pp, locale, DecimalStyle.STANDARD, resolverStyle, null, chrono, null)
   }
 
   /**
@@ -6352,7 +6352,7 @@ final class DateTimeFormatterBuilder {
  *
  * @since 1.8
  */
-final object DateTimeParseContext {
+object DateTimeParseContext {
   /**
    * Compares two characters ignoring case.
    *
@@ -6361,7 +6361,7 @@ final object DateTimeParseContext {
    * @return true if equal
    */
   private[format] def charEqualsIgnoreCase(c1: Char, c2: Char): Boolean = {
-    return c1 == c2 || Character.toUpperCase(c1) == Character.toUpperCase(c2) || Character.toLowerCase(c1) == Character.toLowerCase(c2)
+     c1 == c2 || Character.toUpperCase(c1) == Character.toUpperCase(c2) || Character.toLowerCase(c1) == Character.toLowerCase(c2)
   }
 }
 
@@ -6386,7 +6386,7 @@ final class DateTimeParseContext {
     val newContext: DateTimeParseContext = new DateTimeParseContext(formatter)
     newContext.caseSensitive = caseSensitive
     newContext.strict = strict
-    return newContext
+     newContext
   }
 
   /**
@@ -6398,7 +6398,7 @@ final class DateTimeParseContext {
    * @return the locale, not null
    */
   private[format] def getLocale: Locale = {
-    return formatter.getLocale
+     formatter.getLocale
   }
 
   /**
@@ -6409,7 +6409,7 @@ final class DateTimeParseContext {
    * @return the DecimalStyle, not null
    */
   private[format] def getDecimalStyle: DecimalStyle = {
-    return formatter.getDecimalStyle
+     formatter.getDecimalStyle
   }
 
   /**
@@ -6425,7 +6425,7 @@ final class DateTimeParseContext {
         chrono = IsoChronology.INSTANCE
       }
     }
-    return chrono
+     chrono
   }
 
   /**
@@ -6434,7 +6434,7 @@ final class DateTimeParseContext {
    * @return true if parsing is case sensitive, false if case insensitive
    */
   private[format] def isCaseSensitive: Boolean = {
-    return caseSensitive
+     caseSensitive
   }
 
   /**
@@ -6459,7 +6459,7 @@ final class DateTimeParseContext {
    */
   private[format] def subSequenceEquals(cs1: CharSequence, offset1: Int, cs2: CharSequence, offset2: Int, length: Int): Boolean = {
     if (offset1 + length > cs1.length || offset2 + length > cs2.length) {
-      return false
+       false
     }
     if (isCaseSensitive) {
       {
@@ -6469,7 +6469,7 @@ final class DateTimeParseContext {
             val ch1: Char = cs1.charAt(offset1 + i)
             val ch2: Char = cs2.charAt(offset2 + i)
             if (ch1 != ch2) {
-              return false
+               false
             }
           }
           ({
@@ -6486,7 +6486,7 @@ final class DateTimeParseContext {
             val ch1: Char = cs1.charAt(offset1 + i)
             val ch2: Char = cs2.charAt(offset2 + i)
             if (ch1 != ch2 && Character.toUpperCase(ch1) != Character.toUpperCase(ch2) && Character.toLowerCase(ch1) != Character.toLowerCase(ch2)) {
-              return false
+               false
             }
           }
           ({
@@ -6495,7 +6495,7 @@ final class DateTimeParseContext {
         }
       }
     }
-    return true
+     true
   }
 
   /**
@@ -6508,9 +6508,9 @@ final class DateTimeParseContext {
    */
   private[format] def charEquals(ch1: Char, ch2: Char): Boolean = {
     if (isCaseSensitive) {
-      return ch1 == ch2
+       ch1 == ch2
     }
-    return charEqualsIgnoreCase(ch1, ch2)
+     charEqualsIgnoreCase(ch1, ch2)
   }
 
   /**
@@ -6521,7 +6521,7 @@ final class DateTimeParseContext {
    * @return true if parsing is strict, false if lenient
    */
   private[format] def isStrict: Boolean = {
-    return strict
+     strict
   }
 
   /**
@@ -6560,7 +6560,7 @@ final class DateTimeParseContext {
    * @return the current temporal objects, not null
    */
   private def currentParsed: Parsed = {
-    return parsed.get(parsed.size - 1)
+     parsed.get(parsed.size - 1)
   }
 
   /**
@@ -6571,7 +6571,7 @@ final class DateTimeParseContext {
   private[format] def toParsed: Parsed = {
     val parsed: Parsed = currentParsed
     parsed.effectiveChrono = getEffectiveChronology
-    return parsed
+     parsed
   }
 
   /**
@@ -6586,7 +6586,7 @@ final class DateTimeParseContext {
    * @return the value mapped to the specified field, null if field was not parsed
    */
   private[format] def getParsed(field: TemporalField): Long = {
-    return currentParsed.fieldValues.get(field)
+     currentParsed.fieldValues.get(field)
   }
 
   /**
@@ -6602,9 +6602,9 @@ final class DateTimeParseContext {
    * @return the new position
    */
   private[format] def setParsedField(field: TemporalField, value: Long, errorPos: Int, successPos: Int): Int = {
-    Objects.requireNonNull(field, "field")
+
     val old: Long = currentParsed.fieldValues.put(field, value)
-    return if ((old != null && old.longValue != value)) ~errorPos else successPos
+     if ((old != null && old.longValue != value)) ~errorPos else successPos
   }
 
   /**
@@ -6616,7 +6616,7 @@ final class DateTimeParseContext {
    * @param chrono  the parsed chronology, not null
    */
   private[format] def setParsed(chrono: Chronology) {
-    Objects.requireNonNull(chrono, "chrono")
+
     currentParsed.chrono = chrono
   }
 
@@ -6629,7 +6629,7 @@ final class DateTimeParseContext {
    * @param zone  the parsed zone, not null
    */
   private[format] def setParsed(zone: ZoneId) {
-    Objects.requireNonNull(zone, "zone")
+
     currentParsed.zone = zone
   }
 
@@ -6646,7 +6646,7 @@ final class DateTimeParseContext {
    * @return a string representation of the context data, not null
    */
   override def toString: String = {
-    return currentParsed.toString
+     currentParsed.toString
   }
 
   /**
@@ -6780,7 +6780,7 @@ class DateTimeParseException extends DateTimeException {
    * @return the string that was being parsed, should not be null.
    */
   def getParsedString: String = {
-    return parsedString
+     parsedString
   }
 
   /**
@@ -6789,7 +6789,7 @@ class DateTimeParseException extends DateTimeException {
    * @return the index in the parsed string that was invalid, should be a valid index
    */
   def getErrorIndex: Int = {
-    return errorIndex
+     errorIndex
   }
 
   /**
@@ -6874,12 +6874,12 @@ class DateTimeParseException extends DateTimeException {
  *
  * @since 1.8
  */
-final object DateTimePrintContext {
+object DateTimePrintContext {
   private def adjust(temporal: TemporalAccessor, formatter: DateTimeFormatter): TemporalAccessor = {
     var overrideChrono: Chronology = formatter.getChronology
     var overrideZone: ZoneId = formatter.getZone
     if (overrideChrono == null && overrideZone == null) {
-      return temporal
+       temporal
     }
     val temporalChrono: Chronology = temporal.query(TemporalQuery.chronology)
     val temporalZone: ZoneId = temporal.query(TemporalQuery.zoneId)
@@ -6890,13 +6890,13 @@ final object DateTimePrintContext {
       overrideZone = null
     }
     if (overrideChrono == null && overrideZone == null) {
-      return temporal
+       temporal
     }
     val effectiveChrono: Chronology = (if (overrideChrono != null) overrideChrono else temporalChrono)
     if (overrideZone != null) {
       if (temporal.isSupported(INSTANT_SECONDS)) {
         val chrono: Chronology = (if (effectiveChrono != null) effectiveChrono else IsoChronology.INSTANCE)
-        return chrono.zonedDateTime(Instant.from(temporal), overrideZone)
+         chrono.zonedDateTime(Instant.from(temporal), overrideZone)
       }
       if (overrideZone.normalized.isInstanceOf[ZoneOffset] && temporal.isSupported(OFFSET_SECONDS) && temporal.get(OFFSET_SECONDS) != overrideZone.getRules.getOffset(Instant.EPOCH).getTotalSeconds) {
         throw new DateTimeException("Unable to apply override zone '" + overrideZone + "' because the temporal object being formatted has a different offset but" + " does not represent an instant: " + temporal)
@@ -6922,39 +6922,39 @@ final object DateTimePrintContext {
     else {
       effectiveDate = null
     }
-    return new TemporalAccessor {
+     new TemporalAccessor {
       def isSupported(field: TemporalField): Boolean = {
         if (effectiveDate != null && field.isDateBased) {
-          return effectiveDate.isSupported(field)
+           effectiveDate.isSupported(field)
         }
-        return temporal.isSupported(field)
+         temporal.isSupported(field)
       }
 
       override def range(field: TemporalField): Nothing = {
         if (effectiveDate != null && field.isDateBased) {
-          return effectiveDate.range(field)
+           effectiveDate.range(field)
         }
-        return temporal.range(field)
+         temporal.range(field)
       }
 
       def getLong(field: TemporalField): Long = {
         if (effectiveDate != null && field.isDateBased) {
-          return effectiveDate.getLong(field)
+           effectiveDate.getLong(field)
         }
-        return temporal.getLong(field)
+         temporal.getLong(field)
       }
 
-      @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+      override def query(query: TemporalQuery[R]): R = {
         if (query eq TemporalQuery.chronology) {
-          return effectiveChrono.asInstanceOf[R]
+           effectiveChrono.asInstanceOf[R]
         }
         if (query eq TemporalQuery.zoneId) {
-          return effectiveZone.asInstanceOf[R]
+           effectiveZone.asInstanceOf[R]
         }
         if (query eq TemporalQuery.precision) {
-          return temporal.query(query)
+           temporal.query(query)
         }
-        return query.queryFrom(this)
+         query.queryFrom(this)
       }
     }
   }
@@ -6980,7 +6980,7 @@ final class DateTimePrintContext {
    * @return the temporal object, not null
    */
   private[format] def getTemporal: TemporalAccessor = {
-    return temporal
+     temporal
   }
 
   /**
@@ -6992,7 +6992,7 @@ final class DateTimePrintContext {
    * @return the locale, not null
    */
   private[format] def getLocale: Locale = {
-    return formatter.getLocale
+     formatter.getLocale
   }
 
   /**
@@ -7003,7 +7003,7 @@ final class DateTimePrintContext {
    * @return the DecimalStyle, not null
    */
   private[format] def getDecimalStyle: DecimalStyle = {
-    return formatter.getDecimalStyle
+     formatter.getDecimalStyle
   }
 
   /**
@@ -7032,7 +7032,7 @@ final class DateTimePrintContext {
     if (result == null && optional == 0) {
       throw new DateTimeException("Unable to extract value: " + temporal.getClass)
     }
-    return result
+     result
   }
 
   /**
@@ -7046,12 +7046,12 @@ final class DateTimePrintContext {
    */
   private[format] def getValue(field: TemporalField): Long = {
     try {
-      return temporal.getLong(field)
+       temporal.getLong(field)
     }
     catch {
       case ex: DateTimeException => {
         if (optional > 0) {
-          return null
+           null
         }
         throw ex
       }
@@ -7064,7 +7064,7 @@ final class DateTimePrintContext {
    * @return a string representation of the context, not null
    */
   override def toString: String = {
-    return temporal.toString
+     temporal.toString
   }
 
   /**
@@ -7157,15 +7157,15 @@ object DateTimeTextProvider {
    * @return the provider, not null
    */
   private[format] def getInstance: DateTimeTextProvider = {
-    return new DateTimeTextProvider
+     new DateTimeTextProvider
   }
 
   private def toWeekDay(calWeekDay: Int): Int = {
     if (calWeekDay == Calendar.SUNDAY) {
-      return 7
+       7
     }
     else {
-      return calWeekDay - 1
+       calWeekDay - 1
     }
   }
 
@@ -7177,7 +7177,7 @@ object DateTimeTextProvider {
    * @return the entry, not null
    */
   private def createEntry(text: A, field: B): Nothing = {
-    return new Nothing(text, field)
+     new Nothing(text, field)
   }
 
   /**
@@ -7189,10 +7189,10 @@ object DateTimeTextProvider {
    * @return the localized resource, or null if not available
    * @throws NullPointerException if key or locale is null
    */
-  @SuppressWarnings(Array("unchecked")) private[format] def getLocalizedResource(key: String, locale: Locale): T = {
+  private[format] def getLocalizedResource(key: String, locale: Locale): T = {
     val lr: Nothing = LocaleProviderAdapter.getResourceBundleBased.getLocaleResources(locale)
     val rb: Nothing = lr.getJavaTimeFormatData
-    return if (rb.containsKey(key)) rb.getObject(key).asInstanceOf[T] else null
+     if (rb.containsKey(key)) rb.getObject(key).asInstanceOf[T] else null
   }
 
   /** Cache. */
@@ -7200,7 +7200,7 @@ object DateTimeTextProvider {
   /** Comparator. */
   private final val COMPARATOR: Nothing = new Nothing {
     def compare(obj1: Nothing, obj2: Nothing): Int = {
-      return obj2.getKey.length - obj1.getKey.length
+       obj2.getKey.length - obj1.getKey.length
     }
   }
 
@@ -7253,7 +7253,7 @@ object DateTimeTextProvider {
      */
     private[format] def getText(value: Long, style: TextStyle): String = {
       val map: Map[Long, String] = valueTextMap.get(style)
-      return if (map != null) map.get(value) else null
+       if (map != null) map.get(value) else null
     }
 
     /**
@@ -7267,7 +7267,7 @@ object DateTimeTextProvider {
      */
     private[format] def getTextIterator(style: TextStyle): Nothing = {
       val list: Nothing = parsable.get(style)
-      return if (list != null) list.iterator else null
+       if (list != null) list.iterator else null
     }
 
     /**
@@ -7304,9 +7304,9 @@ class DateTimeTextProvider {
   def getText(field: TemporalField, value: Long, style: TextStyle, locale: Locale): String = {
     val store: AnyRef = findStore(field, locale)
     if (store.isInstanceOf[DateTimeTextProvider.LocaleStore]) {
-      return (store.asInstanceOf[DateTimeTextProvider.LocaleStore]).getText(value, style)
+       (store.asInstanceOf[DateTimeTextProvider.LocaleStore]).getText(value, style)
     }
-    return null
+     null
   }
 
   /**
@@ -7326,7 +7326,7 @@ class DateTimeTextProvider {
    */
   def getText(chrono: Chronology, field: TemporalField, value: Long, style: TextStyle, locale: Locale): String = {
     if (chrono eq IsoChronology.INSTANCE || !(field.isInstanceOf[ChronoField])) {
-      return getText(field, value, style, locale)
+       getText(field, value, style, locale)
     }
     var fieldIndex: Int = 0
     var fieldValue: Int = 0
@@ -7360,9 +7360,9 @@ class DateTimeTextProvider {
       fieldValue = value.asInstanceOf[Int]
     }
     else {
-      return null
+       null
     }
-    return CalendarDataUtility.retrieveJavaTimeFieldValueName(chrono.getCalendarType, fieldIndex, fieldValue, style.toCalendarStyle, locale)
+     CalendarDataUtility.retrieveJavaTimeFieldValueName(chrono.getCalendarType, fieldIndex, fieldValue, style.toCalendarStyle, locale)
   }
 
   /**
@@ -7384,9 +7384,9 @@ class DateTimeTextProvider {
   def getTextIterator(field: TemporalField, style: TextStyle, locale: Locale): Nothing = {
     val store: AnyRef = findStore(field, locale)
     if (store.isInstanceOf[DateTimeTextProvider.LocaleStore]) {
-      return (store.asInstanceOf[DateTimeTextProvider.LocaleStore]).getTextIterator(style)
+       (store.asInstanceOf[DateTimeTextProvider.LocaleStore]).getTextIterator(style)
     }
-    return null
+     null
   }
 
   /**
@@ -7408,7 +7408,7 @@ class DateTimeTextProvider {
    */
   def getTextIterator(chrono: Chronology, field: TemporalField, style: TextStyle, locale: Locale): Nothing = {
     if (chrono eq IsoChronology.INSTANCE || !(field.isInstanceOf[ChronoField])) {
-      return getTextIterator(field, style, locale)
+       getTextIterator(field, style, locale)
     }
     var fieldIndex: Int = 0
     field.asInstanceOf[ChronoField] match {
@@ -7425,12 +7425,12 @@ class DateTimeTextProvider {
         fieldIndex = Calendar.AM_PM
         break //todo: break is not supported
       case _ =>
-        return null
+         null
     }
     val calendarStyle: Int = if ((style == null)) Calendar.ALL_STYLES else style.toCalendarStyle
     val map: Map[String, Integer] = CalendarDataUtility.retrieveJavaTimeFieldValueNames(chrono.getCalendarType, fieldIndex, calendarStyle, locale)
     if (map == null) {
-      return null
+       null
     }
     val list: Nothing = new Nothing(map.size)
     fieldIndex match {
@@ -7468,7 +7468,7 @@ class DateTimeTextProvider {
         }
         break //todo: break is not supported
     }
-    return list.iterator
+     list.iterator
   }
 
   private def findStore(field: TemporalField, locale: Locale): AnyRef = {
@@ -7479,7 +7479,7 @@ class DateTimeTextProvider {
       CACHE.putIfAbsent(key, store)
       store = CACHE.get(key)
     }
-    return store
+     store
   }
 
   private def createStore(field: TemporalField, locale: Locale): AnyRef = {
@@ -7501,7 +7501,7 @@ class DateTimeTextProvider {
           }
         }
       }
-      return new DateTimeTextProvider.LocaleStore(styleMap)
+       new DateTimeTextProvider.LocaleStore(styleMap)
     }
     if (field eq MONTH_OF_YEAR) {
       for (textStyle <- TextStyle.values) {
@@ -7535,7 +7535,7 @@ class DateTimeTextProvider {
           styleMap.put(textStyle, map)
         }
       }
-      return new DateTimeTextProvider.LocaleStore(styleMap)
+       new DateTimeTextProvider.LocaleStore(styleMap)
     }
     if (field eq DAY_OF_WEEK) {
       for (textStyle <- TextStyle.values) {
@@ -7569,7 +7569,7 @@ class DateTimeTextProvider {
           styleMap.put(textStyle, map)
         }
       }
-      return new DateTimeTextProvider.LocaleStore(styleMap)
+       new DateTimeTextProvider.LocaleStore(styleMap)
     }
     if (field eq AMPM_OF_DAY) {
       for (textStyle <- TextStyle.values) {
@@ -7588,7 +7588,7 @@ class DateTimeTextProvider {
           }
         }
       }
-      return new DateTimeTextProvider.LocaleStore(styleMap)
+       new DateTimeTextProvider.LocaleStore(styleMap)
     }
     if (field eq IsoFields.QUARTER_OF_YEAR) {
       val keys: Array[String] = Array("QuarterNames", "standalone.QuarterNames", "QuarterAbbreviations", "standalone.QuarterAbbreviations", "QuarterNarrows", "standalone.QuarterNarrows")
@@ -7618,9 +7618,9 @@ class DateTimeTextProvider {
           })
         }
       }
-      return new DateTimeTextProvider.LocaleStore(styleMap)
+       new DateTimeTextProvider.LocaleStore(styleMap)
     }
-    return ""
+     ""
   }
 }
 
@@ -7695,7 +7695,7 @@ class DateTimeTextProvider {
  *
  * @since 1.8
  */
-final object DecimalStyle {
+object DecimalStyle {
   /**
    * Lists all the locales that are supported.
    * <p>
@@ -7707,7 +7707,7 @@ final object DecimalStyle {
     val l: Array[Locale] = DecimalFormatSymbols.getAvailableLocales
     val locales: Set[Locale] = new HashSet[Locale](l.length)
     Collections.addAll(locales, l)
-    return locales
+     locales
   }
 
   /**
@@ -7724,7 +7724,7 @@ final object DecimalStyle {
    * @return the info, not null
    */
   def ofDefaultLocale: DecimalStyle = {
-    return of(Locale.getDefault(Locale.Category.FORMAT))
+     of(Locale.getDefault(Locale.Category.FORMAT))
   }
 
   /**
@@ -7736,14 +7736,14 @@ final object DecimalStyle {
    * @return the info, not null
    */
   def of(locale: Locale): DecimalStyle = {
-    Objects.requireNonNull(locale, "locale")
+
     var info: DecimalStyle = CACHE.get(locale)
     if (info == null) {
       info = create(locale)
       CACHE.putIfAbsent(locale, info)
       info = CACHE.get(locale)
     }
-    return info
+     info
   }
 
   private def create(locale: Locale): DecimalStyle = {
@@ -7753,9 +7753,9 @@ final object DecimalStyle {
     val negativeSign: Char = oldSymbols.getMinusSign
     val decimalSeparator: Char = oldSymbols.getDecimalSeparator
     if (zeroDigit == '0' && negativeSign == '-' && decimalSeparator == '.') {
-      return STANDARD
+       STANDARD
     }
-    return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
+     new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
   }
 
   /**
@@ -7796,7 +7796,7 @@ final class DecimalStyle {
    * @return the character for zero
    */
   def getZeroDigit: Char = {
-    return zeroDigit
+     zeroDigit
   }
 
   /**
@@ -7811,9 +7811,9 @@ final class DecimalStyle {
    */
   def withZeroDigit(zeroDigit: Char): DecimalStyle = {
     if (zeroDigit == this.zeroDigit) {
-      return this
+       this
     }
-    return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
+     new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
   }
 
   /**
@@ -7825,7 +7825,7 @@ final class DecimalStyle {
    * @return the character for the positive sign
    */
   def getPositiveSign: Char = {
-    return positiveSign
+     positiveSign
   }
 
   /**
@@ -7839,9 +7839,9 @@ final class DecimalStyle {
    */
   def withPositiveSign(positiveSign: Char): DecimalStyle = {
     if (positiveSign == this.positiveSign) {
-      return this
+       this
     }
-    return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
+     new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
   }
 
   /**
@@ -7853,7 +7853,7 @@ final class DecimalStyle {
    * @return the character for the negative sign
    */
   def getNegativeSign: Char = {
-    return negativeSign
+     negativeSign
   }
 
   /**
@@ -7867,9 +7867,9 @@ final class DecimalStyle {
    */
   def withNegativeSign(negativeSign: Char): DecimalStyle = {
     if (negativeSign == this.negativeSign) {
-      return this
+       this
     }
-    return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
+     new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
   }
 
   /**
@@ -7881,7 +7881,7 @@ final class DecimalStyle {
    * @return the character for the decimal point
    */
   def getDecimalSeparator: Char = {
-    return decimalSeparator
+     decimalSeparator
   }
 
   /**
@@ -7895,9 +7895,9 @@ final class DecimalStyle {
    */
   def withDecimalSeparator(decimalSeparator: Char): DecimalStyle = {
     if (decimalSeparator == this.decimalSeparator) {
-      return this
+       this
     }
-    return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
+     new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator)
   }
 
   /**
@@ -7908,7 +7908,7 @@ final class DecimalStyle {
    */
   private[format] def convertToDigit(ch: Char): Int = {
     val `val`: Int = ch - zeroDigit
-    return if ((`val` >= 0 && `val` <= 9)) `val` else -1
+     if ((`val` >= 0 && `val` <= 9)) `val` else -1
   }
 
   /**
@@ -7919,7 +7919,7 @@ final class DecimalStyle {
    */
   private[format] def convertNumberToI18N(numericText: String): String = {
     if (zeroDigit == '0') {
-      return numericText
+       numericText
     }
     val diff: Int = zeroDigit - '0'
     val array: Array[Char] = numericText.toCharArray
@@ -7934,7 +7934,7 @@ final class DecimalStyle {
         })
       }
     }
-    return new String(array)
+     new String(array)
   }
 
   /**
@@ -7945,13 +7945,13 @@ final class DecimalStyle {
    */
   override def equals(obj: AnyRef): Boolean = {
     if (this eq obj) {
-      return true
+       true
     }
     if (obj.isInstanceOf[DecimalStyle]) {
       val other: DecimalStyle = obj.asInstanceOf[DecimalStyle]
-      return (zeroDigit == other.zeroDigit && positiveSign == other.positiveSign && negativeSign == other.negativeSign && decimalSeparator == other.decimalSeparator)
+       (zeroDigit == other.zeroDigit && positiveSign == other.positiveSign && negativeSign == other.negativeSign && decimalSeparator == other.decimalSeparator)
     }
-    return false
+     false
   }
 
   /**
@@ -7960,7 +7960,7 @@ final class DecimalStyle {
    * @return a suitable hash code
    */
   override def hashCode: Int = {
-    return zeroDigit + positiveSign + negativeSign + decimalSeparator
+     zeroDigit + positiveSign + negativeSign + decimalSeparator
   }
 
   /**
@@ -7969,7 +7969,7 @@ final class DecimalStyle {
    * @return a string description, not null
    */
   override def toString: String = {
-    return "DecimalStyle[" + zeroDigit + positiveSign + negativeSign + decimalSeparator + "]"
+     "DecimalStyle[" + zeroDigit + positiveSign + negativeSign + decimalSeparator + "]"
   }
 
   /**
@@ -8061,7 +8061,7 @@ final class DecimalStyle {
  *
  * @since 1.8
  */
-final object FormatStyle {
+object FormatStyle {
   /**
    * Full text style, with the most detail.
    * For example, the format might be 'Tuesday, April 12, 1952 AD' or '3:30:42pm PST'.
@@ -8178,54 +8178,54 @@ final class Parsed extends TemporalAccessor {
     cloned.zone = this.zone
     cloned.chrono = this.chrono
     cloned.leapSecond = this.leapSecond
-    return cloned
+     cloned
   }
 
   def isSupported(field: TemporalField): Boolean = {
     if (fieldValues.containsKey(field) || (date != null && date.isSupported(field)) || (time != null && time.isSupported(field))) {
-      return true
+       true
     }
-    return field != null && (field.isInstanceOf[ChronoField] == false) && field.isSupportedBy(this)
+     field != null && (field.isInstanceOf[ChronoField] == false) && field.isSupportedBy(this)
   }
 
   def getLong(field: TemporalField): Long = {
-    Objects.requireNonNull(field, "field")
+
     val value: Long = fieldValues.get(field)
     if (value != null) {
-      return value
+       value
     }
     if (date != null && date.isSupported(field)) {
-      return date.getLong(field)
+       date.getLong(field)
     }
     if (time != null && time.isSupported(field)) {
-      return time.getLong(field)
+       time.getLong(field)
     }
     if (field.isInstanceOf[ChronoField]) {
       throw new Nothing("Unsupported field: " + field)
     }
-    return field.getFrom(this)
+     field.getFrom(this)
   }
 
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.zoneId) {
-      return zone.asInstanceOf[R]
+       zone.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.chronology) {
-      return chrono.asInstanceOf[R]
+       chrono.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.localDate) {
-      return (if (date != null) LocalDate.from(date) else null).asInstanceOf[R]
+       (if (date != null) LocalDate.from(date) else null).asInstanceOf[R]
     }
     else if (query eq TemporalQuery.localTime) {
-      return time.asInstanceOf[R]
+       time.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.zone || query eq TemporalQuery.offset) {
-      return query.queryFrom(this)
+       query.queryFrom(this)
     }
     else if (query eq TemporalQuery.precision) {
-      return null
+       null
     }
-    return query.queryFrom(this)
+     query.queryFrom(this)
   }
 
   /**
@@ -8247,7 +8247,7 @@ final class Parsed extends TemporalAccessor {
     resolveTimeLenient
     crossCheck
     resolvePeriod
-    return this
+     this
   }
 
   private def resolveFields {
@@ -8453,7 +8453,7 @@ final class Parsed extends TemporalAccessor {
         val som: Long = fieldValues.get(SECOND_OF_MINUTE)
         val nos: Long = fieldValues.get(NANO_OF_SECOND)
         if ((moh == null && (som != null || nos != null)) || (moh != null && som == null && nos != null)) {
-          return
+
         }
         val mohVal: Long = (if (moh != null) moh else 0)
         val somVal: Long = (if (som != null) som else 0)
@@ -8566,7 +8566,7 @@ final class Parsed extends TemporalAccessor {
     if (date != null || time != null) {
       str += " resolved to " + date + "," + time
     }
-    return str
+     str
   }
 
   /**
@@ -8680,7 +8680,7 @@ final class Parsed extends TemporalAccessor {
  *
  * @since 1.8
  */
-final object ResolverStyle {
+object ResolverStyle {
   /**
    * Style to resolve dates and times strictly.
    * <p>
@@ -8791,7 +8791,7 @@ final object ResolverStyle {
  *
  * @since 1.8
  */
-final object SignStyle {
+object SignStyle {
   /**
    * Style to output the sign only if the value is negative.
    * <p>
@@ -8844,12 +8844,12 @@ final class SignStyle {
   private[format] def parse(positive: Boolean, strict: Boolean, fixedWidth: Boolean): Boolean = {
     ordinal match {
       case 0 =>
-        return !positive || !strict
+         !positive || !strict
       case 1 =>
       case 4 =>
-        return true
+         true
       case _ =>
-        return !strict && !fixedWidth
+         !strict && !fixedWidth
     }
   }
 }
@@ -8934,7 +8934,7 @@ final class SignStyle {
  * @implSpec
  * This is immutable and thread-safe enum.
  */
-final object TextStyle {
+object TextStyle {
   /**
    * Full text, typically the full description.
    * For example, day-of-week Monday might output "Monday".
@@ -8979,7 +8979,7 @@ final class TextStyle {
    * @return true if the style is a stand-alone style.
    */
   def isStandalone: Boolean = {
-    return (ordinal & 1) == 1
+     (ordinal & 1) == 1
   }
 
   /**
@@ -8987,7 +8987,7 @@ final class TextStyle {
    * @return the stand-alone style with the same size
    */
   def asStandalone: TextStyle = {
-    return TextStyle.values(ordinal | 1)
+     TextStyle.values(ordinal | 1)
   }
 
   /**
@@ -8996,7 +8996,7 @@ final class TextStyle {
    * @return the normal style with the same size
    */
   def asNormal: TextStyle = {
-    return TextStyle.values(ordinal & ~1)
+     TextStyle.values(ordinal & ~1)
   }
 
   /**
@@ -9005,7 +9005,7 @@ final class TextStyle {
    * @return the corresponding { @code Calendar} style
    */
   private[format] def toCalendarStyle: Int = {
-    return calendarStyle
+     calendarStyle
   }
 
   /**
@@ -9018,7 +9018,7 @@ final class TextStyle {
    * @return the relative index value to time zone names array
    */
   private[format] def zoneNameStyleIndex: Int = {
-    return zoneNameStyleIndex
+     zoneNameStyleIndex
   }
 
   private final val calendarStyle: Int = 0
@@ -9072,14 +9072,14 @@ object ZoneName {
         zid = mzoneToZid.get(mzone)
       }
     }
-    return toZid(zid)
+     toZid(zid)
   }
 
   def toZid(zid: String): String = {
     if (aliases.containsKey(zid)) {
-      return aliases.get(zid)
+       aliases.get(zid)
     }
-    return zid
+     zid
   }
 
   private final val zidMap: Array[String] = Array[String]("Pacific/Rarotonga", "Cook", "Pacific/Rarotonga", "Europe/Tirane", "Europe_Central", "Europe/Paris", "America/Recife", "Brasilia", "America/Sao_Paulo", "America/Argentina/San_Juan", "Argentina", "America/Buenos_Aires", "Asia/Kolkata", "India", "Asia/Calcutta", "America/Guayaquil", "Ecuador", "America/Guayaquil", "Europe/Samara", "Moscow", "Europe/Moscow", "Indian/Antananarivo", "Africa_Eastern", "Africa/Nairobi", "America/Santa_Isabel", "America_Pacific", "America/Los_Angeles", "America/Montserrat", "Atlantic", "America/Halifax", "Pacific/Port_Moresby", "Papua_New_Guinea", "Pacific/Port_Moresby", "Europe/Paris", "Europe_Central", "Europe/Paris", "America/Argentina/Salta", "Argentina", "America/Buenos_Aires", "Asia/Omsk", "Omsk", "Asia/Omsk", "Africa/Ceuta", "Europe_Central", "Europe/Paris", "America/Argentina/San_Luis", "Argentina_Western", "America/Argentina/San_Luis", "America/Atikokan", "America_Eastern", "America/New_York", "Asia/Vladivostok", "Vladivostok", "Asia/Vladivostok", "America/Argentina/Jujuy", "Argentina", "America/Buenos_Aires", "Asia/Almaty", "Kazakhstan_Eastern", "Asia/Almaty", "Atlantic/Canary", "Europe_Western", "Atlantic/Canary", "Asia/Bangkok", "Indochina", "Asia/Saigon", "America/Caracas", "Venezuela", "America/Caracas", "Australia/Hobart", "Australia_Eastern", "Australia/Sydney", "America/Havana", "Cuba", "America/Havana", "Africa/Malabo", "Africa_Western", "Africa/Lagos", "Australia/Lord_Howe", "Lord_Howe", "Australia/Lord_Howe", "Pacific/Fakaofo", "Tokelau", "Pacific/Fakaofo", "America/Matamoros", "America_Central", "America/Chicago", "America/Guadeloupe", "Atlantic", "America/Halifax", "Europe/Helsinki", "Europe_Eastern", "Europe/Bucharest", "Asia/Calcutta", "India", "Asia/Calcutta", "Africa/Kinshasa", "Africa_Western", "Africa/Lagos", "America/Miquelon", "Pierre_Miquelon", "America/Miquelon", "Europe/Athens", "Europe_Eastern", "Europe/Bucharest", "Asia/Novosibirsk", "Novosibirsk", "Asia/Novosibirsk", "Indian/Cocos", "Cocos", "Indian/Cocos", "Africa/Bujumbura", "Africa_Central", "Africa/Maputo", "Europe/Mariehamn", "Europe_Eastern", "Europe/Bucharest", "America/Winnipeg", "America_Central", "America/Chicago", "America/Buenos_Aires", "Argentina", "America/Buenos_Aires", "America/Yellowknife", "America_Mountain", "America/Denver", "Pacific/Midway", "Samoa", "Pacific/Apia", "Africa/Dar_es_Salaam", "Africa_Eastern", "Africa/Nairobi", "Pacific/Tahiti", "Tahiti", "Pacific/Tahiti", "Asia/Gaza", "Europe_Eastern", "Europe/Bucharest", "Australia/Lindeman", "Australia_Eastern", "Australia/Sydney", "Europe/Kaliningrad", "Europe_Eastern", "Europe/Bucharest", "Europe/Bucharest", "Europe_Eastern", "Europe/Bucharest", "America/Lower_Princes", "Atlantic", "America/Halifax", "Pacific/Chuuk", "Truk", "Pacific/Truk", "America/Anchorage", "Alaska", "America/Juneau", "America/Rankin_Inlet", "America_Central", "America/Chicago", "America/Marigot", "Atlantic", "America/Halifax", "Africa/Juba", "Africa_Eastern", "Africa/Nairobi", "Africa/Algiers", "Europe_Central", "Europe/Paris", "Europe/Kiev", "Europe_Eastern", "Europe/Bucharest", "America/Santarem", "Brasilia", "America/Sao_Paulo", "Africa/Brazzaville", "Africa_Western", "Africa/Lagos", "Asia/Choibalsan", "Choibalsan", "Asia/Choibalsan", "Indian/Christmas", "Christmas", "Indian/Christmas", "America/Nassau", "America_Eastern", "America/New_York", "Africa/Tunis", "Europe_Central", "Europe/Paris", "Pacific/Noumea", "New_Caledonia", "Pacific/Noumea", "Africa/El_Aaiun", "Europe_Western", "Atlantic/Canary", "Europe/Sarajevo", "Europe_Central", "Europe/Paris", "America/Campo_Grande", "Amazon", "America/Manaus", "America/Puerto_Rico", "Atlantic", "America/Halifax", "Antarctica/Mawson", "Mawson", "Antarctica/Mawson", "Pacific/Galapagos", "Galapagos", "Pacific/Galapagos", "Asia/Tehran", "Iran", "Asia/Tehran", "America/Port-au-Prince", "America_Eastern", "America/New_York", "America/Scoresbysund", "Greenland_Eastern", "America/Scoresbysund", "Africa/Harare", "Africa_Central", "Africa/Maputo", "America/Dominica", "Atlantic", "America/Halifax", "Europe/Chisinau", "Europe_Eastern", "Europe/Bucharest", "America/Chihuahua", "America_Mountain", "America/Denver", "America/La_Paz", "Bolivia", "America/La_Paz", "Indian/Chagos", "Indian_Ocean", "Indian/Chagos", "Australia/Broken_Hill", "Australia_Central", "Australia/Adelaide", "America/Grenada", "Atlantic", "America/Halifax", "America/North_Dakota/New_Salem", "America_Central", "America/Chicago", "Pacific/Majuro", "Marshall_Islands", "Pacific/Majuro", "Australia/Adelaide", "Australia_Central", "Australia/Adelaide", "Europe/Warsaw", "Europe_Central", "Europe/Paris", "Europe/Vienna", "Europe_Central", "Europe/Paris", "Atlantic/Cape_Verde", "Cape_Verde", "Atlantic/Cape_Verde", "America/Mendoza", "Argentina", "America/Buenos_Aires", "Pacific/Gambier", "Gambier", "Pacific/Gambier", "Europe/Istanbul", "Europe_Eastern", "Europe/Bucharest", "America/Kentucky/Monticello", "America_Eastern", "America/New_York", "America/Chicago", "America_Central", "America/Chicago", "Asia/Ulaanbaatar", "Mongolia", "Asia/Ulaanbaatar", "Indian/Maldives", "Maldives", "Indian/Maldives", "America/Mexico_City", "America_Central", "America/Chicago", "Africa/Asmara", "Africa_Eastern", "Africa/Nairobi", "Asia/Chongqing", "China", "Asia/Shanghai", "America/Argentina/La_Rioja", "Argentina", "America/Buenos_Aires", "America/Tijuana", "America_Pacific", "America/Los_Angeles", "Asia/Harbin", "China", "Asia/Shanghai", "Pacific/Honolulu", "Hawaii_Aleutian", "Pacific/Honolulu", "Atlantic/Azores", "Azores", "Atlantic/Azores", "Indian/Mayotte", "Africa_Eastern", "Africa/Nairobi", "America/Guatemala", "America_Central", "America/Chicago", "America/Indianapolis", "America_Eastern", "America/New_York", "America/Halifax", "Atlantic", "America/Halifax", "America/Resolute", "America_Central", "America/Chicago", "Europe/London", "GMT", "Atlantic/Reykjavik", "America/Hermosillo", "America_Mountain", "America/Denver", "Atlantic/Madeira", "Europe_Western", "Atlantic/Canary", "Europe/Zagreb", "Europe_Central", "Europe/Paris", "America/Boa_Vista", "Amazon", "America/Manaus", "America/Regina", "America_Central", "America/Chicago", "America/Cordoba", "Argentina", "America/Buenos_Aires", "America/Shiprock", "America_Mountain", "America/Denver", "Europe/Luxembourg", "Europe_Central", "Europe/Paris", "America/Cancun", "America_Central", "America/Chicago", "Pacific/Enderbury", "Phoenix_Islands", "Pacific/Enderbury", "Africa/Bissau", "GMT", "Atlantic/Reykjavik", "Antarctica/Vostok", "Vostok", "Antarctica/Vostok", "Pacific/Apia", "Samoa", "Pacific/Apia", "Australia/Perth", "Australia_Western", "Australia/Perth", "America/Juneau", "Alaska", "America/Juneau", "Africa/Mbabane", "Africa_Southern", "Africa/Johannesburg", "Pacific/Niue", "Niue", "Pacific/Niue", "Europe/Zurich", "Europe_Central", "Europe/Paris", "America/Rio_Branco", "Amazon", "America/Manaus", "Africa/Ndjamena", "Africa_Western", "Africa/Lagos", "Asia/Macau", "China", "Asia/Shanghai", "America/Lima", "Peru", "America/Lima", "Africa/Windhoek", "Africa_Western", "Africa/Lagos", "America/Sitka", "Alaska", "America/Juneau", "America/Mazatlan", "America_Mountain", "America/Denver", "Asia/Saigon", "Indochina", "Asia/Saigon", "Asia/Kamchatka", "Magadan", "Asia/Magadan", "America/Menominee", "America_Central", "America/Chicago", "America/Belize", "America_Central", "America/Chicago", "America/Sao_Paulo", "Brasilia", "America/Sao_Paulo", "America/Barbados", "Atlantic", "America/Halifax", "America/Porto_Velho", "Amazon", "America/Manaus", "America/Costa_Rica", "America_Central", "America/Chicago", "Europe/Monaco", "Europe_Central", "Europe/Paris", "Europe/Riga", "Europe_Eastern", "Europe/Bucharest", "Europe/Vatican", "Europe_Central", "Europe/Paris", "Europe/Madrid", "Europe_Central", "Europe/Paris", "Africa/Dakar", "GMT", "Atlantic/Reykjavik", "Asia/Damascus", "Europe_Eastern", "Europe/Bucharest", "Asia/Hong_Kong", "Hong_Kong", "Asia/Hong_Kong", "America/Adak", "Hawaii_Aleutian", "Pacific/Honolulu", "Europe/Vilnius", "Europe_Eastern", "Europe/Bucharest", "America/Indiana/Indianapolis", "America_Eastern", "America/New_York", "Africa/Freetown", "GMT", "Atlantic/Reykjavik", "Atlantic/Reykjavik", "GMT", "Atlantic/Reykjavik", "Asia/Ho_Chi_Minh", "Indochina", "Asia/Saigon", "America/St_Kitts", "Atlantic", "America/Halifax", "America/Martinique", "Atlantic", "America/Halifax", "America/Thule", "Atlantic", "America/Halifax", "America/Asuncion", "Paraguay", "America/Asuncion", "Africa/Luanda", "Africa_Western", "Africa/Lagos", "America/Monterrey", "America_Central", "America/Chicago", "Pacific/Fiji", "Fiji", "Pacific/Fiji", "Africa/Banjul", "GMT", "Atlantic/Reykjavik", "America/Grand_Turk", "America_Eastern", "America/New_York", "Pacific/Pitcairn", "Pitcairn", "Pacific/Pitcairn", "America/Montevideo", "Uruguay", "America/Montevideo", "America/Bahia_Banderas", "America_Central", "America/Chicago", "America/Cayman", "America_Eastern", "America/New_York", "Pacific/Norfolk", "Norfolk", "Pacific/Norfolk", "Africa/Ouagadougou", "GMT", "Atlantic/Reykjavik", "America/Maceio", "Brasilia", "America/Sao_Paulo", "Pacific/Guam", "Chamorro", "Pacific/Saipan", "Africa/Monrovia", "GMT", "Atlantic/Reykjavik", "Africa/Bamako", "GMT", "Atlantic/Reykjavik", "Asia/Colombo", "India", "Asia/Calcutta", "Asia/Urumqi", "China", "Asia/Shanghai", "Asia/Kabul", "Afghanistan", "Asia/Kabul", "America/Yakutat", "Alaska", "America/Juneau", "America/Phoenix", "America_Mountain", "America/Denver", "Asia/Nicosia", "Europe_Eastern", "Europe/Bucharest", "Asia/Phnom_Penh", "Indochina", "Asia/Saigon", "America/Rainy_River", "America_Central", "America/Chicago", "Europe/Uzhgorod", "Europe_Eastern", "Europe/Bucharest", "Pacific/Saipan", "Chamorro", "Pacific/Saipan", "America/St_Vincent", "Atlantic", "America/Halifax", "Europe/Rome", "Europe_Central", "Europe/Paris", "America/Nome", "Alaska", "America/Juneau", "Africa/Mogadishu", "Africa_Eastern", "Africa/Nairobi", "Europe/Zaporozhye", "Europe_Eastern", "Europe/Bucharest", "Pacific/Funafuti", "Tuvalu", "Pacific/Funafuti", "Atlantic/South_Georgia", "South_Georgia", "Atlantic/South_Georgia", "Europe/Skopje", "Europe_Central", "Europe/Paris", "Asia/Yekaterinburg", "Yekaterinburg", "Asia/Yekaterinburg", "Australia/Melbourne", "Australia_Eastern", "Australia/Sydney", "America/Argentina/Cordoba", "Argentina", "America/Buenos_Aires", "Africa/Kigali", "Africa_Central", "Africa/Maputo", "Africa/Blantyre", "Africa_Central", "Africa/Maputo", "Africa/Tripoli", "Europe_Eastern", "Europe/Bucharest", "Africa/Gaborone", "Africa_Central", "Africa/Maputo", "Asia/Kuching", "Malaysia", "Asia/Kuching", "Pacific/Nauru", "Nauru", "Pacific/Nauru", "America/Aruba", "Atlantic", "America/Halifax", "America/Antigua", "Atlantic", "America/Halifax", "Europe/Volgograd", "Volgograd", "Europe/Volgograd", "Africa/Djibouti", "Africa_Eastern", "Africa/Nairobi", "America/Catamarca", "Argentina", "America/Buenos_Aires", "Asia/Manila", "Philippines", "Asia/Manila", "Pacific/Kiritimati", "Line_Islands", "Pacific/Kiritimati", "Asia/Shanghai", "China", "Asia/Shanghai", "Pacific/Truk", "Truk", "Pacific/Truk", "Pacific/Tarawa", "Gilbert_Islands", "Pacific/Tarawa", "Africa/Conakry", "GMT", "Atlantic/Reykjavik", "Asia/Bishkek", "Kyrgystan", "Asia/Bishkek", "Europe/Gibraltar", "Europe_Central", "Europe/Paris", "Asia/Rangoon", "Myanmar", "Asia/Rangoon", "Asia/Baku", "Azerbaijan", "Asia/Baku", "America/Santiago", "Chile", "America/Santiago", "America/El_Salvador", "America_Central", "America/Chicago", "America/Noronha", "Noronha", "America/Noronha", "America/St_Thomas", "Atlantic", "America/Halifax", "Atlantic/St_Helena", "GMT", "Atlantic/Reykjavik", "Asia/Krasnoyarsk", "Krasnoyarsk", "Asia/Krasnoyarsk", "America/Vancouver", "America_Pacific", "America/Los_Angeles", "Europe/Belgrade", "Europe_Central", "Europe/Paris", "America/St_Barthelemy", "Atlantic", "America/Halifax", "Asia/Pontianak", "Indonesia_Western", "Asia/Jakarta", "Africa/Lusaka", "Africa_Central", "Africa/Maputo", "America/Godthab", "Greenland_Western", "America/Godthab", "Asia/Dhaka", "Bangladesh", "Asia/Dhaka", "Asia/Dubai", "Gulf", "Asia/Dubai", "Europe/Moscow", "Moscow", "Europe/Moscow", "America/Louisville", "America_Eastern", "America/New_York", "Australia/Darwin", "Australia_Central", "Australia/Adelaide", "America/Santo_Domingo", "Atlantic", "America/Halifax", "America/Argentina/Ushuaia", "Argentina", "America/Buenos_Aires", "America/Tegucigalpa", "America_Central", "America/Chicago", "Asia/Aden", "Arabian", "Asia/Riyadh", "America/Inuvik", "America_Mountain", "America/Denver", "Asia/Beirut", "Europe_Eastern", "Europe/Bucharest", "Asia/Qatar", "Arabian", "Asia/Riyadh", "Europe/Oslo", "Europe_Central", "Europe/Paris", "Asia/Anadyr", "Magadan", "Asia/Magadan", "Pacific/Palau", "Palau", "Pacific/Palau", "Arctic/Longyearbyen", "Europe_Central", "Europe/Paris", "America/Anguilla", "Atlantic", "America/Halifax", "Asia/Aqtau", "Kazakhstan_Western", "Asia/Aqtobe", "Asia/Yerevan", "Armenia", "Asia/Yerevan", "Africa/Lagos", "Africa_Western", "Africa/Lagos", "America/Denver", "America_Mountain", "America/Denver", "Antarctica/Palmer", "Chile", "America/Santiago", "Europe/Stockholm", "Europe_Central", "Europe/Paris", "America/Bahia", "Brasilia", "America/Sao_Paulo", "America/Danmarkshavn", "GMT", "Atlantic/Reykjavik", "Indian/Mauritius", "Mauritius", "Indian/Mauritius", "Pacific/Chatham", "Chatham", "Pacific/Chatham", "Europe/Prague", "Europe_Central", "Europe/Paris", "America/Blanc-Sablon", "Atlantic", "America/Halifax", "America/Bogota", "Colombia", "America/Bogota", "America/Managua", "America_Central", "America/Chicago", "Pacific/Auckland", "New_Zealand", "Pacific/Auckland", "Atlantic/Faroe", "Europe_Western", "Atlantic/Canary", "America/Cambridge_Bay", "America_Mountain", "America/Denver", "America/Los_Angeles", "America_Pacific", "America/Los_Angeles", "Africa/Khartoum", "Africa_Eastern", "Africa/Nairobi", "Europe/Simferopol", "Europe_Eastern", "Europe/Bucharest", "Australia/Currie", "Australia_Eastern", "Australia/Sydney", "Europe/Guernsey", "GMT", "Atlantic/Reykjavik", "Asia/Thimphu", "Bhutan", "Asia/Thimphu", "America/Eirunepe", "Amazon", "America/Manaus", "Africa/Nairobi", "Africa_Eastern", "Africa/Nairobi", "Asia/Yakutsk", "Yakutsk", "Asia/Yakutsk", "America/Goose_Bay", "Atlantic", "America/Halifax", "Africa/Maseru", "Africa_Southern", "Africa/Johannesburg", "America/Swift_Current", "America_Central", "America/Chicago", "America/Guyana", "Guyana", "America/Guyana", "Asia/Tokyo", "Japan", "Asia/Tokyo", "Indian/Kerguelen", "French_Southern", "Indian/Kerguelen", "America/Belem", "Brasilia", "America/Sao_Paulo", "Pacific/Wallis", "Wallis", "Pacific/Wallis", "America/Whitehorse", "America_Pacific", "America/Los_Angeles", "America/North_Dakota/Beulah", "America_Central", "America/Chicago", "Asia/Jerusalem", "Israel", "Asia/Jerusalem", "Antarctica/Syowa", "Syowa", "Antarctica/Syowa", "America/Thunder_Bay", "America_Eastern", "America/New_York", "Asia/Brunei", "Brunei", "Asia/Brunei", "America/Metlakatla", "America_Pacific", "America/Los_Angeles", "Asia/Dushanbe", "Tajikistan", "Asia/Dushanbe", "Pacific/Kosrae", "Kosrae", "Pacific/Kosrae", "America/Coral_Harbour", "America_Eastern", "America/New_York", "America/Tortola", "Atlantic", "America/Halifax", "Asia/Karachi", "Pakistan", "Asia/Karachi", "Indian/Reunion", "Reunion", "Indian/Reunion", "America/Detroit", "America_Eastern", "America/New_York", "Australia/Eucla", "Australia_CentralWestern", "Australia/Eucla", "Asia/Seoul", "Korea", "Asia/Seoul", "Asia/Singapore", "Singapore", "Asia/Singapore", "Africa/Casablanca", "Europe_Western", "Atlantic/Canary", "Asia/Dili", "East_Timor", "Asia/Dili", "America/Indiana/Vincennes", "America_Eastern", "America/New_York", "Europe/Dublin", "GMT", "Atlantic/Reykjavik", "America/St_Johns", "Newfoundland", "America/St_Johns", "Antarctica/Macquarie", "Macquarie", "Antarctica/Macquarie", "America/Port_of_Spain", "Atlantic", "America/Halifax", "Europe/Budapest", "Europe_Central", "Europe/Paris", "America/Fortaleza", "Brasilia", "America/Sao_Paulo", "Australia/Brisbane", "Australia_Eastern", "Australia/Sydney", "Atlantic/Bermuda", "Atlantic", "America/Halifax", "Asia/Amman", "Europe_Eastern", "Europe/Bucharest", "Asia/Tashkent", "Uzbekistan", "Asia/Tashkent", "Antarctica/DumontDUrville", "DumontDUrville", "Antarctica/DumontDUrville", "Antarctica/Casey", "Australia_Western", "Australia/Perth", "Asia/Vientiane", "Indochina", "Asia/Saigon", "Pacific/Johnston", "Hawaii_Aleutian", "Pacific/Honolulu", "America/Jamaica", "America_Eastern", "America/New_York", "Africa/Addis_Ababa", "Africa_Eastern", "Africa/Nairobi", "Pacific/Ponape", "Ponape", "Pacific/Ponape", "Europe/Jersey", "GMT", "Atlantic/Reykjavik", "Africa/Lome", "GMT", "Atlantic/Reykjavik", "America/Manaus", "Amazon", "America/Manaus", "Africa/Niamey", "Africa_Western", "Africa/Lagos", "Asia/Kashgar", "China", "Asia/Shanghai", "Pacific/Tongatapu", "Tonga", "Pacific/Tongatapu", "Europe/Minsk", "Europe_Eastern", "Europe/Bucharest", "America/Edmonton", "America_Mountain", "America/Denver", "Asia/Baghdad", "Arabian", "Asia/Riyadh", "Asia/Kathmandu", "Nepal", "Asia/Katmandu", "America/Ojinaga", "America_Mountain", "America/Denver", "Africa/Abidjan", "GMT", "Atlantic/Reykjavik", "America/Indiana/Winamac", "America_Eastern", "America/New_York", "Asia/Qyzylorda", "Kazakhstan_Eastern", "Asia/Almaty", "Australia/Sydney", "Australia_Eastern", "Australia/Sydney", "Asia/Ashgabat", "Turkmenistan", "Asia/Ashgabat", "Europe/Amsterdam", "Europe_Central", "Europe/Paris", "America/Dawson_Creek", "America_Mountain", "America/Denver", "Africa/Cairo", "Europe_Eastern", "Europe/Bucharest", "Asia/Pyongyang", "Korea", "Asia/Seoul", "Africa/Kampala", "Africa_Eastern", "Africa/Nairobi", "America/Araguaina", "Brasilia", "America/Sao_Paulo", "Asia/Novokuznetsk", "Novosibirsk", "Asia/Novosibirsk", "Pacific/Kwajalein", "Marshall_Islands", "Pacific/Majuro", "Africa/Lubumbashi", "Africa_Central", "Africa/Maputo", "Asia/Sakhalin", "Sakhalin", "Asia/Sakhalin", "America/Indiana/Vevay", "America_Eastern", "America/New_York", "Africa/Maputo", "Africa_Central", "Africa/Maputo", "Atlantic/Faeroe", "Europe_Western", "Atlantic/Canary", "America/North_Dakota/Center", "America_Central", "America/Chicago", "Pacific/Wake", "Wake", "Pacific/Wake", "Pacific/Pago_Pago", "Samoa", "Pacific/Apia", "America/Moncton", "Atlantic", "America/Halifax", "Africa/Sao_Tome", "GMT", "Atlantic/Reykjavik", "America/Glace_Bay", "Atlantic", "America/Halifax", "Asia/Jakarta", "Indonesia_Western", "Asia/Jakarta", "Africa/Asmera", "Africa_Eastern", "Africa/Nairobi", "Europe/Lisbon", "Europe_Western", "Atlantic/Canary", "America/Dawson", "America_Pacific", "America/Los_Angeles", "America/Cayenne", "French_Guiana", "America/Cayenne", "Asia/Bahrain", "Arabian", "Asia/Riyadh", "Europe/Malta", "Europe_Central", "Europe/Paris", "America/Indiana/Tell_City", "America_Central", "America/Chicago", "America/Indiana/Petersburg", "America_Eastern", "America/New_York", "Antarctica/Rothera", "Rothera", "Antarctica/Rothera", "Asia/Aqtobe", "Kazakhstan_Western", "Asia/Aqtobe", "Europe/Vaduz", "Europe_Central", "Europe/Paris", "America/Indiana/Marengo", "America_Eastern", "America/New_York", "Europe/Brussels", "Europe_Central", "Europe/Paris", "Europe/Andorra", "Europe_Central", "Europe/Paris", "America/Indiana/Knox", "America_Central", "America/Chicago", "Pacific/Easter", "Easter", "Pacific/Easter", "America/Argentina/Rio_Gallegos", "Argentina", "America/Buenos_Aires", "Asia/Oral", "Kazakhstan_Western", "Asia/Aqtobe", "Europe/Copenhagen", "Europe_Central", "Europe/Paris", "Africa/Johannesburg", "Africa_Southern", "Africa/Johannesburg", "Pacific/Pohnpei", "Ponape", "Pacific/Ponape", "America/Argentina/Tucuman", "Argentina", "America/Buenos_Aires", "America/Toronto", "America_Eastern", "America/New_York", "Asia/Makassar", "Indonesia_Central", "Asia/Makassar", "Europe/Berlin", "Europe_Central", "Europe/Paris", "America/Argentina/Mendoza", "Argentina", "America/Buenos_Aires", "America/Cuiaba", "Amazon", "America/Manaus", "America/Creston", "America_Mountain", "America/Denver", "Asia/Samarkand", "Uzbekistan", "Asia/Tashkent", "Asia/Hovd", "Hovd", "Asia/Hovd", "Europe/Bratislava", "Europe_Central", "Europe/Paris", "Africa/Accra", "GMT", "Atlantic/Reykjavik", "Africa/Douala", "Africa_Western", "Africa/Lagos", "Africa/Nouakchott", "GMT", "Atlantic/Reykjavik", "Europe/Sofia", "Europe_Eastern", "Europe/Bucharest", "Antarctica/Davis", "Davis", "Antarctica/Davis", "Antarctica/McMurdo", "New_Zealand", "Pacific/Auckland", "Europe/San_Marino", "Europe_Central", "Europe/Paris", "Africa/Porto-Novo", "Africa_Western", "Africa/Lagos", "Asia/Jayapura", "Indonesia_Eastern", "Asia/Jayapura", "America/St_Lucia", "Atlantic", "America/Halifax", "America/Nipigon", "America_Eastern", "America/New_York", "America/Argentina/Catamarca", "Argentina", "America/Buenos_Aires", "Europe/Isle_of_Man", "GMT", "Atlantic/Reykjavik", "America/Kentucky/Louisville", "America_Eastern", "America/New_York", "America/Merida", "America_Central", "America/Chicago", "Pacific/Marquesas", "Marquesas", "Pacific/Marquesas", "Asia/Magadan", "Magadan", "Asia/Magadan", "Africa/Libreville", "Africa_Western", "Africa/Lagos", "Pacific/Efate", "Vanuatu", "Pacific/Efate", "Asia/Kuala_Lumpur", "Malaysia", "Asia/Kuching", "America/Iqaluit", "America_Eastern", "America/New_York", "Indian/Comoro", "Africa_Eastern", "Africa/Nairobi", "America/Panama", "America_Eastern", "America/New_York", "Asia/Hebron", "Europe_Eastern", "Europe/Bucharest", "America/Jujuy", "Argentina", "America/Buenos_Aires", "America/Pangnirtung", "America_Eastern", "America/New_York", "Asia/Tbilisi", "Georgia", "Asia/Tbilisi", "Europe/Podgorica", "Europe_Central", "Europe/Paris", "America/Boise", "America_Mountain", "America/Denver", "Asia/Muscat", "Gulf", "Asia/Dubai", "Indian/Mahe", "Seychelles", "Indian/Mahe", "America/Montreal", "America_Eastern", "America/New_York", "Africa/Bangui", "Africa_Western", "Africa/Lagos", "America/Curacao", "Atlantic", "America/Halifax", "Asia/Taipei", "Taipei", "Asia/Taipei", "Europe/Ljubljana", "Europe_Central", "Europe/Paris", "Atlantic/Stanley", "Falkland", "Atlantic/Stanley", "Pacific/Guadalcanal", "Solomon", "Pacific/Guadalcanal", "Asia/Kuwait", "Arabian", "Asia/Riyadh", "Asia/Riyadh", "Arabian", "Asia/Riyadh", "Europe/Tallinn", "Europe_Eastern", "Europe/Bucharest", "America/New_York", "America_Eastern", "America/New_York", "America/Paramaribo", "Suriname", "America/Paramaribo", "America/Argentina/Buenos_Aires", "Argentina", "America/Buenos_Aires", "Asia/Irkutsk", "Irkutsk", "Asia/Irkutsk", "Asia/Katmandu", "Nepal", "Asia/Katmandu", "America/Kralendijk", "Atlantic", "America/Halifax")

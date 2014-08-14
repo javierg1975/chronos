@@ -30,7 +30,7 @@ package metronome.chrono
  *
  * @since 1.8
  */
-final object JapaneseChronology {
+object JapaneseChronology {
   private[chrono] final val JCAL: LocalGregorianCalendar = CalendarSystem.forName("japanese").asInstanceOf[LocalGregorianCalendar]
   private[chrono] final val LOCALE: Locale = Locale.forLanguageTag("ja-JP-u-ca-japanese")
   /**
@@ -43,7 +43,7 @@ final object JapaneseChronology {
   private final val serialVersionUID: Long = 459996390165777884L
 }
 
-final class JapaneseChronology extends Chronology with Serializable {
+final class JapaneseChronology extends Chronology  {
   /**
    * Restricted constructor.
    */
@@ -61,7 +61,7 @@ final class JapaneseChronology extends Chronology with Serializable {
    * @see #getCalendarType()
    */
   def getId: String = {
-    return "Japanese"
+     "Japanese"
   }
 
   /**
@@ -77,7 +77,7 @@ final class JapaneseChronology extends Chronology with Serializable {
    * @see #getId()
    */
   def getCalendarType: String = {
-    return "japanese"
+     "japanese"
   }
 
   /**
@@ -106,7 +106,7 @@ final class JapaneseChronology extends Chronology with Serializable {
     if (era.isInstanceOf[JapaneseEra] == false) {
       throw new ClassCastException("Era must be JapaneseEra")
     }
-    return JapaneseDate.of(era.asInstanceOf[JapaneseEra], yearOfEra, month, dayOfMonth)
+     JapaneseDate.of(era.asInstanceOf[JapaneseEra], yearOfEra, month, dayOfMonth)
   }
 
   /**
@@ -123,7 +123,7 @@ final class JapaneseChronology extends Chronology with Serializable {
    * @throws DateTimeException if unable to create the date
    */
   def date(prolepticYear: Int, month: Int, dayOfMonth: Int): JapaneseDate = {
-    return new JapaneseDate(LocalDate.of(prolepticYear, month, dayOfMonth))
+     new JapaneseDate(LocalDate.of(prolepticYear, month, dayOfMonth))
   }
 
   /**
@@ -149,7 +149,7 @@ final class JapaneseChronology extends Chronology with Serializable {
    * @throws ClassCastException if the { @code era} is not a { @code JapaneseEra}
    */
   override def dateYearDay(era: Era, yearOfEra: Int, dayOfYear: Int): JapaneseDate = {
-    return JapaneseDate.ofYearDay(era.asInstanceOf[JapaneseEra], yearOfEra, dayOfYear)
+     JapaneseDate.ofYearDay(era.asInstanceOf[JapaneseEra], yearOfEra, dayOfYear)
   }
 
   /**
@@ -166,7 +166,7 @@ final class JapaneseChronology extends Chronology with Serializable {
    * @throws DateTimeException if unable to create the date
    */
   def dateYearDay(prolepticYear: Int, dayOfYear: Int): JapaneseDate = {
-    return new JapaneseDate(LocalDate.ofYearDay(prolepticYear, dayOfYear))
+     new JapaneseDate(LocalDate.ofYearDay(prolepticYear, dayOfYear))
   }
 
   /**
@@ -177,38 +177,38 @@ final class JapaneseChronology extends Chronology with Serializable {
    * @throws DateTimeException if unable to create the date
    */
   def dateEpochDay(epochDay: Long): JapaneseDate = {
-    return new JapaneseDate(LocalDate.ofEpochDay(epochDay))
+     new JapaneseDate(LocalDate.ofEpochDay(epochDay))
   }
 
   override def dateNow: JapaneseDate = {
-    return dateNow(Clock.systemDefaultZone)
+     dateNow(Clock.systemDefaultZone)
   }
 
   override def dateNow(zone: ZoneId): JapaneseDate = {
-    return dateNow(Clock.system(zone))
+     dateNow(Clock.system(zone))
   }
 
   override def dateNow(clock: Clock): JapaneseDate = {
-    return date(LocalDate.now(clock))
+     date(LocalDate.now(clock))
   }
 
   def date(temporal: TemporalAccessor): JapaneseDate = {
     if (temporal.isInstanceOf[JapaneseDate]) {
-      return temporal.asInstanceOf[JapaneseDate]
+       temporal.asInstanceOf[JapaneseDate]
     }
-    return new JapaneseDate(LocalDate.from(temporal))
+     new JapaneseDate(LocalDate.from(temporal))
   }
 
-  @SuppressWarnings(Array("unchecked")) override def localDateTime(temporal: TemporalAccessor): ChronoLocalDateTime[JapaneseDate] = {
-    return super.localDateTime(temporal).asInstanceOf[ChronoLocalDateTime[JapaneseDate]]
+  override def localDateTime(temporal: TemporalAccessor): ChronoLocalDateTime[JapaneseDate] = {
+     super.localDateTime(temporal).asInstanceOf[ChronoLocalDateTime[JapaneseDate]]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def zonedDateTime(temporal: TemporalAccessor): ChronoZonedDateTime[JapaneseDate] = {
-    return super.zonedDateTime(temporal).asInstanceOf[ChronoZonedDateTime[JapaneseDate]]
+  override def zonedDateTime(temporal: TemporalAccessor): ChronoZonedDateTime[JapaneseDate] = {
+     super.zonedDateTime(temporal).asInstanceOf[ChronoZonedDateTime[JapaneseDate]]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def zonedDateTime(instant: Instant, zone: ZoneId): ChronoZonedDateTime[JapaneseDate] = {
-    return super.zonedDateTime(instant, zone).asInstanceOf[ChronoZonedDateTime[JapaneseDate]]
+  override def zonedDateTime(instant: Instant, zone: ZoneId): ChronoZonedDateTime[JapaneseDate] = {
+     super.zonedDateTime(instant, zone).asInstanceOf[ChronoZonedDateTime[JapaneseDate]]
   }
 
   /**
@@ -222,7 +222,7 @@ final class JapaneseChronology extends Chronology with Serializable {
    * @return true if the year is a leap year
    */
   def isLeapYear(prolepticYear: Long): Boolean = {
-    return IsoChronology.INSTANCE.isLeapYear(prolepticYear)
+     IsoChronology.INSTANCE.isLeapYear(prolepticYear)
   }
 
   def prolepticYear(era: Era, yearOfEra: Int): Int = {
@@ -232,13 +232,13 @@ final class JapaneseChronology extends Chronology with Serializable {
     val jera: JapaneseEra = era.asInstanceOf[JapaneseEra]
     val gregorianYear: Int = jera.getPrivateEra.getSinceDate.getYear + yearOfEra - 1
     if (yearOfEra == 1) {
-      return gregorianYear
+       gregorianYear
     }
     if (gregorianYear >= Year.MIN_VALUE && gregorianYear <= Year.MAX_VALUE) {
       val jdate: LocalGregorianCalendar.Date = JCAL.newCalendarDate(null)
       jdate.setEra(jera.getPrivateEra).setDate(yearOfEra, 1, 1)
       if (JapaneseChronology.JCAL.validate(jdate)) {
-        return gregorianYear
+         gregorianYear
       }
     }
     throw new DateTimeException("Invalid yearOfEra value")
@@ -256,16 +256,16 @@ final class JapaneseChronology extends Chronology with Serializable {
    * @throws DateTimeException if { @code eraValue} is invalid
    */
   def eraOf(eraValue: Int): JapaneseEra = {
-    return JapaneseEra.of(eraValue)
+     JapaneseEra.of(eraValue)
   }
 
   def eras: List[Era] = {
-    return Arrays.asList[Era](JapaneseEra.values)
+     Arrays.asList[Era](JapaneseEra.values)
   }
 
   private[chrono] def getCurrentEra: JapaneseEra = {
     val eras: Array[JapaneseEra] = JapaneseEra.values
-    return eras(eras.length - 1)
+     eras(eras.length - 1)
   }
 
   def range(field: ChronoField): ValueRange = {
@@ -278,24 +278,24 @@ final class JapaneseChronology extends Chronology with Serializable {
       case YEAR_OF_ERA => {
         val jcal: Calendar = Calendar.getInstance(LOCALE)
         val startYear: Int = getCurrentEra.getPrivateEra.getSinceDate.getYear
-        return ValueRange.of(1, jcal.getGreatestMinimum(Calendar.YEAR), jcal.getLeastMaximum(Calendar.YEAR) + 1, Year.MAX_VALUE - startYear)
+         ValueRange.of(1, jcal.getGreatestMinimum(Calendar.YEAR), jcal.getLeastMaximum(Calendar.YEAR) + 1, Year.MAX_VALUE - startYear)
       }
       case DAY_OF_YEAR => {
         val jcal: Calendar = Calendar.getInstance(LOCALE)
         val fieldIndex: Int = Calendar.DAY_OF_YEAR
-        return ValueRange.of(jcal.getMinimum(fieldIndex), jcal.getGreatestMinimum(fieldIndex), jcal.getLeastMaximum(fieldIndex), jcal.getMaximum(fieldIndex))
+         ValueRange.of(jcal.getMinimum(fieldIndex), jcal.getGreatestMinimum(fieldIndex), jcal.getLeastMaximum(fieldIndex), jcal.getMaximum(fieldIndex))
       }
       case YEAR =>
-        return ValueRange.of(JapaneseDate.MEIJI_6_ISODATE.getYear, Year.MAX_VALUE)
+         ValueRange.of(JapaneseDate.MEIJI_6_ISODATE.getYear, Year.MAX_VALUE)
       case ERA =>
-        return ValueRange.of(JapaneseEra.MEIJI.getValue, getCurrentEra.getValue)
+         ValueRange.of(JapaneseEra.MEIJI.getValue, getCurrentEra.getValue)
       case _ =>
-        return field.range
+         field.range
     }
   }
 
   def resolveDate(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): JapaneseDate = {
-    return super.resolveDate(fieldValues, resolverStyle).asInstanceOf[JapaneseDate]
+     super.resolveDate(fieldValues, resolverStyle).asInstanceOf[JapaneseDate]
   }
 
   private[chrono] def resolveYearOfEra(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
@@ -315,18 +315,18 @@ final class JapaneseChronology extends Chronology with Serializable {
     if (yoeLong != null && era != null) {
       if (fieldValues.containsKey(MONTH_OF_YEAR)) {
         if (fieldValues.containsKey(DAY_OF_MONTH)) {
-          return resolveYMD(era, yoe, fieldValues, resolverStyle)
+           resolveYMD(era, yoe, fieldValues, resolverStyle)
         }
       }
       if (fieldValues.containsKey(DAY_OF_YEAR)) {
-        return resolveYD(era, yoe, fieldValues, resolverStyle)
+         resolveYD(era, yoe, fieldValues, resolverStyle)
       }
     }
-    return null
+     null
   }
 
   private def prolepticYearLenient(era: JapaneseEra, yearOfEra: Int): Int = {
-    return era.getPrivateEra.getSinceDate.getYear + yearOfEra - 1
+     era.getPrivateEra.getSinceDate.getYear + yearOfEra - 1
   }
 
   private def resolveYMD(era: JapaneseEra, yoe: Int, fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
@@ -336,7 +336,7 @@ final class JapaneseChronology extends Chronology with Serializable {
       val y: Int = prolepticYearLenient(era, yoe)
       val months: Long = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1)
       val days: Long = Math.subtractExact(fieldValues.remove(DAY_OF_MONTH), 1)
-      return date(y, 1, 1).plus(months, MONTHS).plus(days, DAYS)
+       date(y, 1, 1).plus(months, MONTHS).plus(days, DAYS)
     }
     val moy: Int = range(MONTH_OF_YEAR).checkValidIntValue(fieldValues.remove(MONTH_OF_YEAR), MONTH_OF_YEAR)
     val dom: Int = range(DAY_OF_MONTH).checkValidIntValue(fieldValues.remove(DAY_OF_MONTH), DAY_OF_MONTH)
@@ -357,9 +357,9 @@ final class JapaneseChronology extends Chronology with Serializable {
       if (result.getEra ne era && result.get(YEAR_OF_ERA) > 1 && yoe > 1) {
         throw new DateTimeException("Invalid YearOfEra for Era: " + era + " " + yoe)
       }
-      return result
+       result
     }
-    return date(era, yoe, moy, dom)
+     date(era, yoe, moy, dom)
   }
 
   private def resolveYD(era: JapaneseEra, yoe: Int, fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
@@ -368,10 +368,10 @@ final class JapaneseChronology extends Chronology with Serializable {
     if (resolverStyle eq ResolverStyle.LENIENT) {
       val y: Int = prolepticYearLenient(era, yoe)
       val days: Long = Math.subtractExact(fieldValues.remove(DAY_OF_YEAR), 1)
-      return dateYearDay(y, 1).plus(days, DAYS)
+       dateYearDay(y, 1).plus(days, DAYS)
     }
     val doy: Int = range(DAY_OF_YEAR).checkValidIntValue(fieldValues.remove(DAY_OF_YEAR), DAY_OF_YEAR)
-    return dateYearDay(era, yoe, doy)
+     dateYearDay(era, yoe, doy)
   }
 }
 
@@ -400,7 +400,7 @@ final class JapaneseChronology extends Chronology with Serializable {
  *
  * @since 1.8
  */
-final object JapaneseDate {
+object JapaneseDate {
   /**
    * Obtains the current {@code JapaneseDate} from the system clock in the default time-zone.
    * <p>
@@ -413,7 +413,7 @@ final object JapaneseDate {
    * @return the current date using the system clock and default time-zone, not null
    */
   def now: JapaneseDate = {
-    return now(Clock.systemDefaultZone)
+     now(Clock.systemDefaultZone)
   }
 
   /**
@@ -429,7 +429,7 @@ final object JapaneseDate {
    * @return the current date using the system clock, not null
    */
   def now(zone: ZoneId): JapaneseDate = {
-    return now(Clock.system(zone))
+     now(Clock.system(zone))
   }
 
   /**
@@ -444,7 +444,7 @@ final object JapaneseDate {
    * @throws DateTimeException if the current date cannot be obtained
    */
   def now(clock: Clock): JapaneseDate = {
-    return new JapaneseDate(LocalDate.now(clock))
+     new JapaneseDate(LocalDate.now(clock))
   }
 
   /**
@@ -474,14 +474,14 @@ final object JapaneseDate {
    *                           or if the date is not a Japanese era
    */
   def of(era: JapaneseEra, yearOfEra: Int, month: Int, dayOfMonth: Int): JapaneseDate = {
-    Objects.requireNonNull(era, "era")
+
     val jdate: LocalGregorianCalendar.Date = JapaneseChronology.JCAL.newCalendarDate(null)
     jdate.setEra(era.getPrivateEra).setDate(yearOfEra, month, dayOfMonth)
     if (!JapaneseChronology.JCAL.validate(jdate)) {
       throw new DateTimeException("year, month, and day not valid for Era")
     }
     val date: LocalDate = LocalDate.of(jdate.getNormalizedYear, month, dayOfMonth)
-    return new JapaneseDate(era, yearOfEra, date)
+     new JapaneseDate(era, yearOfEra, date)
   }
 
   /**
@@ -502,7 +502,7 @@ final object JapaneseDate {
    *                           or if the day-of-month is invalid for the month-year
    */
   def of(prolepticYear: Int, month: Int, dayOfMonth: Int): JapaneseDate = {
-    return new JapaneseDate(LocalDate.of(prolepticYear, month, dayOfMonth))
+     new JapaneseDate(LocalDate.of(prolepticYear, month, dayOfMonth))
   }
 
   /**
@@ -531,7 +531,7 @@ final object JapaneseDate {
    *                           or if the day-of-year is invalid for the year
    */
   private[chrono] def ofYearDay(era: JapaneseEra, yearOfEra: Int, dayOfYear: Int): JapaneseDate = {
-    Objects.requireNonNull(era, "era")
+
     val firstDay: CalendarDate = era.getPrivateEra.getSinceDate
     val jdate: LocalGregorianCalendar.Date = JapaneseChronology.JCAL.newCalendarDate(null)
     jdate.setEra(era.getPrivateEra)
@@ -546,7 +546,7 @@ final object JapaneseDate {
       throw new DateTimeException("Invalid parameters")
     }
     val localdate: LocalDate = LocalDate.of(jdate.getNormalizedYear, jdate.getMonth, jdate.getDayOfMonth)
-    return new JapaneseDate(era, yearOfEra, localdate)
+     new JapaneseDate(era, yearOfEra, localdate)
   }
 
   /**
@@ -567,7 +567,7 @@ final object JapaneseDate {
    * @throws DateTimeException if unable to convert to a { @code JapaneseDate}
    */
   def from(temporal: TemporalAccessor): JapaneseDate = {
-    return JapaneseChronology.INSTANCE.date(temporal)
+     JapaneseChronology.INSTANCE.date(temporal)
   }
 
   /**
@@ -585,27 +585,24 @@ final object JapaneseDate {
     }
     jdate.setEra(sunEra).setYear(year).setMonth(isoDate.getMonthValue).setDayOfMonth(isoDate.getDayOfMonth)
     JapaneseChronology.JCAL.normalize(jdate)
-    return jdate
+     jdate
   }
 
   private[chrono] def readExternal(in: DataInput): JapaneseDate = {
     val year: Int = in.readInt
     val month: Int = in.readByte
     val dayOfMonth: Int = in.readByte
-    return JapaneseChronology.INSTANCE.date(year, month, dayOfMonth)
+     JapaneseChronology.INSTANCE.date(year, month, dayOfMonth)
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -305327627230580483L
+
   /**
    * The first day supported by the JapaneseChronology is Meiji 6, January 1st.
    */
   private[chrono] final val MEIJI_6_ISODATE: LocalDate = LocalDate.of(1873, 1, 1)
 }
 
-final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLocalDate with Serializable {
+final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLocalDate  {
   /**
    * Creates an instance from an ISO date.
    *
@@ -649,7 +646,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @return the Japanese chronology, not null
    */
   def getChronology: JapaneseChronology = {
-    return JapaneseChronology.INSTANCE
+     JapaneseChronology.INSTANCE
   }
 
   /**
@@ -660,7 +657,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @return the era applicable at this date, not null
    */
   override def getEra: JapaneseEra = {
-    return era
+     era
   }
 
   /**
@@ -672,14 +669,14 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @return the length of the month in days
    */
   def lengthOfMonth: Int = {
-    return isoDate.lengthOfMonth
+     isoDate.lengthOfMonth
   }
 
   override def lengthOfYear: Int = {
     val jcal: Calendar = Calendar.getInstance(JapaneseChronology.LOCALE)
     jcal.set(Calendar.ERA, era.getValue + JapaneseEra.ERA_OFFSET)
     jcal.set(yearOfEra, isoDate.getMonthValue - 1, isoDate.getDayOfMonth)
-    return jcal.getActualMaximum(Calendar.DAY_OF_YEAR)
+     jcal.getActualMaximum(Calendar.DAY_OF_YEAR)
   }
 
   /**
@@ -714,9 +711,9 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    */
   override def isSupported(field: TemporalField): Boolean = {
     if (field eq ALIGNED_DAY_OF_WEEK_IN_MONTH || field eq ALIGNED_DAY_OF_WEEK_IN_YEAR || field eq ALIGNED_WEEK_OF_MONTH || field eq ALIGNED_WEEK_OF_YEAR) {
-      return false
+       false
     }
-    return ChronoLocalDate.super.isSupported(field)
+     ChronoLocalDate.super.isSupported(field)
   }
 
   override def range(field: TemporalField): ValueRange = {
@@ -725,21 +722,21 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
         val f: ChronoField = field.asInstanceOf[ChronoField]
         f match {
           case DAY_OF_MONTH =>
-            return ValueRange.of(1, lengthOfMonth)
+             ValueRange.of(1, lengthOfMonth)
           case DAY_OF_YEAR =>
-            return ValueRange.of(1, lengthOfYear)
+             ValueRange.of(1, lengthOfYear)
           case YEAR_OF_ERA => {
             val jcal: Calendar = Calendar.getInstance(JapaneseChronology.LOCALE)
             jcal.set(Calendar.ERA, era.getValue + JapaneseEra.ERA_OFFSET)
             jcal.set(yearOfEra, isoDate.getMonthValue - 1, isoDate.getDayOfMonth)
-            return ValueRange.of(1, jcal.getActualMaximum(Calendar.YEAR))
+             ValueRange.of(1, jcal.getActualMaximum(Calendar.YEAR))
           }
         }
-        return getChronology.range(f)
+         getChronology.range(f)
       }
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
     }
-    return field.rangeRefinedBy(this)
+     field.rangeRefinedBy(this)
   }
 
   def getLong(field: TemporalField): Long = {
@@ -751,25 +748,25 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
         case ALIGNED_WEEK_OF_YEAR =>
           throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
         case YEAR_OF_ERA =>
-          return yearOfEra
+           yearOfEra
         case ERA =>
-          return era.getValue
+           era.getValue
         case DAY_OF_YEAR =>
           val jcal: Calendar = Calendar.getInstance(JapaneseChronology.LOCALE)
           jcal.set(Calendar.ERA, era.getValue + JapaneseEra.ERA_OFFSET)
           jcal.set(yearOfEra, isoDate.getMonthValue - 1, isoDate.getDayOfMonth)
-          return jcal.get(Calendar.DAY_OF_YEAR)
+           jcal.get(Calendar.DAY_OF_YEAR)
       }
-      return isoDate.getLong(field)
+       isoDate.getLong(field)
     }
-    return field.getFrom(this)
+     field.getFrom(this)
   }
 
   override def `with`(field: TemporalField, newValue: Long): JapaneseDate = {
     if (field.isInstanceOf[ChronoField]) {
       val f: ChronoField = field.asInstanceOf[ChronoField]
       if (getLong(f) == newValue) {
-        return this
+         this
       }
       f match {
         case YEAR_OF_ERA =>
@@ -778,18 +775,18 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
           val nvalue: Int = getChronology.range(f).checkValidIntValue(newValue, f)
           f match {
             case YEAR_OF_ERA =>
-              return this.withYear(nvalue)
+               this.withYear(nvalue)
             case YEAR =>
-              return `with`(isoDate.withYear(nvalue))
+               `with`(isoDate.withYear(nvalue))
             case ERA => {
-              return this.withYear(JapaneseEra.of(nvalue), yearOfEra)
+               this.withYear(JapaneseEra.of(nvalue), yearOfEra)
             }
           }
         }
       }
-      return `with`(isoDate.`with`(field, newValue))
+       `with`(isoDate.`with`(field, newValue))
     }
-    return super.`with`(field, newValue)
+     super.`with`(field, newValue)
   }
 
   /**
@@ -798,7 +795,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @throws ArithmeticException { @inheritDoc}
    */
   override def `with`(adjuster: TemporalAdjuster): JapaneseDate = {
-    return super.`with`(adjuster)
+     super.`with`(adjuster)
   }
 
   /**
@@ -807,7 +804,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @throws ArithmeticException { @inheritDoc}
    */
   override def plus(amount: TemporalAmount): JapaneseDate = {
-    return super.plus(amount)
+     super.plus(amount)
   }
 
   /**
@@ -816,7 +813,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amount: TemporalAmount): JapaneseDate = {
-    return super.minus(amount)
+     super.minus(amount)
   }
 
   /**
@@ -835,7 +832,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    */
   private def withYear(era: JapaneseEra, yearOfEra: Int): JapaneseDate = {
     val year: Int = JapaneseChronology.INSTANCE.prolepticYear(era, yearOfEra)
-    return `with`(isoDate.withYear(year))
+     `with`(isoDate.withYear(year))
   }
 
   /**
@@ -852,83 +849,83 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @throws DateTimeException if { @code year} is invalid
    */
   private def withYear(year: Int): JapaneseDate = {
-    return withYear(getEra, year)
+     withYear(getEra, year)
   }
 
   private[chrono] def plusYears(years: Long): JapaneseDate = {
-    return `with`(isoDate.plusYears(years))
+     `with`(isoDate.plusYears(years))
   }
 
   private[chrono] def plusMonths(months: Long): JapaneseDate = {
-    return `with`(isoDate.plusMonths(months))
+     `with`(isoDate.plusMonths(months))
   }
 
   private[chrono] override def plusWeeks(weeksToAdd: Long): JapaneseDate = {
-    return `with`(isoDate.plusWeeks(weeksToAdd))
+     `with`(isoDate.plusWeeks(weeksToAdd))
   }
 
   private[chrono] def plusDays(days: Long): JapaneseDate = {
-    return `with`(isoDate.plusDays(days))
+     `with`(isoDate.plusDays(days))
   }
 
   override def plus(amountToAdd: Long, unit: TemporalUnit): JapaneseDate = {
-    return super.plus(amountToAdd, unit)
+     super.plus(amountToAdd, unit)
   }
 
   override def minus(amountToAdd: Long, unit: TemporalUnit): JapaneseDate = {
-    return super.minus(amountToAdd, unit)
+     super.minus(amountToAdd, unit)
   }
 
   private[chrono] override def minusYears(yearsToSubtract: Long): JapaneseDate = {
-    return super.minusYears(yearsToSubtract)
+     super.minusYears(yearsToSubtract)
   }
 
   private[chrono] override def minusMonths(monthsToSubtract: Long): JapaneseDate = {
-    return super.minusMonths(monthsToSubtract)
+     super.minusMonths(monthsToSubtract)
   }
 
   private[chrono] override def minusWeeks(weeksToSubtract: Long): JapaneseDate = {
-    return super.minusWeeks(weeksToSubtract)
+     super.minusWeeks(weeksToSubtract)
   }
 
   private[chrono] override def minusDays(daysToSubtract: Long): JapaneseDate = {
-    return super.minusDays(daysToSubtract)
+     super.minusDays(daysToSubtract)
   }
 
   private def `with`(newDate: LocalDate): JapaneseDate = {
-    return (if ((newDate == isoDate)) this else new JapaneseDate(newDate))
+     (if ((newDate == isoDate)) this else new JapaneseDate(newDate))
   }
 
-  @SuppressWarnings(Array("unchecked")) final override def atTime(localTime: LocalTime): ChronoLocalDateTime[JapaneseDate] = {
-    return super.atTime(localTime).asInstanceOf[ChronoLocalDateTime[JapaneseDate]]
+  final override def atTime(localTime: LocalTime): ChronoLocalDateTime[JapaneseDate] = {
+     super.atTime(localTime).asInstanceOf[ChronoLocalDateTime[JapaneseDate]]
   }
 
   def until(endDate: ChronoLocalDate): ChronoPeriod = {
     val period: Period = isoDate.until(endDate)
-    return getChronology.period(period.getYears, period.getMonths, period.getDays)
+     getChronology.period(period.getYears, period.getMonths, period.getDays)
   }
 
   override def toEpochDay: Long = {
-    return isoDate.toEpochDay
+     isoDate.toEpochDay
   }
 
   override def equals(obj: AnyRef): Boolean = {
     if (this eq obj) {
-      return true
+       true
     }
     if (obj.isInstanceOf[JapaneseDate]) {
       val otherDate: JapaneseDate = obj.asInstanceOf[JapaneseDate]
-      return this.isoDate == otherDate.isoDate
+       this.isoDate == otherDate.isoDate
     }
-    return false
+     false
   }
 
   override def hashCode: Int = {
-    return getChronology.getId.hashCode ^ isoDate.hashCode
+     getChronology.getId.hashCode ^ isoDate.hashCode
   }
 
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.JAPANESE_DATE_TYPE, this)
+     new Ser(Ser.JAPANESE_DATE_TYPE, this)
   }
 
   private[chrono] def writeExternal(out: DataOutput) {
@@ -967,7 +964,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
  *
  * @since 1.8
  */
-final object JapaneseEra {
+object JapaneseEra {
   /**
    * Obtains an instance of {@code JapaneseEra} from an {@code int} value.
    * <p>
@@ -983,7 +980,7 @@ final object JapaneseEra {
     if (japaneseEra < MEIJI.eraValue || japaneseEra > HEISEI.eraValue) {
       throw new DateTimeException("Invalid era: " + japaneseEra)
     }
-    return KNOWN_ERAS(ordinal(japaneseEra))
+     KNOWN_ERAS(ordinal(japaneseEra))
   }
 
   /**
@@ -997,10 +994,10 @@ final object JapaneseEra {
    * @throws IllegalArgumentException if there is not JapaneseEra with the specified name
    */
   def valueOf(japaneseEra: String): JapaneseEra = {
-    Objects.requireNonNull(japaneseEra, "japaneseEra")
+
     for (era <- KNOWN_ERAS) {
       if (era.getName == japaneseEra) {
-        return era
+         era
       }
     }
     throw new IllegalArgumentException("japaneseEra is invalid")
@@ -1018,7 +1015,7 @@ final object JapaneseEra {
    * @return an array of JapaneseEras
    */
   def values: Array[JapaneseEra] = {
-    return Arrays.copyOf(KNOWN_ERAS, KNOWN_ERAS.length)
+     Arrays.copyOf(KNOWN_ERAS, KNOWN_ERAS.length)
   }
 
   /**
@@ -1037,7 +1034,7 @@ final object JapaneseEra {
         {
           val era: JapaneseEra = KNOWN_ERAS(i)
           if (date.compareTo(era.since) >= 0) {
-            return era
+             era
           }
         }
         ({
@@ -1045,7 +1042,7 @@ final object JapaneseEra {
         })
       }
     }
-    return null
+     null
   }
 
   private[chrono] def toJapaneseEra(privateEra: Era): JapaneseEra = {
@@ -1054,7 +1051,7 @@ final object JapaneseEra {
       while (i >= 0) {
         {
           if (ERA_CONFIG(i) == privateEra) {
-            return KNOWN_ERAS(i)
+             KNOWN_ERAS(i)
           }
         }
         ({
@@ -1062,7 +1059,7 @@ final object JapaneseEra {
         })
       }
     }
-    return null
+     null
   }
 
   private[chrono] def privateEraFrom(isoDate: LocalDate): Era = {
@@ -1072,7 +1069,7 @@ final object JapaneseEra {
         {
           val era: JapaneseEra = KNOWN_ERAS(i)
           if (isoDate.compareTo(era.since) >= 0) {
-            return ERA_CONFIG(i)
+             ERA_CONFIG(i)
           }
         }
         ({
@@ -1080,7 +1077,7 @@ final object JapaneseEra {
         })
       }
     }
-    return null
+     null
   }
 
   /**
@@ -1091,12 +1088,12 @@ final object JapaneseEra {
    * @return the index of the current Era
    */
   private def ordinal(eraValue: Int): Int = {
-    return eraValue + ERA_OFFSET - 1
+     eraValue + ERA_OFFSET - 1
   }
 
   private[chrono] def readExternal(in: DataInput): JapaneseEra = {
     val eraValue: Byte = in.readByte
-    return JapaneseEra.of(eraValue)
+     JapaneseEra.of(eraValue)
   }
 
   private[chrono] final val ERA_OFFSET: Int = 2
@@ -1129,7 +1126,7 @@ final object JapaneseEra {
   private final val KNOWN_ERAS: Array[JapaneseEra] = null
 }
 
-final class JapaneseEra extends Era with Serializable {
+final class JapaneseEra extends Era  {
   /**
    * Creates an instance.
    *
@@ -1152,7 +1149,7 @@ final class JapaneseEra extends Era with Serializable {
    */
   private def readResolve: AnyRef = {
     try {
-      return of(eraValue)
+       of(eraValue)
     }
     catch {
       case e: DateTimeException => {
@@ -1169,7 +1166,7 @@ final class JapaneseEra extends Era with Serializable {
    * @return the Sun private Era instance for this { @code JapaneseEra}.
    */
   private[chrono] def getPrivateEra: Era = {
-    return ERA_CONFIG(ordinal(eraValue))
+     ERA_CONFIG(ordinal(eraValue))
   }
 
   /**
@@ -1182,7 +1179,7 @@ final class JapaneseEra extends Era with Serializable {
    * @return the era value
    */
   def getValue: Int = {
-    return eraValue
+     eraValue
   }
 
   /**
@@ -1212,29 +1209,29 @@ final class JapaneseEra extends Era with Serializable {
    */
   override def range(field: TemporalField): ValueRange = {
     if (field eq ERA) {
-      return JapaneseChronology.INSTANCE.range(ERA)
+       JapaneseChronology.INSTANCE.range(ERA)
     }
-    return Era.super.range(field)
+     Era.super.range(field)
   }
 
   private[chrono] def getAbbreviation: String = {
     val index: Int = ordinal(getValue)
     if (index == 0) {
-      return ""
+       ""
     }
-    return ERA_CONFIG(index).getAbbreviation
+     ERA_CONFIG(index).getAbbreviation
   }
 
   private[chrono] def getName: String = {
-    return ERA_CONFIG(ordinal(getValue)).getName
+     ERA_CONFIG(ordinal(getValue)).getName
   }
 
   override def toString: String = {
-    return getName
+     getName
   }
 
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.JAPANESE_ERA_TYPE, this)
+     new Ser(Ser.JAPANESE_ERA_TYPE, this)
   }
 
   private[chrono] def writeExternal(out: DataOutput) {

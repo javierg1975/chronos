@@ -17,10 +17,7 @@ import metronome.temporal._
  * @since 1.8
  */
 object DateTimeException {
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -1632418723876261839L
+
 
   def apply(message: String, cause: Throwable) = new DateTimeException(message).initCause(cause)
 }
@@ -57,7 +54,7 @@ case class DateTimeException(message: String) extends RuntimeException(message)
  *
  * @since 1.8
  */
-final object DateTime {
+object DateTime {
   /**
    * Obtains the current date-time from the system clock in the default time-zone.
    * <p>
@@ -100,7 +97,7 @@ final object DateTime {
    * @return the current date-time, not null
    */
   def now(clock: Clock): DateTime = {
-    Objects.requireNonNull(clock, "clock")
+    object
     val now: Instant = clock.instant
     val offset: ZoneOffset = clock.getZone.getRules.getOffset(now)
      ofEpochSecond(now.getEpochSecond, now.getNano, offset)
@@ -262,8 +259,8 @@ final object DateTime {
    * @return the local date-time, not null
    */
   def of(date: Date, time: Time): DateTime = {
-    Objects.requireNonNull(date, "date")
-    Objects.requireNonNull(time, "time")
+    object
+    object
      new DateTime(date, time)
   }
 
@@ -281,8 +278,8 @@ final object DateTime {
    * @throws DateTimeException if the result exceeds the supported range
    */
   def ofInstant(instant: Instant, zone: ZoneId): DateTime = {
-    Objects.requireNonNull(instant, "instant")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
     val rules: ZoneRules = zone.getRules
     val offset: ZoneOffset = rules.getOffset(instant)
      ofEpochSecond(instant.getEpochSecond, instant.getNano, offset)
@@ -304,7 +301,7 @@ final object DateTime {
    *                           or if the nano-of-second is invalid
    */
   def ofEpochSecond(epochSecond: Long, nanoOfSecond: Int, offset: ZoneOffset): DateTime = {
-    Objects.requireNonNull(offset, "offset")
+    object
     NANO_OF_SECOND.checkValidValue(nanoOfSecond)
     val localSecond: Long = epochSecond + offset.getTotalSeconds
     val localEpochDay: Long = Math.floorDiv(localSecond, SECONDS_PER_DAY)
@@ -380,7 +377,7 @@ final object DateTime {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): DateTime = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.parse(text, DateTime.from)
   }
 
@@ -410,18 +407,8 @@ final object DateTime {
   private final val serialVersionUID: Long = 6207766400415563566L
 }
 
-case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault, zoneOffset: ZoneOffset = 0) extends Temporal with TemporalAdjuster with ChronoLocalDateTime[Date] with Serializable {
-  /**
-   * Constructor.
-   *
-   * @param date  the date part of the date-time, validated not null
-   * @param time  the time part of the date-time, validated not null
-   */
-  private def this(date: Date, time: Time) {
-    this()
-    this.date = date
-    this.time = time
-  }
+case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault, zoneOffset: ZoneOffset = 0) extends Temporal with TemporalAdjuster with ChronoLocalDateTime[Date]  {
+
 
   /**
    * Returns a copy of this date-time with the new date and time, checking
@@ -635,18 +622,6 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
   }
 
   /**
-   * Gets the {@code Date} part of this date-time.
-   * <p>
-   * This returns a {@code Date} with the same year, month and day
-   * as this date-time.
-   *
-   * @return the date part of this date-time, not null
-   */
-  def toLocalDate: Date = {
-     date
-  }
-
-  /**
    * Gets the year field.
    * <p>
    * This method returns the primitive {@code int} value for the year.
@@ -656,7 +631,7 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    *
    * @return the year, from MIN_YEAR to MAX_YEAR
    */
-  def getYear: Int = {
+  def year: Int = {
      date.getYear
   }
 
@@ -1030,7 +1005,7 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * @throws ArithmeticException if numeric overflow occurs
    */
   override def plus(amountToAdd: TemporalAmount): DateTime = {
-    Objects.requireNonNull(amountToAdd, "amountToAdd")
+    object
     if (amountToAdd.isInstanceOf[Period]) {
       val periodToAdd: Period = amountToAdd.asInstanceOf[Period]
        `with`(date.plus(periodToAdd), time)
@@ -1251,7 +1226,7 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * @throws ArithmeticException if numeric overflow occurs
    */
   override def minus(amountToSubtract: TemporalAmount): DateTime = {
-    Objects.requireNonNull(amountToSubtract, "amountToSubtract")
+    object
     if (amountToSubtract.isInstanceOf[Period]) {
       val periodToSubtract: Period = amountToSubtract.asInstanceOf[Period]
        `with`(date.minus(periodToSubtract), time)
@@ -1466,7 +1441,7 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.localDate) {
        date.asInstanceOf[R]
     }
@@ -1621,7 +1596,7 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
    * @throws DateTimeException if an error occurs during printing
    */
   override def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.format(this)
   }
 
@@ -1928,7 +1903,7 @@ case class DateTime(date: Date, time: Time, zone: ZoneId = ZoneId.systemDefault,
  *
  * @since 1.8
  */
-final object ZonedDateTime {
+object ZonedDateTime {
   /**
    * Obtains the current date-time from the system clock in the default time-zone.
    * <p>
@@ -1975,7 +1950,7 @@ final object ZonedDateTime {
    * @return the current date-time, not null
    */
   def now(clock: Clock): ZonedDateTime = {
-    Objects.requireNonNull(clock, "clock")
+    object
     val now: Instant = clock.instant
      ofInstant(now, clock.getZone)
   }
@@ -2107,8 +2082,8 @@ final object ZonedDateTime {
    * @return the zoned date-time, not null
    */
   def ofLocal(localDateTime: DateTime, zone: ZoneId, preferredOffset: ZoneOffset): ZonedDateTime = {
-    Objects.requireNonNull(localDateTime, "localDateTime")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
     if (zone.isInstanceOf[ZoneOffset]) {
        new ZonedDateTime(localDateTime, zone.asInstanceOf[ZoneOffset], zone)
     }
@@ -2128,7 +2103,7 @@ final object ZonedDateTime {
         offset = preferredOffset
       }
       else {
-        offset = Objects.requireNonNull(validOffsets.get(0), "offset")
+        offset = object
       }
     }
      new ZonedDateTime(localDateTime, offset, zone)
@@ -2149,8 +2124,8 @@ final object ZonedDateTime {
    * @throws DateTimeException if the result exceeds the supported range
    */
   def ofInstant(instant: Instant, zone: ZoneId): ZonedDateTime = {
-    Objects.requireNonNull(instant, "instant")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
      create(instant.getEpochSecond, instant.getNano, zone)
   }
 
@@ -2175,9 +2150,9 @@ final object ZonedDateTime {
    * @return the zoned date-time, not null
    */
   def ofInstant(localDateTime: DateTime, offset: ZoneOffset, zone: ZoneId): ZonedDateTime = {
-    Objects.requireNonNull(localDateTime, "localDateTime")
-    Objects.requireNonNull(offset, "offset")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
+    object
     if (zone.getRules.isValidOffset(localDateTime, offset)) {
        new ZonedDateTime(localDateTime, offset, zone)
     }
@@ -2216,9 +2191,9 @@ final object ZonedDateTime {
    * @return the zoned date-time, not null
    */
   def ofStrict(localDateTime: DateTime, offset: ZoneOffset, zone: ZoneId): ZonedDateTime = {
-    Objects.requireNonNull(localDateTime, "localDateTime")
-    Objects.requireNonNull(offset, "offset")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
+    object
     val rules: ZoneRules = zone.getRules
     if (rules.isValidOffset(localDateTime, offset) == false) {
       val trans: ZoneOffsetTransition = rules.getTransition(localDateTime)
@@ -2252,9 +2227,9 @@ final object ZonedDateTime {
    * @return the zoned date-time, not null
    */
   private def ofLenient(localDateTime: DateTime, offset: ZoneOffset, zone: ZoneId): ZonedDateTime = {
-    Objects.requireNonNull(localDateTime, "localDateTime")
-    Objects.requireNonNull(offset, "offset")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
+    object
     if (zone.isInstanceOf[ZoneOffset] && (offset == zone) == false) {
       throw new IllegalArgumentException("ZoneId must match ZoneOffset")
     }
@@ -2334,7 +2309,7 @@ final object ZonedDateTime {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): ZonedDateTime = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.parse(text, ZonedDateTime.from)
   }
 
@@ -2345,13 +2320,10 @@ final object ZonedDateTime {
      ZonedDateTime.ofLenient(dateTime, offset, zone)
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -6260982410461394882L
+
 }
 
-final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date] with Serializable {
+final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date]  {
   /**
    * Constructor.
    *
@@ -2707,7 +2679,7 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date] with S
    * @return a { @code ZonedDateTime} based on this date-time with the requested zone, not null
    */
   def withZoneSameLocal(zone: ZoneId): ZonedDateTime = {
-    Objects.requireNonNull(zone, "zone")
+    object
      if ((this.zone == zone)) this else ofLocal(dateTime, zone, offset)
   }
 
@@ -2729,7 +2701,7 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date] with S
    * @throws DateTimeException if the result exceeds the supported date range
    */
   def withZoneSameInstant(zone: ZoneId): ZonedDateTime = {
-    Objects.requireNonNull(zone, "zone")
+    object
      if ((this.zone == zone)) this else create(dateTime.toEpochSecond(offset), dateTime.getNano, zone)
   }
 
@@ -3280,7 +3252,7 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date] with S
    * @throws ArithmeticException if numeric overflow occurs
    */
   override def plus(amountToAdd: TemporalAmount): ZonedDateTime = {
-    Objects.requireNonNull(amountToAdd, "amountToAdd")
+    object
     if (amountToAdd.isInstanceOf[Period]) {
       val periodToAdd: Period = amountToAdd.asInstanceOf[Period]
        resolveLocal(dateTime.plus(periodToAdd))
@@ -3528,7 +3500,7 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date] with S
    * @throws ArithmeticException if numeric overflow occurs
    */
   override def minus(amountToSubtract: TemporalAmount): ZonedDateTime = {
-    Objects.requireNonNull(amountToSubtract, "amountToSubtract")
+    object
     if (amountToSubtract.isInstanceOf[Period]) {
       val periodToSubtract: Period = amountToSubtract.asInstanceOf[Period]
        resolveLocal(dateTime.minus(periodToSubtract))
@@ -3855,7 +3827,7 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date] with S
    * @throws DateTimeException if an error occurs during printing
    */
   override def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.format(this)
   }
 
@@ -3988,7 +3960,7 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date] with S
  *
  * @since 1.8
  */
-final object OffsetDateTime {
+object OffsetDateTime {
   /**
    * Gets a comparator that compares two {@code OffsetDateTime} instances
    * based solely on the instant.
@@ -4071,7 +4043,7 @@ final object OffsetDateTime {
    * @return the current date-time, not null
    */
   def now(clock: Clock): OffsetDateTime = {
-    Objects.requireNonNull(clock, "clock")
+    object
     val now: Instant = clock.instant
      ofInstant(now, clock.getZone.getRules.getOffset(now))
   }
@@ -4146,8 +4118,8 @@ final object OffsetDateTime {
    * @throws DateTimeException if the result exceeds the supported range
    */
   def ofInstant(instant: Instant, zone: ZoneId): OffsetDateTime = {
-    Objects.requireNonNull(instant, "instant")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
     val rules: ZoneRules = zone.getRules
     val offset: ZoneOffset = rules.getOffset(instant)
     val ldt: DateTime = DateTime.ofEpochSecond(instant.getEpochSecond, instant.getNano, offset)
@@ -4225,7 +4197,7 @@ final object OffsetDateTime {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): OffsetDateTime = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.parse(text, OffsetDateTime.from)
   }
 
@@ -4257,7 +4229,7 @@ final object OffsetDateTime {
   private final val serialVersionUID: Long = 2287754244819255394L
 }
 
-final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparable[OffsetDateTime] with Serializable {
+final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparable[OffsetDateTime]  {
   /**
    * Constructor.
    *
@@ -4266,8 +4238,8 @@ final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparabl
    */
   private def this(dateTime: DateTime, offset: ZoneOffset) {
     this()
-    this.dateTime = Objects.requireNonNull(dateTime, "dateTime")
-    this.offset = Objects.requireNonNull(offset, "offset")
+    this.dateTime = object
+    this.offset = object
   }
 
   /**
@@ -5368,7 +5340,7 @@ final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparabl
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.offset || query eq TemporalQuery.zone) {
        getOffset.asInstanceOf[R]
     }
@@ -5491,7 +5463,7 @@ final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparabl
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
      formatter.format(this)
   }
 

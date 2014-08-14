@@ -71,7 +71,7 @@ object Time {
    * @return the current time, not null
    */
   def now(clock: Clock): Time = {
-    Objects.requireNonNull(clock, "clock")
+    object
     val now: Instant = clock.instant
     val offset: ZoneOffset = clock.getZone.getRules.getOffset(now)
     val localSecond: Long = now.getEpochSecond + offset.getTotalSeconds
@@ -198,7 +198,7 @@ object Time {
    * @throws DateTimeException if unable to convert to a { @code Time}
    */
   def from(temporal: TemporalAccessor): Time = {
-    Objects.requireNonNull(temporal, "temporal")
+    object
     val time: Time = temporal.query(TemporalQuery.localTime)
     if (time == null) {
       throw new DateTimeException("Unable to obtain Time from TemporalAccessor: " + temporal.getClass)
@@ -231,7 +231,7 @@ object Time {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): Time = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
     formatter.parse(text, Time.from)
   }
 
@@ -355,7 +355,7 @@ object Time {
   private final val serialVersionUID: Long = 6414437269572265201L
 }
 
-case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends Temporal with TemporalAdjuster with Comparable[Time] with Serializable {
+case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends Temporal with TemporalAdjuster with Comparable[Time]  {
   /**
    * Constructor, previously validated.
    *
@@ -1191,7 +1191,7 @@ case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends 
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.chronology || query eq TemporalQuery.zoneId || query eq TemporalQuery.zone || query eq TemporalQuery.offset) {
       null
     }
@@ -1317,7 +1317,7 @@ case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends 
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
     formatter.format(this)
   }
 
@@ -1601,7 +1601,7 @@ case class Time(hour: Int, minute: Int, second: Int, nanoOfSecond: Int) extends 
  *
  * @since 1.8
  */
-final object OffsetTime {
+object OffsetTime {
   /**
    * Obtains the current time from the system clock in the default time-zone.
    * <p>
@@ -1648,7 +1648,7 @@ final object OffsetTime {
    * @return the current time, not null
    */
   def now(clock: Clock): OffsetTime = {
-    Objects.requireNonNull(clock, "clock")
+    object
     val now: Instant = clock.instant
     ofInstant(now, clock.getZone.getRules.getOffset(now))
   }
@@ -1703,8 +1703,8 @@ final object OffsetTime {
    * @return the offset time, not null
    */
   def ofInstant(instant: Instant, zone: ZoneId): OffsetTime = {
-    Objects.requireNonNull(instant, "instant")
-    Objects.requireNonNull(zone, "zone")
+    object
+    object
     val rules: ZoneRules = zone.getRules
     val offset: ZoneOffset = rules.getOffset(instant)
     val localSecond: Long = instant.getEpochSecond + offset.getTotalSeconds
@@ -1773,7 +1773,7 @@ final object OffsetTime {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): OffsetTime = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
     formatter.parse(text, OffsetTime.from)
   }
 
@@ -1805,7 +1805,7 @@ final object OffsetTime {
   private final val serialVersionUID: Long = 7264499704384272492L
 }
 
-final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[OffsetTime] with Serializable {
+final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[OffsetTime]  {
   /**
    * Constructor.
    *
@@ -1814,8 +1814,8 @@ final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[Of
    */
   private def this(time: Time, offset: ZoneOffset) {
     this()
-    this.time = Objects.requireNonNull(time, "time")
-    this.offset = Objects.requireNonNull(offset, "offset")
+    this.time = object
+    this.offset = object
   }
 
   /**
@@ -2529,7 +2529,7 @@ final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[Of
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.offset || query eq TemporalQuery.zone) {
       offset.asInstanceOf[R]
     }
@@ -2660,7 +2660,7 @@ final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[Of
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
     formatter.format(this)
   }
 

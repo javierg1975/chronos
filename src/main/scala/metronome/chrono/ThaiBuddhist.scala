@@ -85,7 +85,7 @@ package metronome.chrono
  *
  * @since 1.8
  */
-final object ThaiBuddhistChronology {
+object ThaiBuddhistChronology {
   /**
    * Singleton instance of the Buddhist chronology.
    */
@@ -120,7 +120,7 @@ final object ThaiBuddhistChronology {
   private final val TARGET_LANGUAGE: String = "th"
 }
 
-final class ThaiBuddhistChronology extends Chronology with Serializable {
+final class ThaiBuddhistChronology extends Chronology  {
   /**
    * Restricted constructor.
    */
@@ -138,7 +138,7 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
    * @see #getCalendarType()
    */
   def getId: String = {
-    return "ThaiBuddhist"
+     "ThaiBuddhist"
   }
 
   /**
@@ -154,7 +154,7 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
    * @see #getId()
    */
   def getCalendarType: String = {
-    return "buddhist"
+     "buddhist"
   }
 
   /**
@@ -170,7 +170,7 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
    * @throws ClassCastException if the { @code era} is not a { @code ThaiBuddhistEra}
    */
   override def date(era: Era, yearOfEra: Int, month: Int, dayOfMonth: Int): ThaiBuddhistDate = {
-    return date(prolepticYear(era, yearOfEra), month, dayOfMonth)
+     date(prolepticYear(era, yearOfEra), month, dayOfMonth)
   }
 
   /**
@@ -184,7 +184,7 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
    * @throws DateTimeException if unable to create the date
    */
   def date(prolepticYear: Int, month: Int, dayOfMonth: Int): ThaiBuddhistDate = {
-    return new ThaiBuddhistDate(LocalDate.of(prolepticYear - YEARS_DIFFERENCE, month, dayOfMonth))
+     new ThaiBuddhistDate(LocalDate.of(prolepticYear - YEARS_DIFFERENCE, month, dayOfMonth))
   }
 
   /**
@@ -199,7 +199,7 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
    * @throws ClassCastException if the { @code era} is not a { @code ThaiBuddhistEra}
    */
   override def dateYearDay(era: Era, yearOfEra: Int, dayOfYear: Int): ThaiBuddhistDate = {
-    return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear)
+     dateYearDay(prolepticYear(era, yearOfEra), dayOfYear)
   }
 
   /**
@@ -212,7 +212,7 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
    * @throws DateTimeException if unable to create the date
    */
   def dateYearDay(prolepticYear: Int, dayOfYear: Int): ThaiBuddhistDate = {
-    return new ThaiBuddhistDate(LocalDate.ofYearDay(prolepticYear - YEARS_DIFFERENCE, dayOfYear))
+     new ThaiBuddhistDate(LocalDate.ofYearDay(prolepticYear - YEARS_DIFFERENCE, dayOfYear))
   }
 
   /**
@@ -223,38 +223,38 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
    * @throws DateTimeException if unable to create the date
    */
   def dateEpochDay(epochDay: Long): ThaiBuddhistDate = {
-    return new ThaiBuddhistDate(LocalDate.ofEpochDay(epochDay))
+     new ThaiBuddhistDate(LocalDate.ofEpochDay(epochDay))
   }
 
   override def dateNow: ThaiBuddhistDate = {
-    return dateNow(Clock.systemDefaultZone)
+     dateNow(Clock.systemDefaultZone)
   }
 
   override def dateNow(zone: ZoneId): ThaiBuddhistDate = {
-    return dateNow(Clock.system(zone))
+     dateNow(Clock.system(zone))
   }
 
   override def dateNow(clock: Clock): ThaiBuddhistDate = {
-    return date(LocalDate.now(clock))
+     date(LocalDate.now(clock))
   }
 
   def date(temporal: TemporalAccessor): ThaiBuddhistDate = {
     if (temporal.isInstanceOf[ThaiBuddhistDate]) {
-      return temporal.asInstanceOf[ThaiBuddhistDate]
+       temporal.asInstanceOf[ThaiBuddhistDate]
     }
-    return new ThaiBuddhistDate(LocalDate.from(temporal))
+     new ThaiBuddhistDate(LocalDate.from(temporal))
   }
 
-  @SuppressWarnings(Array("unchecked")) override def localDateTime(temporal: TemporalAccessor): ChronoLocalDateTime[ThaiBuddhistDate] = {
-    return super.localDateTime(temporal).asInstanceOf[ChronoLocalDateTime[ThaiBuddhistDate]]
+  override def localDateTime(temporal: TemporalAccessor): ChronoLocalDateTime[ThaiBuddhistDate] = {
+     super.localDateTime(temporal).asInstanceOf[ChronoLocalDateTime[ThaiBuddhistDate]]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def zonedDateTime(temporal: TemporalAccessor): ChronoZonedDateTime[ThaiBuddhistDate] = {
-    return super.zonedDateTime(temporal).asInstanceOf[ChronoZonedDateTime[ThaiBuddhistDate]]
+  override def zonedDateTime(temporal: TemporalAccessor): ChronoZonedDateTime[ThaiBuddhistDate] = {
+     super.zonedDateTime(temporal).asInstanceOf[ChronoZonedDateTime[ThaiBuddhistDate]]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def zonedDateTime(instant: Instant, zone: ZoneId): ChronoZonedDateTime[ThaiBuddhistDate] = {
-    return super.zonedDateTime(instant, zone).asInstanceOf[ChronoZonedDateTime[ThaiBuddhistDate]]
+  override def zonedDateTime(instant: Instant, zone: ZoneId): ChronoZonedDateTime[ThaiBuddhistDate] = {
+     super.zonedDateTime(instant, zone).asInstanceOf[ChronoZonedDateTime[ThaiBuddhistDate]]
   }
 
   /**
@@ -268,44 +268,44 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
    * @return true if the year is a leap year
    */
   def isLeapYear(prolepticYear: Long): Boolean = {
-    return IsoChronology.INSTANCE.isLeapYear(prolepticYear - YEARS_DIFFERENCE)
+     IsoChronology.INSTANCE.isLeapYear(prolepticYear - YEARS_DIFFERENCE)
   }
 
   def prolepticYear(era: Era, yearOfEra: Int): Int = {
     if (era.isInstanceOf[ThaiBuddhistEra] == false) {
       throw new ClassCastException("Era must be BuddhistEra")
     }
-    return (if (era eq ThaiBuddhistEra.BE) yearOfEra else 1 - yearOfEra)
+     (if (era eq ThaiBuddhistEra.BE) yearOfEra else 1 - yearOfEra)
   }
 
   def eraOf(eraValue: Int): ThaiBuddhistEra = {
-    return ThaiBuddhistEra.of(eraValue)
+     ThaiBuddhistEra.of(eraValue)
   }
 
   def eras: List[Era] = {
-    return Arrays.asList[Era](ThaiBuddhistEra.values)
+     Arrays.asList[Era](ThaiBuddhistEra.values)
   }
 
   def range(field: ChronoField): ValueRange = {
     field match {
       case PROLEPTIC_MONTH => {
         val range: ValueRange = PROLEPTIC_MONTH.range
-        return ValueRange.of(range.getMinimum + YEARS_DIFFERENCE * 12L, range.getMaximum + YEARS_DIFFERENCE * 12L)
+         ValueRange.of(range.getMinimum + YEARS_DIFFERENCE * 12L, range.getMaximum + YEARS_DIFFERENCE * 12L)
       }
       case YEAR_OF_ERA => {
         val range: ValueRange = YEAR.range
-        return ValueRange.of(1, -(range.getMinimum + YEARS_DIFFERENCE) + 1, range.getMaximum + YEARS_DIFFERENCE)
+         ValueRange.of(1, -(range.getMinimum + YEARS_DIFFERENCE) + 1, range.getMaximum + YEARS_DIFFERENCE)
       }
       case YEAR => {
         val range: ValueRange = YEAR.range
-        return ValueRange.of(range.getMinimum + YEARS_DIFFERENCE, range.getMaximum + YEARS_DIFFERENCE)
+         ValueRange.of(range.getMinimum + YEARS_DIFFERENCE, range.getMaximum + YEARS_DIFFERENCE)
       }
     }
-    return field.range
+     field.range
   }
 
   def resolveDate(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ThaiBuddhistDate = {
-    return super.resolveDate(fieldValues, resolverStyle).asInstanceOf[ThaiBuddhistDate]
+     super.resolveDate(fieldValues, resolverStyle).asInstanceOf[ThaiBuddhistDate]
   }
 }
 
@@ -378,7 +378,7 @@ final class ThaiBuddhistChronology extends Chronology with Serializable {
  *
  * @since 1.8
  */
-final object ThaiBuddhistDate {
+object ThaiBuddhistDate {
   /**
    * Obtains the current {@code ThaiBuddhistDate} from the system clock in the default time-zone.
    * <p>
@@ -391,7 +391,7 @@ final object ThaiBuddhistDate {
    * @return the current date using the system clock and default time-zone, not null
    */
   def now: ThaiBuddhistDate = {
-    return now(Clock.systemDefaultZone)
+     now(Clock.systemDefaultZone)
   }
 
   /**
@@ -407,7 +407,7 @@ final object ThaiBuddhistDate {
    * @return the current date using the system clock, not null
    */
   def now(zone: ZoneId): ThaiBuddhistDate = {
-    return now(Clock.system(zone))
+     now(Clock.system(zone))
   }
 
   /**
@@ -422,7 +422,7 @@ final object ThaiBuddhistDate {
    * @throws DateTimeException if the current date cannot be obtained
    */
   def now(clock: Clock): ThaiBuddhistDate = {
-    return new ThaiBuddhistDate(LocalDate.now(clock))
+     new ThaiBuddhistDate(LocalDate.now(clock))
   }
 
   /**
@@ -440,7 +440,7 @@ final object ThaiBuddhistDate {
    *                           or if the day-of-month is invalid for the month-year
    */
   def of(prolepticYear: Int, month: Int, dayOfMonth: Int): ThaiBuddhistDate = {
-    return new ThaiBuddhistDate(LocalDate.of(prolepticYear - YEARS_DIFFERENCE, month, dayOfMonth))
+     new ThaiBuddhistDate(LocalDate.of(prolepticYear - YEARS_DIFFERENCE, month, dayOfMonth))
   }
 
   /**
@@ -461,23 +461,20 @@ final object ThaiBuddhistDate {
    * @throws DateTimeException if unable to convert to a { @code ThaiBuddhistDate}
    */
   def from(temporal: TemporalAccessor): ThaiBuddhistDate = {
-    return ThaiBuddhistChronology.INSTANCE.date(temporal)
+     ThaiBuddhistChronology.INSTANCE.date(temporal)
   }
 
   private[chrono] def readExternal(in: DataInput): ThaiBuddhistDate = {
     val year: Int = in.readInt
     val month: Int = in.readByte
     val dayOfMonth: Int = in.readByte
-    return ThaiBuddhistChronology.INSTANCE.date(year, month, dayOfMonth)
+     ThaiBuddhistChronology.INSTANCE.date(year, month, dayOfMonth)
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -8722293800195731463L
+
 }
 
-final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with ChronoLocalDate with Serializable {
+final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with ChronoLocalDate  {
   /**
    * Creates an instance from an ISO date.
    *
@@ -485,7 +482,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
    */
   private[chrono] def this(isoDate: LocalDate) {
     this()
-    Objects.requireNonNull(isoDate, "isoDate")
+
     this.isoDate = isoDate
   }
 
@@ -498,7 +495,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
    * @return the Thai Buddhist chronology, not null
    */
   def getChronology: ThaiBuddhistChronology = {
-    return ThaiBuddhistChronology.INSTANCE
+     ThaiBuddhistChronology.INSTANCE
   }
 
   /**
@@ -510,7 +507,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
    * @return the era applicable at this date, not null
    */
   override def getEra: ThaiBuddhistEra = {
-    return (if (getProlepticYear >= 1) ThaiBuddhistEra.BE else ThaiBuddhistEra.BEFORE_BE)
+     (if (getProlepticYear >= 1) ThaiBuddhistEra.BE else ThaiBuddhistEra.BEFORE_BE)
   }
 
   /**
@@ -522,7 +519,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
    * @return the length of the month in days
    */
   def lengthOfMonth: Int = {
-    return isoDate.lengthOfMonth
+     isoDate.lengthOfMonth
   }
 
   override def range(field: TemporalField): ValueRange = {
@@ -533,74 +530,74 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
           case DAY_OF_MONTH =>
           case DAY_OF_YEAR =>
           case ALIGNED_WEEK_OF_MONTH =>
-            return isoDate.range(field)
+             isoDate.range(field)
           case YEAR_OF_ERA => {
             val range: ValueRange = YEAR.range
             val max: Long = (if (getProlepticYear <= 0) -(range.getMinimum + YEARS_DIFFERENCE) + 1 else range.getMaximum + YEARS_DIFFERENCE)
-            return ValueRange.of(1, max)
+             ValueRange.of(1, max)
           }
         }
-        return getChronology.range(f)
+         getChronology.range(f)
       }
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
     }
-    return field.rangeRefinedBy(this)
+     field.rangeRefinedBy(this)
   }
 
   def getLong(field: TemporalField): Long = {
     if (field.isInstanceOf[ChronoField]) {
       field.asInstanceOf[ChronoField] match {
         case PROLEPTIC_MONTH =>
-          return getProlepticMonth
+           getProlepticMonth
         case YEAR_OF_ERA => {
           val prolepticYear: Int = getProlepticYear
-          return (if (prolepticYear >= 1) prolepticYear else 1 - prolepticYear)
+           (if (prolepticYear >= 1) prolepticYear else 1 - prolepticYear)
         }
         case YEAR =>
-          return getProlepticYear
+           getProlepticYear
         case ERA =>
-          return (if (getProlepticYear >= 1) 1 else 0)
+           (if (getProlepticYear >= 1) 1 else 0)
       }
-      return isoDate.getLong(field)
+       isoDate.getLong(field)
     }
-    return field.getFrom(this)
+     field.getFrom(this)
   }
 
   private def getProlepticMonth: Long = {
-    return getProlepticYear * 12L + isoDate.getMonthValue - 1
+     getProlepticYear * 12L + isoDate.getMonthValue - 1
   }
 
   private def getProlepticYear: Int = {
-    return isoDate.getYear + YEARS_DIFFERENCE
+     isoDate.getYear + YEARS_DIFFERENCE
   }
 
   override def `with`(field: TemporalField, newValue: Long): ThaiBuddhistDate = {
     if (field.isInstanceOf[ChronoField]) {
       val f: ChronoField = field.asInstanceOf[ChronoField]
       if (getLong(f) == newValue) {
-        return this
+         this
       }
       f match {
         case PROLEPTIC_MONTH =>
           getChronology.range(f).checkValidValue(newValue, f)
-          return plusMonths(newValue - getProlepticMonth)
+           plusMonths(newValue - getProlepticMonth)
         case YEAR_OF_ERA =>
         case YEAR =>
         case ERA => {
           val nvalue: Int = getChronology.range(f).checkValidIntValue(newValue, f)
           f match {
             case YEAR_OF_ERA =>
-              return `with`(isoDate.withYear((if (getProlepticYear >= 1) nvalue else 1 - nvalue) - YEARS_DIFFERENCE))
+               `with`(isoDate.withYear((if (getProlepticYear >= 1) nvalue else 1 - nvalue) - YEARS_DIFFERENCE))
             case YEAR =>
-              return `with`(isoDate.withYear(nvalue - YEARS_DIFFERENCE))
+               `with`(isoDate.withYear(nvalue - YEARS_DIFFERENCE))
             case ERA =>
-              return `with`(isoDate.withYear((1 - getProlepticYear) - YEARS_DIFFERENCE))
+               `with`(isoDate.withYear((1 - getProlepticYear) - YEARS_DIFFERENCE))
           }
         }
       }
-      return `with`(isoDate.`with`(field, newValue))
+       `with`(isoDate.`with`(field, newValue))
     }
-    return super.`with`(field, newValue)
+     super.`with`(field, newValue)
   }
 
   /**
@@ -609,7 +606,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
    * @throws ArithmeticException { @inheritDoc}
    */
   override def `with`(adjuster: TemporalAdjuster): ThaiBuddhistDate = {
-    return super.`with`(adjuster)
+     super.`with`(adjuster)
   }
 
   /**
@@ -618,7 +615,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
    * @throws ArithmeticException { @inheritDoc}
    */
   override def plus(amount: TemporalAmount): ThaiBuddhistDate = {
-    return super.plus(amount)
+     super.plus(amount)
   }
 
   /**
@@ -627,83 +624,83 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amount: TemporalAmount): ThaiBuddhistDate = {
-    return super.minus(amount)
+     super.minus(amount)
   }
 
   private[chrono] def plusYears(years: Long): ThaiBuddhistDate = {
-    return `with`(isoDate.plusYears(years))
+     `with`(isoDate.plusYears(years))
   }
 
   private[chrono] def plusMonths(months: Long): ThaiBuddhistDate = {
-    return `with`(isoDate.plusMonths(months))
+     `with`(isoDate.plusMonths(months))
   }
 
   private[chrono] override def plusWeeks(weeksToAdd: Long): ThaiBuddhistDate = {
-    return super.plusWeeks(weeksToAdd)
+     super.plusWeeks(weeksToAdd)
   }
 
   private[chrono] def plusDays(days: Long): ThaiBuddhistDate = {
-    return `with`(isoDate.plusDays(days))
+     `with`(isoDate.plusDays(days))
   }
 
   override def plus(amountToAdd: Long, unit: TemporalUnit): ThaiBuddhistDate = {
-    return super.plus(amountToAdd, unit)
+     super.plus(amountToAdd, unit)
   }
 
   override def minus(amountToAdd: Long, unit: TemporalUnit): ThaiBuddhistDate = {
-    return super.minus(amountToAdd, unit)
+     super.minus(amountToAdd, unit)
   }
 
   private[chrono] override def minusYears(yearsToSubtract: Long): ThaiBuddhistDate = {
-    return super.minusYears(yearsToSubtract)
+     super.minusYears(yearsToSubtract)
   }
 
   private[chrono] override def minusMonths(monthsToSubtract: Long): ThaiBuddhistDate = {
-    return super.minusMonths(monthsToSubtract)
+     super.minusMonths(monthsToSubtract)
   }
 
   private[chrono] override def minusWeeks(weeksToSubtract: Long): ThaiBuddhistDate = {
-    return super.minusWeeks(weeksToSubtract)
+     super.minusWeeks(weeksToSubtract)
   }
 
   private[chrono] override def minusDays(daysToSubtract: Long): ThaiBuddhistDate = {
-    return super.minusDays(daysToSubtract)
+     super.minusDays(daysToSubtract)
   }
 
   private def `with`(newDate: LocalDate): ThaiBuddhistDate = {
-    return (if ((newDate == isoDate)) this else new ThaiBuddhistDate(newDate))
+     (if ((newDate == isoDate)) this else new ThaiBuddhistDate(newDate))
   }
 
-  @SuppressWarnings(Array("unchecked")) final override def atTime(localTime: LocalTime): ChronoLocalDateTime[ThaiBuddhistDate] = {
-    return super.atTime(localTime).asInstanceOf[ChronoLocalDateTime[ThaiBuddhistDate]]
+  final override def atTime(localTime: LocalTime): ChronoLocalDateTime[ThaiBuddhistDate] = {
+     super.atTime(localTime).asInstanceOf[ChronoLocalDateTime[ThaiBuddhistDate]]
   }
 
   def until(endDate: ChronoLocalDate): ChronoPeriod = {
     val period: Period = isoDate.until(endDate)
-    return getChronology.period(period.getYears, period.getMonths, period.getDays)
+     getChronology.period(period.getYears, period.getMonths, period.getDays)
   }
 
   override def toEpochDay: Long = {
-    return isoDate.toEpochDay
+     isoDate.toEpochDay
   }
 
   override def equals(obj: AnyRef): Boolean = {
     if (this eq obj) {
-      return true
+       true
     }
     if (obj.isInstanceOf[ThaiBuddhistDate]) {
       val otherDate: ThaiBuddhistDate = obj.asInstanceOf[ThaiBuddhistDate]
-      return this.isoDate == otherDate.isoDate
+       this.isoDate == otherDate.isoDate
     }
-    return false
+     false
   }
 
   override def hashCode: Int = {
-    return getChronology.getId.hashCode ^ isoDate.hashCode
+     getChronology.getId.hashCode ^ isoDate.hashCode
   }
 
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.THAIBUDDHIST_DATE_TYPE, this)
+     new Ser(Ser.THAIBUDDHIST_DATE_TYPE, this)
   }
 
   private[chrono] def writeExternal(out: DataOutput) {
@@ -821,7 +818,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
  *
  * @since 1.8
  */
-final object ThaiBuddhistEra {
+object ThaiBuddhistEra {
   /**
    * Obtains an instance of {@code ThaiBuddhistEra} from an {@code int} value.
    * <p>
@@ -835,9 +832,9 @@ final object ThaiBuddhistEra {
   def of(thaiBuddhistEra: Int): ThaiBuddhistEra = {
     thaiBuddhistEra match {
       case 0 =>
-        return BEFORE_BE
+         BEFORE_BE
       case 1 =>
-        return BE
+         BE
       case _ =>
         throw new DateTimeException("Invalid era: " + thaiBuddhistEra)
     }
@@ -845,7 +842,7 @@ final object ThaiBuddhistEra {
 
   private[chrono] def readExternal(in: DataInput): ThaiBuddhistEra = {
     val eraValue: Byte = in.readByte
-    return ThaiBuddhistEra.of(eraValue)
+     ThaiBuddhistEra.of(eraValue)
   }
 
   /**
@@ -869,11 +866,11 @@ final class ThaiBuddhistEra extends Era {
    * @return the era value, from 0 (BEFORE_BE) to 1 (BE)
    */
   def getValue: Int = {
-    return ordinal
+     ordinal
   }
 
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.THAIBUDDHIST_ERA_TYPE, this)
+     new Ser(Ser.THAIBUDDHIST_ERA_TYPE, this)
   }
 
   private[chrono] def writeExternal(out: DataOutput) {

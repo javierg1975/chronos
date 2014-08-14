@@ -1,5 +1,7 @@
 package metronome.chrono
 
+import metronome.temporal._
+
 /**
  * A date without time-of-day or time-zone in an arbitrary chronology, intended
  * for advanced globalization use cases.
@@ -177,7 +179,7 @@ object ChronoLocalDate {
    * @see #isEqual
    */
   def timeLineOrder: Comparator[ChronoLocalDate] = {
-    return Chronology.DATE_ORDER
+     Chronology.DATE_ORDER
   }
 
   /**
@@ -203,18 +205,18 @@ object ChronoLocalDate {
    */
   def from(temporal: TemporalAccessor): ChronoLocalDate = {
     if (temporal.isInstanceOf[ChronoLocalDate]) {
-      return temporal.asInstanceOf[ChronoLocalDate]
+       temporal.asInstanceOf[ChronoLocalDate]
     }
-    Objects.requireNonNull(temporal, "temporal")
+
     val chrono: Chronology = temporal.query(TemporalQuery.chronology)
     if (chrono == null) {
       throw new DateTimeException("Unable to obtain ChronoLocalDate from TemporalAccessor: " + temporal.getClass)
     }
-    return chrono.date(temporal)
+     chrono.date(temporal)
   }
 }
 
-abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Comparable[ChronoLocalDate] {
+trait ChronoLocalDate extends Temporal with TemporalAdjuster with Comparable[ChronoLocalDate] {
   /**
    * Gets the chronology of this date.
    * <p>
@@ -241,7 +243,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @return the chronology specific era constant applicable at this date, not null
    */
   def getEra: Era = {
-    return getChronology.eraOf(get(ERA))
+     getChronology.eraOf(get(ERA))
   }
 
   /**
@@ -256,7 +258,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @return true if this date is in a leap year, false otherwise
    */
   def isLeapYear: Boolean = {
-    return getChronology.isLeapYear(getLong(YEAR))
+     getChronology.isLeapYear(getLong(YEAR))
   }
 
   /**
@@ -278,7 +280,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @return the length of the year in days
    */
   def lengthOfYear: Int = {
-    return (if (isLeapYear) 366 else 365)
+     (if (isLeapYear) 366 else 365)
   }
 
   /**
@@ -302,9 +304,9 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    */
   def isSupported(field: TemporalField): Boolean = {
     if (field.isInstanceOf[ChronoField]) {
-      return field.isDateBased
+       field.isDateBased
     }
-    return field != null && field.isSupportedBy(this)
+     field != null && field.isSupportedBy(this)
   }
 
   /**
@@ -327,9 +329,9 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    */
   def isSupported(unit: TemporalUnit): Boolean = {
     if (unit.isInstanceOf[ChronoUnit]) {
-      return unit.isDateBased
+       unit.isDateBased
     }
-    return unit != null && unit.isSupportedBy(this)
+     unit != null && unit.isSupportedBy(this)
   }
 
   /**
@@ -338,7 +340,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @throws ArithmeticException { @inheritDoc}
    */
   override def `with`(adjuster: TemporalAdjuster): ChronoLocalDate = {
-    return ChronoLocalDateImpl.ensureValid(getChronology, Temporal.super.`with`(adjuster))
+     ChronoLocalDateImpl.ensureValid(getChronology, Temporal.super.`with`(adjuster))
   }
 
   /**
@@ -351,7 +353,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
     if (field.isInstanceOf[ChronoField]) {
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
     }
-    return ChronoLocalDateImpl.ensureValid(getChronology, field.adjustInto(this, newValue))
+     ChronoLocalDateImpl.ensureValid(getChronology, field.adjustInto(this, newValue))
   }
 
   /**
@@ -360,7 +362,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @throws ArithmeticException { @inheritDoc}
    */
   override def plus(amount: TemporalAmount): ChronoLocalDate = {
-    return ChronoLocalDateImpl.ensureValid(getChronology, Temporal.super.plus(amount))
+     ChronoLocalDateImpl.ensureValid(getChronology, Temporal.super.plus(amount))
   }
 
   /**
@@ -372,7 +374,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
     if (unit.isInstanceOf[ChronoUnit]) {
       throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit)
     }
-    return ChronoLocalDateImpl.ensureValid(getChronology, unit.addTo(this, amountToAdd))
+     ChronoLocalDateImpl.ensureValid(getChronology, unit.addTo(this, amountToAdd))
   }
 
   /**
@@ -381,7 +383,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amount: TemporalAmount): ChronoLocalDate = {
-    return ChronoLocalDateImpl.ensureValid(getChronology, Temporal.super.minus(amount))
+     ChronoLocalDateImpl.ensureValid(getChronology, Temporal.super.minus(amount))
   }
 
   /**
@@ -391,7 +393,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amountToSubtract: Long, unit: TemporalUnit): ChronoLocalDate = {
-    return ChronoLocalDateImpl.ensureValid(getChronology, Temporal.super.minus(amountToSubtract, unit))
+     ChronoLocalDateImpl.ensureValid(getChronology, Temporal.super.minus(amountToSubtract, unit))
   }
 
   /**
@@ -412,20 +414,21 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+
+  override def query[R](query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.zoneId || query eq TemporalQuery.zone || query eq TemporalQuery.offset) {
-      return null
+       null
     }
     else if (query eq TemporalQuery.localTime) {
-      return null
+       null
     }
     else if (query eq TemporalQuery.chronology) {
-      return getChronology.asInstanceOf[R]
+       getChronology.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.precision) {
-      return DAYS.asInstanceOf[R]
+       DAYS.asInstanceOf[R]
     }
-    return query.queryFrom(this)
+     query.queryFrom(this)
   }
 
   /**
@@ -453,7 +456,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @throws ArithmeticException if numeric overflow occurs
    */
   def adjustInto(temporal: Temporal): Temporal = {
-    return temporal.`with`(EPOCH_DAY, toEpochDay)
+     temporal.`with`(EPOCH_DAY, toEpochDay)
   }
 
   /**
@@ -542,8 +545,8 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
-    return formatter.format(this)
+
+     formatter.format(this)
   }
 
   /**
@@ -555,8 +558,8 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @param localTime  the local time to use, not null
    * @return the local date-time formed from this date and the specified time, not null
    */
-  @SuppressWarnings(Array("unchecked")) def atTime(localTime: LocalTime): ChronoLocalDateTime[_] = {
-    return ChronoLocalDateTimeImpl.of(this, localTime)
+  def atTime(localTime: LocalTime): ChronoLocalDateTime[_] = {
+     ChronoLocalDateTimeImpl.of(this, localTime)
   }
 
   /**
@@ -571,7 +574,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @return the Epoch Day equivalent to this date
    */
   def toEpochDay: Long = {
-    return getLong(EPOCH_DAY)
+     getLong(EPOCH_DAY)
   }
 
   /**
@@ -607,7 +610,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
     if (cmp == 0) {
       cmp = getChronology.compareTo(other.getChronology)
     }
-    return cmp
+     cmp
   }
 
   /**
@@ -625,7 +628,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @return true if this is after the specified date
    */
   def isAfter(other: ChronoLocalDate): Boolean = {
-    return this.toEpochDay > other.toEpochDay
+     this.toEpochDay > other.toEpochDay
   }
 
   /**
@@ -643,7 +646,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @return true if this is before the specified date
    */
   def isBefore(other: ChronoLocalDate): Boolean = {
-    return this.toEpochDay < other.toEpochDay
+     this.toEpochDay < other.toEpochDay
   }
 
   /**
@@ -661,7 +664,7 @@ abstract trait ChronoLocalDate extends Temporal with TemporalAdjuster with Compa
    * @return true if the underlying date is equal to the specified date
    */
   def isEqual(other: ChronoLocalDate): Boolean = {
-    return this.toEpochDay == other.toEpochDay
+     this.toEpochDay == other.toEpochDay
   }
 
   /**
@@ -771,20 +774,17 @@ object ChronoLocalDateImpl {
    *                            or the chronology is not equal this Chronology
    */
   private[chrono] def ensureValid(chrono: Chronology, temporal: Temporal): D = {
-    @SuppressWarnings(Array("unchecked")) val other: D = temporal.asInstanceOf[D]
+    val other: D = temporal.asInstanceOf[D]
     if ((chrono == other.getChronology) == false) {
       throw new ClassCastException("Chronology mismatch, expected: " + chrono.getId + ", actual: " + other.getChronology.getId)
     }
-    return other
+     other
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = 6282433883239719096L
+
 }
 
-abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with TemporalAdjuster with Serializable {
+abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with TemporalAdjuster  {
   /**
    * Creates an instance.
    */
@@ -792,50 +792,50 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
     this()
   }
 
-  @SuppressWarnings(Array("unchecked")) override def `with`(adjuster: TemporalAdjuster): D = {
-    return ChronoLocalDate.super.`with`(adjuster).asInstanceOf[D]
+  override def `with`(adjuster: TemporalAdjuster): D = {
+     `with`(adjuster).asInstanceOf[D]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def `with`(field: TemporalField, value: Long): D = {
-    return ChronoLocalDate.super.`with`(field, value).asInstanceOf[D]
+  override def `with`(field: TemporalField, value: Long): D = {
+     `with`(field, value).asInstanceOf[D]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def plus(amount: TemporalAmount): D = {
-    return ChronoLocalDate.super.plus(amount).asInstanceOf[D]
+  override def plus(amount: TemporalAmount): D = {
+     plus(amount).asInstanceOf[D]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def plus(amountToAdd: Long, unit: TemporalUnit): D = {
+  override def plus(amountToAdd: Long, unit: TemporalUnit): D = {
     if (unit.isInstanceOf[ChronoUnit]) {
       val f: ChronoUnit = unit.asInstanceOf[ChronoUnit]
       f match {
         case DAYS =>
-          return plusDays(amountToAdd)
+           plusDays(amountToAdd)
         case WEEKS =>
-          return plusDays(Math.multiplyExact(amountToAdd, 7))
+           plusDays(Math.multiplyExact(amountToAdd, 7))
         case MONTHS =>
-          return plusMonths(amountToAdd)
+           plusMonths(amountToAdd)
         case YEARS =>
-          return plusYears(amountToAdd)
+           plusYears(amountToAdd)
         case DECADES =>
-          return plusYears(Math.multiplyExact(amountToAdd, 10))
+           plusYears(Math.multiplyExact(amountToAdd, 10))
         case CENTURIES =>
-          return plusYears(Math.multiplyExact(amountToAdd, 100))
+           plusYears(Math.multiplyExact(amountToAdd, 100))
         case MILLENNIA =>
-          return plusYears(Math.multiplyExact(amountToAdd, 1000))
+           plusYears(Math.multiplyExact(amountToAdd, 1000))
         case ERAS =>
-          return `with`(ERA, Math.addExact(getLong(ERA), amountToAdd))
+           `with`(ERA, Math.addExact(getLong(ERA), amountToAdd))
       }
       throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit)
     }
-    return ChronoLocalDate.super.plus(amountToAdd, unit).asInstanceOf[D]
+     plus(amountToAdd, unit).asInstanceOf[D]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def minus(amount: TemporalAmount): D = {
-    return ChronoLocalDate.super.minus(amount).asInstanceOf[D]
+  override def minus(amount: TemporalAmount): D = {
+     minus(amount).asInstanceOf[D]
   }
 
-  @SuppressWarnings(Array("unchecked")) override def minus(amountToSubtract: Long, unit: TemporalUnit): D = {
-    return ChronoLocalDate.super.minus(amountToSubtract, unit).asInstanceOf[D]
+  override def minus(amountToSubtract: Long, unit: TemporalUnit): D = {
+     minus(amountToSubtract, unit).asInstanceOf[D]
   }
 
   /**
@@ -886,7 +886,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @throws DateTimeException if the result exceeds the supported date range
    */
   private[chrono] def plusWeeks(weeksToAdd: Long): D = {
-    return plusDays(Math.multiplyExact(weeksToAdd, 7))
+     plusDays(Math.multiplyExact(weeksToAdd, 7))
   }
 
   /**
@@ -918,8 +918,8 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the years subtracted, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  @SuppressWarnings(Array("unchecked")) private[chrono] def minusYears(yearsToSubtract: Long): D = {
-    return (if (yearsToSubtract == Long.MIN_VALUE) (plusYears(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusYears(1) else plusYears(-yearsToSubtract))
+  private[chrono] def minusYears(yearsToSubtract: Long): D = {
+     (if (yearsToSubtract == Long.MIN_VALUE) (plusYears(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusYears(1) else plusYears(-yearsToSubtract))
   }
 
   /**
@@ -938,8 +938,8 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the months subtracted, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  @SuppressWarnings(Array("unchecked")) private[chrono] def minusMonths(monthsToSubtract: Long): D = {
-    return (if (monthsToSubtract == Long.MIN_VALUE) (plusMonths(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusMonths(1) else plusMonths(-monthsToSubtract))
+  private[chrono] def minusMonths(monthsToSubtract: Long): D = {
+     (if (monthsToSubtract == Long.MIN_VALUE) (plusMonths(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusMonths(1) else plusMonths(-monthsToSubtract))
   }
 
   /**
@@ -957,8 +957,8 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the weeks subtracted, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  @SuppressWarnings(Array("unchecked")) private[chrono] def minusWeeks(weeksToSubtract: Long): D = {
-    return (if (weeksToSubtract == Long.MIN_VALUE) (plusWeeks(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusWeeks(1) else plusWeeks(-weeksToSubtract))
+  private[chrono] def minusWeeks(weeksToSubtract: Long): D = {
+     (if (weeksToSubtract == Long.MIN_VALUE) (plusWeeks(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusWeeks(1) else plusWeeks(-weeksToSubtract))
   }
 
   /**
@@ -974,8 +974,8 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the days subtracted, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  @SuppressWarnings(Array("unchecked")) private[chrono] def minusDays(daysToSubtract: Long): D = {
-    return (if (daysToSubtract == Long.MIN_VALUE) (plusDays(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusDays(1) else plusDays(-daysToSubtract))
+  private[chrono] def minusDays(daysToSubtract: Long): D = {
+     (if (daysToSubtract == Long.MIN_VALUE) (plusDays(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusDays(1) else plusDays(-daysToSubtract))
   }
 
   def until(endExclusive: Temporal, unit: TemporalUnit): Long = {
@@ -983,29 +983,29 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
     if (unit.isInstanceOf[ChronoUnit]) {
       unit.asInstanceOf[ChronoUnit] match {
         case DAYS =>
-          return daysUntil(end)
+           daysUntil(end)
         case WEEKS =>
-          return daysUntil(end) / 7
+           daysUntil(end) / 7
         case MONTHS =>
-          return monthsUntil(end)
+           monthsUntil(end)
         case YEARS =>
-          return monthsUntil(end) / 12
+           monthsUntil(end) / 12
         case DECADES =>
-          return monthsUntil(end) / 120
+           monthsUntil(end) / 120
         case CENTURIES =>
-          return monthsUntil(end) / 1200
+           monthsUntil(end) / 1200
         case MILLENNIA =>
-          return monthsUntil(end) / 12000
+           monthsUntil(end) / 12000
         case ERAS =>
-          return end.getLong(ERA) - getLong(ERA)
+           end.getLong(ERA) - getLong(ERA)
       }
       throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit)
     }
-    return unit.between(this, end)
+     unit.between(this, end)
   }
 
   private def daysUntil(end: ChronoLocalDate): Long = {
-    return end.toEpochDay - toEpochDay
+     end.toEpochDay - toEpochDay
   }
 
   private def monthsUntil(end: ChronoLocalDate): Long = {
@@ -1015,22 +1015,22 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
     }
     val packed1: Long = getLong(PROLEPTIC_MONTH) * 32L + get(DAY_OF_MONTH)
     val packed2: Long = end.getLong(PROLEPTIC_MONTH) * 32L + end.get(DAY_OF_MONTH)
-    return (packed2 - packed1) / 32
+     (packed2 - packed1) / 32
   }
 
   override def equals(obj: AnyRef): Boolean = {
     if (this eq obj) {
-      return true
+       true
     }
     if (obj.isInstanceOf[ChronoLocalDate]) {
-      return compareTo(obj.asInstanceOf[ChronoLocalDate]) == 0
+       compareTo(obj.asInstanceOf[ChronoLocalDate]) == 0
     }
-    return false
+     false
   }
 
   override def hashCode: Int = {
     val epDay: Long = toEpochDay
-    return getChronology.hashCode ^ ((epDay ^ (epDay >>> 32)).asInstanceOf[Int])
+     getChronology.hashCode ^ ((epDay ^ (epDay >>> 32)).asInstanceOf[Int])
   }
 
   override def toString: String = {
@@ -1039,7 +1039,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
     val dom: Long = getLong(DAY_OF_MONTH)
     val buf: StringBuilder = new StringBuilder(30)
     buf.append(getChronology.toString).append(" ").append(getEra).append(" ").append(yoe).append(if (moy < 10) "-0" else "-").append(moy).append(if (dom < 10) "-0" else "-").append(dom)
-    return buf.toString
+     buf.toString
   }
 }
 
@@ -1091,7 +1091,7 @@ object ChronoLocalDateTime {
    * @see #isEqual
    */
   def timeLineOrder: Comparator[ChronoLocalDateTime[_]] = {
-    return Chronology.DATE_TIME_ORDER
+     Chronology.DATE_TIME_ORDER
   }
 
   /**
@@ -1117,18 +1117,18 @@ object ChronoLocalDateTime {
    */
   def from(temporal: TemporalAccessor): ChronoLocalDateTime[_] = {
     if (temporal.isInstanceOf[ChronoLocalDateTime[_ <: ChronoLocalDate]]) {
-      return temporal.asInstanceOf[ChronoLocalDateTime[_]]
+       temporal.asInstanceOf[ChronoLocalDateTime[_]]
     }
-    Objects.requireNonNull(temporal, "temporal")
+
     val chrono: Chronology = temporal.query(TemporalQuery.chronology)
     if (chrono == null) {
       throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " + temporal.getClass)
     }
-    return chrono.localDateTime(temporal)
+     chrono.localDateTime(temporal)
   }
 }
 
-abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with Comparable[ChronoLocalDateTime[_]] {
+trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with Comparable[ChronoLocalDateTime[_]] {
   /**
    * Gets the chronology of this date-time.
    * <p>
@@ -1138,7 +1138,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @return the chronology, not null
    */
   def getChronology: Chronology = {
-    return toLocalDate.getChronology
+     toLocalDate.getChronology
   }
 
   /**
@@ -1202,9 +1202,9 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    */
   def isSupported(unit: TemporalUnit): Boolean = {
     if (unit.isInstanceOf[ChronoUnit]) {
-      return unit ne FOREVER
+       unit ne FOREVER
     }
-    return unit != null && unit.isSupportedBy(this)
+     unit != null && unit.isSupportedBy(this)
   }
 
   /**
@@ -1213,7 +1213,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @throws ArithmeticException { @inheritDoc}
    */
   override def `with`(adjuster: TemporalAdjuster): ChronoLocalDateTime[D] = {
-    return ChronoLocalDateTimeImpl.ensureValid(getChronology, Temporal.super.`with`(adjuster))
+     ChronoLocalDateTimeImpl.ensureValid(getChronology, Temporal.super.`with`(adjuster))
   }
 
   /**
@@ -1229,7 +1229,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @throws ArithmeticException { @inheritDoc}
    */
   override def plus(amount: TemporalAmount): ChronoLocalDateTime[D] = {
-    return ChronoLocalDateTimeImpl.ensureValid(getChronology, Temporal.super.plus(amount))
+     ChronoLocalDateTimeImpl.ensureValid(getChronology, Temporal.super.plus(amount))
   }
 
   /**
@@ -1245,7 +1245,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amount: TemporalAmount): ChronoLocalDateTime[D] = {
-    return ChronoLocalDateTimeImpl.ensureValid(getChronology, Temporal.super.minus(amount))
+     ChronoLocalDateTimeImpl.ensureValid(getChronology, Temporal.super.minus(amount))
   }
 
   /**
@@ -1254,7 +1254,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amountToSubtract: Long, unit: TemporalUnit): ChronoLocalDateTime[D] = {
-    return ChronoLocalDateTimeImpl.ensureValid(getChronology, Temporal.super.minus(amountToSubtract, unit))
+     ChronoLocalDateTimeImpl.ensureValid(getChronology, Temporal.super.minus(amountToSubtract, unit))
   }
 
   /**
@@ -1275,20 +1275,20 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.zoneId || query eq TemporalQuery.zone || query eq TemporalQuery.offset) {
-      return null
+       null
     }
     else if (query eq TemporalQuery.localTime) {
-      return toLocalTime.asInstanceOf[R]
+       toLocalTime.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.chronology) {
-      return getChronology.asInstanceOf[R]
+       getChronology.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.precision) {
-      return NANOS.asInstanceOf[R]
+       NANOS.asInstanceOf[R]
     }
-    return query.queryFrom(this)
+     query.queryFrom(this)
   }
 
   /**
@@ -1317,7 +1317,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @throws ArithmeticException if numeric overflow occurs
    */
   def adjustInto(temporal: Temporal): Temporal = {
-    return temporal.`with`(EPOCH_DAY, toLocalDate.toEpochDay).`with`(NANO_OF_DAY, toLocalTime.toNanoOfDay)
+     temporal.`with`(EPOCH_DAY, toLocalDate.toEpochDay).`with`(NANO_OF_DAY, toLocalTime.toNanoOfDay)
   }
 
   /**
@@ -1335,8 +1335,8 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
-    return formatter.format(this)
+
+     formatter.format(this)
   }
 
   /**
@@ -1381,7 +1381,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @return an { @code Instant} representing the same instant, not null
    */
   def toInstant(offset: ZoneOffset): Instant = {
-    return Instant.ofEpochSecond(toEpochSecond(offset), toLocalTime.getNano)
+     Instant.ofEpochSecond(toEpochSecond(offset), toLocalTime.getNano)
   }
 
   /**
@@ -1399,11 +1399,11 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @return the number of seconds from the epoch of 1970-01-01T00:00:00Z
    */
   def toEpochSecond(offset: ZoneOffset): Long = {
-    Objects.requireNonNull(offset, "offset")
+
     val epochDay: Long = toLocalDate.toEpochDay
     var secs: Long = epochDay * 86400 + toLocalTime.toSecondOfDay
     secs -= offset.getTotalSeconds
-    return secs
+     secs
   }
 
   /**
@@ -1440,7 +1440,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
         cmp = getChronology.compareTo(other.getChronology)
       }
     }
-    return cmp
+     cmp
   }
 
   /**
@@ -1460,7 +1460,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
   def isAfter(other: ChronoLocalDateTime[_]): Boolean = {
     val thisEpDay: Long = this.toLocalDate.toEpochDay
     val otherEpDay: Long = other.toLocalDate.toEpochDay
-    return thisEpDay > otherEpDay || (thisEpDay == otherEpDay && this.toLocalTime.toNanoOfDay > other.toLocalTime.toNanoOfDay)
+     thisEpDay > otherEpDay || (thisEpDay == otherEpDay && this.toLocalTime.toNanoOfDay > other.toLocalTime.toNanoOfDay)
   }
 
   /**
@@ -1480,7 +1480,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
   def isBefore(other: ChronoLocalDateTime[_]): Boolean = {
     val thisEpDay: Long = this.toLocalDate.toEpochDay
     val otherEpDay: Long = other.toLocalDate.toEpochDay
-    return thisEpDay < otherEpDay || (thisEpDay == otherEpDay && this.toLocalTime.toNanoOfDay < other.toLocalTime.toNanoOfDay)
+     thisEpDay < otherEpDay || (thisEpDay == otherEpDay && this.toLocalTime.toNanoOfDay < other.toLocalTime.toNanoOfDay)
   }
 
   /**
@@ -1498,7 +1498,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
    * @return true if the underlying date-time is equal to the specified date-time on the timeline
    */
   def isEqual(other: ChronoLocalDateTime[_]): Boolean = {
-    return this.toLocalTime.toNanoOfDay == other.toLocalTime.toNanoOfDay && this.toLocalDate.toEpochDay == other.toLocalDate.toEpochDay
+     this.toLocalTime.toNanoOfDay == other.toLocalTime.toNanoOfDay && this.toLocalDate.toEpochDay == other.toLocalDate.toEpochDay
   }
 
   /**
@@ -1545,7 +1545,7 @@ abstract trait ChronoLocalDateTime extends Temporal with TemporalAdjuster with C
  * @param <D> the concrete type for the date of this date-time
  * @since 1.8
  */
-final object ChronoLocalDateTimeImpl {
+object ChronoLocalDateTimeImpl {
   /**
    * Obtains an instance of {@code ChronoLocalDateTime} from a date and time.
    *
@@ -1554,7 +1554,7 @@ final object ChronoLocalDateTimeImpl {
    * @return the local date-time, not null
    */
   private[chrono] def of(date: R, time: LocalTime): ChronoLocalDateTimeImpl[R] = {
-    return new ChronoLocalDateTimeImpl[R](date, time)
+     new ChronoLocalDateTimeImpl[R](date, time)
   }
 
   /**
@@ -1567,17 +1567,17 @@ final object ChronoLocalDateTimeImpl {
    *                            or the chronology is not equal this Chronology
    */
   private[chrono] def ensureValid(chrono: Chronology, temporal: Temporal): ChronoLocalDateTimeImpl[R] = {
-    @SuppressWarnings(Array("unchecked")) val other: ChronoLocalDateTimeImpl[R] = temporal.asInstanceOf[ChronoLocalDateTimeImpl[R]]
+    val other: ChronoLocalDateTimeImpl[R] = temporal.asInstanceOf[ChronoLocalDateTimeImpl[R]]
     if ((chrono == other.getChronology) == false) {
       throw new ClassCastException("Chronology mismatch, required: " + chrono.getId + ", actual: " + other.getChronology.getId)
     }
-    return other
+     other
   }
 
   private[chrono] def readExternal(in: ObjectInput): ChronoLocalDateTime[_] = {
     val date: ChronoLocalDate = in.readObject.asInstanceOf[ChronoLocalDate]
     val time: LocalTime = in.readObject.asInstanceOf[LocalTime]
-    return date.atTime(time)
+     date.atTime(time)
   }
 
   /**
@@ -1634,7 +1634,7 @@ final object ChronoLocalDateTimeImpl {
   private[chrono] final val NANOS_PER_DAY: Long = NANOS_PER_HOUR * HOURS_PER_DAY
 }
 
-final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal with TemporalAdjuster with Serializable {
+final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal with TemporalAdjuster  {
   /**
    * Constructor.
    *
@@ -1643,8 +1643,8 @@ final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal
    */
   private def this(date: D, time: LocalTime) {
     this()
-    Objects.requireNonNull(date, "date")
-    Objects.requireNonNull(time, "time")
+
+
     this.date = date
     this.time = time
   }
@@ -1659,76 +1659,76 @@ final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal
    */
   private def `with`(newDate: Temporal, newTime: LocalTime): ChronoLocalDateTimeImpl[D] = {
     if (date eq newDate && time eq newTime) {
-      return this
+       this
     }
     val cd: D = ChronoLocalDateImpl.ensureValid(date.getChronology, newDate)
-    return new ChronoLocalDateTimeImpl[D](cd, newTime)
+     new ChronoLocalDateTimeImpl[D](cd, newTime)
   }
 
   def toLocalDate: D = {
-    return date
+     date
   }
 
   def toLocalTime: LocalTime = {
-    return time
+     time
   }
 
   def isSupported(field: TemporalField): Boolean = {
     if (field.isInstanceOf[ChronoField]) {
       val f: ChronoField = field.asInstanceOf[ChronoField]
-      return f.isDateBased || f.isTimeBased
+       f.isDateBased || f.isTimeBased
     }
-    return field != null && field.isSupportedBy(this)
+     field != null && field.isSupportedBy(this)
   }
 
   override def range(field: TemporalField): ValueRange = {
     if (field.isInstanceOf[ChronoField]) {
       val f: ChronoField = field.asInstanceOf[ChronoField]
-      return (if (f.isTimeBased) time.range(field) else date.range(field))
+       (if (f.isTimeBased) time.range(field) else date.range(field))
     }
-    return field.rangeRefinedBy(this)
+     field.rangeRefinedBy(this)
   }
 
   override def get(field: TemporalField): Int = {
     if (field.isInstanceOf[ChronoField]) {
       val f: ChronoField = field.asInstanceOf[ChronoField]
-      return (if (f.isTimeBased) time.get(field) else date.get(field))
+       (if (f.isTimeBased) time.get(field) else date.get(field))
     }
-    return range(field).checkValidIntValue(getLong(field), field)
+     range(field).checkValidIntValue(getLong(field), field)
   }
 
   def getLong(field: TemporalField): Long = {
     if (field.isInstanceOf[ChronoField]) {
       val f: ChronoField = field.asInstanceOf[ChronoField]
-      return (if (f.isTimeBased) time.getLong(field) else date.getLong(field))
+       (if (f.isTimeBased) time.getLong(field) else date.getLong(field))
     }
-    return field.getFrom(this)
+     field.getFrom(this)
   }
 
-  @SuppressWarnings(Array("unchecked")) override def `with`(adjuster: TemporalAdjuster): ChronoLocalDateTimeImpl[D] = {
+  override def `with`(adjuster: TemporalAdjuster): ChronoLocalDateTimeImpl[D] = {
     if (adjuster.isInstanceOf[ChronoLocalDate]) {
-      return `with`(adjuster.asInstanceOf[ChronoLocalDate], time)
+       `with`(adjuster.asInstanceOf[ChronoLocalDate], time)
     }
     else if (adjuster.isInstanceOf[LocalTime]) {
-      return `with`(date, adjuster.asInstanceOf[LocalTime])
+       `with`(date, adjuster.asInstanceOf[LocalTime])
     }
     else if (adjuster.isInstanceOf[ChronoLocalDateTimeImpl[_ <: ChronoLocalDate]]) {
-      return ChronoLocalDateTimeImpl.ensureValid(date.getChronology, adjuster.asInstanceOf[ChronoLocalDateTimeImpl[_]])
+       ChronoLocalDateTimeImpl.ensureValid(date.getChronology, adjuster.asInstanceOf[ChronoLocalDateTimeImpl[_]])
     }
-    return ChronoLocalDateTimeImpl.ensureValid(date.getChronology, adjuster.adjustInto(this).asInstanceOf[ChronoLocalDateTimeImpl[_]])
+     ChronoLocalDateTimeImpl.ensureValid(date.getChronology, adjuster.adjustInto(this).asInstanceOf[ChronoLocalDateTimeImpl[_]])
   }
 
   def `with`(field: TemporalField, newValue: Long): ChronoLocalDateTimeImpl[D] = {
     if (field.isInstanceOf[ChronoField]) {
       val f: ChronoField = field.asInstanceOf[ChronoField]
       if (f.isTimeBased) {
-        return `with`(date, time.`with`(field, newValue))
+         `with`(date, time.`with`(field, newValue))
       }
       else {
-        return `with`(date.`with`(field, newValue), time)
+         `with`(date.`with`(field, newValue), time)
       }
     }
-    return ChronoLocalDateTimeImpl.ensureValid(date.getChronology, field.adjustInto(this, newValue))
+     ChronoLocalDateTimeImpl.ensureValid(date.getChronology, field.adjustInto(this, newValue))
   }
 
   def plus(amountToAdd: Long, unit: TemporalUnit): ChronoLocalDateTimeImpl[D] = {
@@ -1736,48 +1736,48 @@ final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal
       val f: ChronoUnit = unit.asInstanceOf[ChronoUnit]
       f match {
         case NANOS =>
-          return plusNanos(amountToAdd)
+           plusNanos(amountToAdd)
         case MICROS =>
-          return plusDays(amountToAdd / MICROS_PER_DAY).plusNanos((amountToAdd % MICROS_PER_DAY) * 1000)
+           plusDays(amountToAdd / MICROS_PER_DAY).plusNanos((amountToAdd % MICROS_PER_DAY) * 1000)
         case MILLIS =>
-          return plusDays(amountToAdd / MILLIS_PER_DAY).plusNanos((amountToAdd % MILLIS_PER_DAY) * 1000000)
+           plusDays(amountToAdd / MILLIS_PER_DAY).plusNanos((amountToAdd % MILLIS_PER_DAY) * 1000000)
         case SECONDS =>
-          return plusSeconds(amountToAdd)
+           plusSeconds(amountToAdd)
         case MINUTES =>
-          return plusMinutes(amountToAdd)
+           plusMinutes(amountToAdd)
         case HOURS =>
-          return plusHours(amountToAdd)
+           plusHours(amountToAdd)
         case HALF_DAYS =>
-          return plusDays(amountToAdd / 256).plusHours((amountToAdd % 256) * 12)
+           plusDays(amountToAdd / 256).plusHours((amountToAdd % 256) * 12)
       }
-      return `with`(date.plus(amountToAdd, unit), time)
+       `with`(date.plus(amountToAdd, unit), time)
     }
-    return ChronoLocalDateTimeImpl.ensureValid(date.getChronology, unit.addTo(this, amountToAdd))
+     ChronoLocalDateTimeImpl.ensureValid(date.getChronology, unit.addTo(this, amountToAdd))
   }
 
   private def plusDays(days: Long): ChronoLocalDateTimeImpl[D] = {
-    return `with`(date.plus(days, ChronoUnit.DAYS), time)
+     `with`(date.plus(days, ChronoUnit.DAYS), time)
   }
 
   private def plusHours(hours: Long): ChronoLocalDateTimeImpl[D] = {
-    return plusWithOverflow(date, hours, 0, 0, 0)
+     plusWithOverflow(date, hours, 0, 0, 0)
   }
 
   private def plusMinutes(minutes: Long): ChronoLocalDateTimeImpl[D] = {
-    return plusWithOverflow(date, 0, minutes, 0, 0)
+     plusWithOverflow(date, 0, minutes, 0, 0)
   }
 
   private[chrono] def plusSeconds(seconds: Long): ChronoLocalDateTimeImpl[D] = {
-    return plusWithOverflow(date, 0, 0, seconds, 0)
+     plusWithOverflow(date, 0, 0, seconds, 0)
   }
 
   private def plusNanos(nanos: Long): ChronoLocalDateTimeImpl[D] = {
-    return plusWithOverflow(date, 0, 0, 0, nanos)
+     plusWithOverflow(date, 0, 0, 0, nanos)
   }
 
   private def plusWithOverflow(newDate: D, hours: Long, minutes: Long, seconds: Long, nanos: Long): ChronoLocalDateTimeImpl[D] = {
     if ((hours | minutes | seconds | nanos) == 0) {
-      return `with`(newDate, time)
+       `with`(newDate, time)
     }
     var totDays: Long = nanos / NANOS_PER_DAY + seconds / SECONDS_PER_DAY + minutes / MINUTES_PER_DAY + hours / HOURS_PER_DAY
     var totNanos: Long = nanos % NANOS_PER_DAY + (seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND + (minutes % MINUTES_PER_DAY) * NANOS_PER_MINUTE + (hours % HOURS_PER_DAY) * NANOS_PER_HOUR
@@ -1786,15 +1786,15 @@ final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal
     totDays += Math.floorDiv(totNanos, NANOS_PER_DAY)
     val newNoD: Long = Math.floorMod(totNanos, NANOS_PER_DAY)
     val newTime: LocalTime = (if (newNoD == curNoD) time else LocalTime.ofNanoOfDay(newNoD))
-    return `with`(newDate.plus(totDays, ChronoUnit.DAYS), newTime)
+     `with`(newDate.plus(totDays, ChronoUnit.DAYS), newTime)
   }
 
   def atZone(zone: ZoneId): ChronoZonedDateTime[D] = {
-    return ChronoZonedDateTimeImpl.ofBest(this, zone, null)
+     ChronoZonedDateTimeImpl.ofBest(this, zone, null)
   }
 
   def until(endExclusive: Temporal, unit: TemporalUnit): Long = {
-    @SuppressWarnings(Array("unchecked")) val end: ChronoLocalDateTime[D] = getChronology.localDateTime(endExclusive).asInstanceOf[ChronoLocalDateTime[D]]
+    val end: ChronoLocalDateTime[D] = getChronology.localDateTime(endExclusive).asInstanceOf[ChronoLocalDateTime[D]]
     if (unit.isInstanceOf[ChronoUnit]) {
       if (unit.isTimeBased) {
         var amount: Long = end.getLong(EPOCH_DAY) - date.getLong(EPOCH_DAY)
@@ -1821,19 +1821,19 @@ final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal
             amount = Math.multiplyExact(amount, 2)
             break //todo: break is not supported
         }
-        return Math.addExact(amount, time.until(end.toLocalTime, unit))
+         Math.addExact(amount, time.until(end.toLocalTime, unit))
       }
       var endDate: ChronoLocalDate = end.toLocalDate
       if (end.toLocalTime.isBefore(time)) {
         endDate = endDate.minus(1, ChronoUnit.DAYS)
       }
-      return date.until(endDate, unit)
+       date.until(endDate, unit)
     }
-    return unit.between(this, end)
+     unit.between(this, end)
   }
 
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.CHRONO_LOCAL_DATE_TIME_TYPE, this)
+     new Ser(Ser.CHRONO_LOCAL_DATE_TIME_TYPE, this)
   }
 
   /**
@@ -1852,20 +1852,20 @@ final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal
 
   override def equals(obj: AnyRef): Boolean = {
     if (this eq obj) {
-      return true
+       true
     }
     if (obj.isInstanceOf[ChronoLocalDateTime[_ <: ChronoLocalDate]]) {
-      return compareTo(obj.asInstanceOf[ChronoLocalDateTime[_]]) == 0
+       compareTo(obj.asInstanceOf[ChronoLocalDateTime[_]]) == 0
     }
-    return false
+     false
   }
 
   override def hashCode: Int = {
-    return toLocalDate.hashCode ^ toLocalTime.hashCode
+     toLocalDate.hashCode ^ toLocalTime.hashCode
   }
 
   override def toString: String = {
-    return toLocalDate.toString + 'T' + toLocalTime.toString
+     toLocalDate.toString + 'T' + toLocalTime.toString
   }
 
   /**
@@ -1926,7 +1926,7 @@ object ChronoZonedDateTime {
    * @see #isEqual
    */
   def timeLineOrder: Comparator[ChronoZonedDateTime[_]] = {
-    return Chronology.INSTANT_ORDER
+     Chronology.INSTANT_ORDER
   }
 
   /**
@@ -1952,26 +1952,26 @@ object ChronoZonedDateTime {
    */
   def from(temporal: TemporalAccessor): ChronoZonedDateTime[_] = {
     if (temporal.isInstanceOf[ChronoZonedDateTime[_ <: ChronoLocalDate]]) {
-      return temporal.asInstanceOf[ChronoZonedDateTime[_]]
+       temporal.asInstanceOf[ChronoZonedDateTime[_]]
     }
-    Objects.requireNonNull(temporal, "temporal")
+
     val chrono: Chronology = temporal.query(TemporalQuery.chronology)
     if (chrono == null) {
       throw new DateTimeException("Unable to obtain ChronoZonedDateTime from TemporalAccessor: " + temporal.getClass)
     }
-    return chrono.zonedDateTime(temporal)
+     chrono.zonedDateTime(temporal)
   }
 }
 
-abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedDateTime[_]] {
+trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedDateTime[_]] {
   override def range(field: TemporalField): ValueRange = {
     if (field.isInstanceOf[ChronoField]) {
       if (field eq INSTANT_SECONDS || field eq OFFSET_SECONDS) {
-        return field.range
+         field.range
       }
-      return toLocalDateTime.range(field)
+       toLocalDateTime.range(field)
     }
-    return field.rangeRefinedBy(this)
+     field.rangeRefinedBy(this)
   }
 
   override def get(field: TemporalField): Int = {
@@ -1980,24 +1980,24 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
         case INSTANT_SECONDS =>
           throw new UnsupportedTemporalTypeException("Invalid field 'InstantSeconds' for get() method, use getLong() instead")
         case OFFSET_SECONDS =>
-          return getOffset.getTotalSeconds
+           getOffset.getTotalSeconds
       }
-      return toLocalDateTime.get(field)
+       toLocalDateTime.get(field)
     }
-    return Temporal.super.get(field)
+     Temporal.super.get(field)
   }
 
   def getLong(field: TemporalField): Long = {
     if (field.isInstanceOf[ChronoField]) {
       field.asInstanceOf[ChronoField] match {
         case INSTANT_SECONDS =>
-          return toEpochSecond
+           toEpochSecond
         case OFFSET_SECONDS =>
-          return getOffset.getTotalSeconds
+           getOffset.getTotalSeconds
       }
-      return toLocalDateTime.getLong(field)
+       toLocalDateTime.getLong(field)
     }
-    return field.getFrom(this)
+     field.getFrom(this)
   }
 
   /**
@@ -2009,7 +2009,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @return the date part of this date-time, not null
    */
   def toLocalDate: D = {
-    return toLocalDateTime.toLocalDate
+     toLocalDateTime.toLocalDate
   }
 
   /**
@@ -2021,7 +2021,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @return the time part of this date-time, not null
    */
   def toLocalTime: LocalTime = {
-    return toLocalDateTime.toLocalTime
+     toLocalDateTime.toLocalTime
   }
 
   /**
@@ -2043,7 +2043,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @return the chronology, not null
    */
   def getChronology: Chronology = {
-    return toLocalDate.getChronology
+     toLocalDate.getChronology
   }
 
   /**
@@ -2181,9 +2181,9 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    */
   def isSupported(unit: TemporalUnit): Boolean = {
     if (unit.isInstanceOf[ChronoUnit]) {
-      return unit ne FOREVER
+       unit ne FOREVER
     }
-    return unit != null && unit.isSupportedBy(this)
+     unit != null && unit.isSupportedBy(this)
   }
 
   /**
@@ -2192,7 +2192,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @throws ArithmeticException { @inheritDoc}
    */
   override def `with`(adjuster: TemporalAdjuster): ChronoZonedDateTime[D] = {
-    return ChronoZonedDateTimeImpl.ensureValid(getChronology, Temporal.super.`with`(adjuster))
+     ChronoZonedDateTimeImpl.ensureValid(getChronology, Temporal.super.`with`(adjuster))
   }
 
   /**
@@ -2208,7 +2208,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @throws ArithmeticException { @inheritDoc}
    */
   override def plus(amount: TemporalAmount): ChronoZonedDateTime[D] = {
-    return ChronoZonedDateTimeImpl.ensureValid(getChronology, Temporal.super.plus(amount))
+     ChronoZonedDateTimeImpl.ensureValid(getChronology, Temporal.super.plus(amount))
   }
 
   /**
@@ -2224,7 +2224,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amount: TemporalAmount): ChronoZonedDateTime[D] = {
-    return ChronoZonedDateTimeImpl.ensureValid(getChronology, Temporal.super.minus(amount))
+     ChronoZonedDateTimeImpl.ensureValid(getChronology, Temporal.super.minus(amount))
   }
 
   /**
@@ -2233,7 +2233,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @throws ArithmeticException { @inheritDoc}
    */
   override def minus(amountToSubtract: Long, unit: TemporalUnit): ChronoZonedDateTime[D] = {
-    return ChronoZonedDateTimeImpl.ensureValid(getChronology, Temporal.super.minus(amountToSubtract, unit))
+     ChronoZonedDateTimeImpl.ensureValid(getChronology, Temporal.super.minus(amountToSubtract, unit))
   }
 
   /**
@@ -2254,23 +2254,23 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.zone || query eq TemporalQuery.zoneId) {
-      return getZone.asInstanceOf[R]
+       getZone.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.offset) {
-      return getOffset.asInstanceOf[R]
+       getOffset.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.localTime) {
-      return toLocalTime.asInstanceOf[R]
+       toLocalTime.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.chronology) {
-      return getChronology.asInstanceOf[R]
+       getChronology.asInstanceOf[R]
     }
     else if (query eq TemporalQuery.precision) {
-      return NANOS.asInstanceOf[R]
+       NANOS.asInstanceOf[R]
     }
-    return query.queryFrom(this)
+     query.queryFrom(this)
   }
 
   /**
@@ -2288,8 +2288,8 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @throws DateTimeException if an error occurs during printing
    */
   def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
-    return formatter.format(this)
+
+     formatter.format(this)
   }
 
   /**
@@ -2303,7 +2303,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @return an { @code Instant} representing the same instant, not null
    */
   def toInstant: Instant = {
-    return Instant.ofEpochSecond(toEpochSecond, toLocalTime.getNano)
+     Instant.ofEpochSecond(toEpochSecond, toLocalTime.getNano)
   }
 
   /**
@@ -2321,7 +2321,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
     val epochDay: Long = toLocalDate.toEpochDay
     var secs: Long = epochDay * 86400 + toLocalTime.toSecondOfDay
     secs -= getOffset.getTotalSeconds
-    return secs
+     secs
   }
 
   /**
@@ -2353,7 +2353,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
         }
       }
     }
-    return cmp
+     cmp
   }
 
   /**
@@ -2372,7 +2372,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
   def isBefore(other: ChronoZonedDateTime[_]): Boolean = {
     val thisEpochSec: Long = toEpochSecond
     val otherEpochSec: Long = other.toEpochSecond
-    return thisEpochSec < otherEpochSec || (thisEpochSec == otherEpochSec && toLocalTime.getNano < other.toLocalTime.getNano)
+     thisEpochSec < otherEpochSec || (thisEpochSec == otherEpochSec && toLocalTime.getNano < other.toLocalTime.getNano)
   }
 
   /**
@@ -2391,7 +2391,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
   def isAfter(other: ChronoZonedDateTime[_]): Boolean = {
     val thisEpochSec: Long = toEpochSecond
     val otherEpochSec: Long = other.toEpochSecond
-    return thisEpochSec > otherEpochSec || (thisEpochSec == otherEpochSec && toLocalTime.getNano > other.toLocalTime.getNano)
+     thisEpochSec > otherEpochSec || (thisEpochSec == otherEpochSec && toLocalTime.getNano > other.toLocalTime.getNano)
   }
 
   /**
@@ -2408,7 +2408,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
    * @return true if the instant equals the instant of the specified date-time
    */
   def isEqual(other: ChronoZonedDateTime[_]): Boolean = {
-    return toEpochSecond == other.toEpochSecond && toLocalTime.getNano == other.toLocalTime.getNano
+     toEpochSecond == other.toEpochSecond && toLocalTime.getNano == other.toLocalTime.getNano
   }
 
   /**
@@ -2457,7 +2457,7 @@ abstract trait ChronoZonedDateTime extends Temporal with Comparable[ChronoZonedD
  * @param <D> the concrete type for the date of this date-time
  * @since 1.8
  */
-final object ChronoZonedDateTimeImpl {
+object ChronoZonedDateTimeImpl {
   /**
    * Obtains an instance from a local date-time using the preferred offset if possible.
    *
@@ -2467,10 +2467,10 @@ final object ChronoZonedDateTimeImpl {
    * @return the zoned date-time, not null
    */
   private[chrono] def ofBest(localDateTime: ChronoLocalDateTimeImpl[R], zone: ZoneId, preferredOffset: ZoneOffset): ChronoZonedDateTime[R] = {
-    Objects.requireNonNull(localDateTime, "localDateTime")
-    Objects.requireNonNull(zone, "zone")
+
+
     if (zone.isInstanceOf[ZoneOffset]) {
-      return new ChronoZonedDateTimeImpl[R](localDateTime, zone.asInstanceOf[ZoneOffset], zone)
+       new ChronoZonedDateTimeImpl[R](localDateTime, zone.asInstanceOf[ZoneOffset], zone)
     }
     val rules: ZoneRules = zone.getRules
     val isoLDT: LocalDateTime = LocalDateTime.from(localDateTime)
@@ -2492,8 +2492,8 @@ final object ChronoZonedDateTimeImpl {
         offset = validOffsets.get(0)
       }
     }
-    Objects.requireNonNull(offset, "offset")
-    return new ChronoZonedDateTimeImpl[R](localDateTime, offset, zone)
+
+     new ChronoZonedDateTimeImpl[R](localDateTime, offset, zone)
   }
 
   /**
@@ -2507,10 +2507,10 @@ final object ChronoZonedDateTimeImpl {
   private[chrono] def ofInstant(chrono: Chronology, instant: Instant, zone: ZoneId): ChronoZonedDateTimeImpl[_] = {
     val rules: ZoneRules = zone.getRules
     val offset: ZoneOffset = rules.getOffset(instant)
-    Objects.requireNonNull(offset, "offset")
+
     val ldt: LocalDateTime = LocalDateTime.ofEpochSecond(instant.getEpochSecond, instant.getNano, offset)
     val cldt: ChronoLocalDateTimeImpl[_] = chrono.localDateTime(ldt).asInstanceOf[ChronoLocalDateTimeImpl[_]]
-    return new ChronoZonedDateTimeImpl[_ <: ChronoLocalDate](cldt, offset, zone)
+     new ChronoZonedDateTimeImpl[_ <: ChronoLocalDate](cldt, offset, zone)
   }
 
   /**
@@ -2523,27 +2523,24 @@ final object ChronoZonedDateTimeImpl {
    *                            or the chronology is not equal this Chronology
    */
   private[chrono] def ensureValid(chrono: Chronology, temporal: Temporal): ChronoZonedDateTimeImpl[R] = {
-    @SuppressWarnings(Array("unchecked")) val other: ChronoZonedDateTimeImpl[R] = temporal.asInstanceOf[ChronoZonedDateTimeImpl[R]]
+    val other: ChronoZonedDateTimeImpl[R] = temporal.asInstanceOf[ChronoZonedDateTimeImpl[R]]
     if ((chrono == other.getChronology) == false) {
       throw new ClassCastException("Chronology mismatch, required: " + chrono.getId + ", actual: " + other.getChronology.getId)
     }
-    return other
+     other
   }
 
   private[chrono] def readExternal(in: ObjectInput): ChronoZonedDateTime[_] = {
     val dateTime: ChronoLocalDateTime[_] = in.readObject.asInstanceOf[ChronoLocalDateTime[_]]
     val offset: ZoneOffset = in.readObject.asInstanceOf[ZoneOffset]
     val zone: ZoneId = in.readObject.asInstanceOf[ZoneId]
-    return dateTime.atZone(offset).withZoneSameLocal(zone)
+     dateTime.atZone(offset).withZoneSameLocal(zone)
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -5261813987200935591L
+
 }
 
-final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D] with Serializable {
+final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D]  {
   /**
    * Obtains an instance from an {@code Instant}.
    *
@@ -2551,8 +2548,8 @@ final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D] with Serializ
    * @param zone  the time-zone to use, validated not null
    * @return the zoned date-time, validated not null
    */
-  @SuppressWarnings(Array("unchecked")) private def create(instant: Instant, zone: ZoneId): ChronoZonedDateTimeImpl[D] = {
-    return ofInstant(getChronology, instant, zone).asInstanceOf[ChronoZonedDateTimeImpl[D]]
+  private def create(instant: Instant, zone: ZoneId): ChronoZonedDateTimeImpl[D] = {
+     ofInstant(getChronology, instant, zone).asInstanceOf[ChronoZonedDateTimeImpl[D]]
   }
 
   /**
@@ -2564,13 +2561,13 @@ final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D] with Serializ
    */
   private def this(dateTime: ChronoLocalDateTimeImpl[D], offset: ZoneOffset, zone: ZoneId) {
     this()
-    this.dateTime = Objects.requireNonNull(dateTime, "dateTime")
-    this.offset = Objects.requireNonNull(offset, "offset")
-    this.zone = Objects.requireNonNull(zone, "zone")
+    this.dateTime =
+    this.offset =
+    this.zone =
   }
 
   def getOffset: ZoneOffset = {
-    return offset
+     offset
   }
 
   def withEarlierOffsetAtOverlap: ChronoZonedDateTime[D] = {
@@ -2578,10 +2575,10 @@ final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D] with Serializ
     if (trans != null && trans.isOverlap) {
       val earlierOffset: ZoneOffset = trans.getOffsetBefore
       if ((earlierOffset == offset) == false) {
-        return new ChronoZonedDateTimeImpl[D](dateTime, earlierOffset, zone)
+         new ChronoZonedDateTimeImpl[D](dateTime, earlierOffset, zone)
       }
     }
-    return this
+     this
   }
 
   def withLaterOffsetAtOverlap: ChronoZonedDateTime[D] = {
@@ -2589,31 +2586,31 @@ final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D] with Serializ
     if (trans != null) {
       val offset: ZoneOffset = trans.getOffsetAfter
       if ((offset == getOffset) == false) {
-        return new ChronoZonedDateTimeImpl[D](dateTime, offset, zone)
+         new ChronoZonedDateTimeImpl[D](dateTime, offset, zone)
       }
     }
-    return this
+     this
   }
 
   def toLocalDateTime: ChronoLocalDateTime[D] = {
-    return dateTime
+     dateTime
   }
 
   def getZone: ZoneId = {
-    return zone
+     zone
   }
 
   def withZoneSameLocal(zone: ZoneId): ChronoZonedDateTime[D] = {
-    return ofBest(dateTime, zone, offset)
+     ofBest(dateTime, zone, offset)
   }
 
   def withZoneSameInstant(zone: ZoneId): ChronoZonedDateTime[D] = {
-    Objects.requireNonNull(zone, "zone")
-    return if ((this.zone == zone)) this else create(dateTime.toInstant(offset), zone)
+
+     if ((this.zone == zone)) this else create(dateTime.toInstant(offset), zone)
   }
 
   def isSupported(field: TemporalField): Boolean = {
-    return field.isInstanceOf[ChronoField] || (field != null && field.isSupportedBy(this))
+     field.isInstanceOf[ChronoField] || (field != null && field.isSupportedBy(this))
   }
 
   def `with`(field: TemporalField, newValue: Long): ChronoZonedDateTime[D] = {
@@ -2621,35 +2618,35 @@ final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D] with Serializ
       val f: ChronoField = field.asInstanceOf[ChronoField]
       f match {
         case INSTANT_SECONDS =>
-          return plus(newValue - toEpochSecond, SECONDS)
+           plus(newValue - toEpochSecond, SECONDS)
         case OFFSET_SECONDS => {
           val offset: ZoneOffset = ZoneOffset.ofTotalSeconds(f.checkValidIntValue(newValue))
-          return create(dateTime.toInstant(offset), zone)
+           create(dateTime.toInstant(offset), zone)
         }
       }
-      return ofBest(dateTime.`with`(field, newValue), zone, offset)
+       ofBest(dateTime.`with`(field, newValue), zone, offset)
     }
-    return ChronoZonedDateTimeImpl.ensureValid(getChronology, field.adjustInto(this, newValue))
+     ChronoZonedDateTimeImpl.ensureValid(getChronology, field.adjustInto(this, newValue))
   }
 
   def plus(amountToAdd: Long, unit: TemporalUnit): ChronoZonedDateTime[D] = {
     if (unit.isInstanceOf[ChronoUnit]) {
-      return `with`(dateTime.plus(amountToAdd, unit))
+       `with`(dateTime.plus(amountToAdd, unit))
     }
-    return ChronoZonedDateTimeImpl.ensureValid(getChronology, unit.addTo(this, amountToAdd))
+     ChronoZonedDateTimeImpl.ensureValid(getChronology, unit.addTo(this, amountToAdd))
   }
 
   def until(endExclusive: Temporal, unit: TemporalUnit): Long = {
-    @SuppressWarnings(Array("unchecked")) var end: ChronoZonedDateTime[D] = getChronology.zonedDateTime(endExclusive).asInstanceOf[ChronoZonedDateTime[D]]
+    var end: ChronoZonedDateTime[D] = getChronology.zonedDateTime(endExclusive).asInstanceOf[ChronoZonedDateTime[D]]
     if (unit.isInstanceOf[ChronoUnit]) {
       end = end.withZoneSameInstant(offset)
-      return dateTime.until(end.toLocalDateTime, unit)
+       dateTime.until(end.toLocalDateTime, unit)
     }
-    return unit.between(this, end)
+     unit.between(this, end)
   }
 
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.CHRONO_ZONE_DATE_TIME_TYPE, this)
+     new Ser(Ser.CHRONO_ZONE_DATE_TIME_TYPE, this)
   }
 
   /**
@@ -2669,16 +2666,16 @@ final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D] with Serializ
 
   override def equals(obj: AnyRef): Boolean = {
     if (this eq obj) {
-      return true
+       true
     }
     if (obj.isInstanceOf[ChronoZonedDateTime[_ <: ChronoLocalDate]]) {
-      return compareTo(obj.asInstanceOf[ChronoZonedDateTime[_]]) == 0
+       compareTo(obj.asInstanceOf[ChronoZonedDateTime[_]]) == 0
     }
-    return false
+     false
   }
 
   override def hashCode: Int = {
-    return toLocalDateTime.hashCode ^ getOffset.hashCode ^ Integer.rotateLeft(getZone.hashCode, 3)
+     toLocalDateTime.hashCode ^ getOffset.hashCode ^ Integer.rotateLeft(getZone.hashCode, 3)
   }
 
   override def toString: String = {
@@ -2686,7 +2683,7 @@ final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D] with Serializ
     if (getOffset ne getZone) {
       str += '[' + getZone.toString + ']'
     }
-    return str
+     str
   }
 
   /**

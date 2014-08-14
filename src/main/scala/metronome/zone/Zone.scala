@@ -60,17 +60,8 @@ package metronome.zone
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone
 
-import java.io.DataInput
-import java.io.DataOutput
-import java.io.Externalizable
-import java.io.IOException
-import java.io.InvalidClassException
-import java.io.ObjectInput
-import java.io.ObjectOutput
-import java.io.StreamCorruptedException
-import java.time.ZoneOffset
+
 
 /**
  * The shared serialization delegate for this package.
@@ -81,7 +72,7 @@ import java.time.ZoneOffset
  * @serial include
  * @since 1.8
  */
-final object Ser {
+object Ser {
   private[zone] def write(`object`: AnyRef, out: DataOutput) {
     writeInternal(ZRULES, `object`, out)
   }
@@ -105,17 +96,17 @@ final object Ser {
 
   private[zone] def read(in: DataInput): AnyRef = {
     val `type`: Byte = in.readByte
-    return readInternal(`type`, in)
+     readInternal(`type`, in)
   }
 
   private def readInternal(`type`: Byte, in: DataInput): AnyRef = {
     `type` match {
       case ZRULES =>
-        return ZoneRules.readExternal(in)
+         ZoneRules.readExternal(in)
       case ZOT =>
-        return ZoneOffsetTransition.readExternal(in)
+         ZoneOffsetTransition.readExternal(in)
       case ZOTRULE =>
-        return ZoneOffsetTransitionRule.readExternal(in)
+         ZoneOffsetTransitionRule.readExternal(in)
       case _ =>
         throw new StreamCorruptedException("Unknown serialized type")
     }
@@ -146,7 +137,7 @@ final object Ser {
    */
   private[zone] def readOffset(in: DataInput): ZoneOffset = {
     val offsetByte: Int = in.readByte
-    return (if (offsetByte == 127) ZoneOffset.ofTotalSeconds(in.readInt) else ZoneOffset.ofTotalSeconds(offsetByte * 900))
+     (if (offsetByte == 127) ZoneOffset.ofTotalSeconds(in.readInt) else ZoneOffset.ofTotalSeconds(offsetByte * 900))
   }
 
   /**
@@ -179,20 +170,17 @@ final object Ser {
   private[zone] def readEpochSec(in: DataInput): Long = {
     val hiByte: Int = in.readByte & 255
     if (hiByte == 255) {
-      return in.readLong
+       in.readLong
     }
     else {
       val midByte: Int = in.readByte & 255
       val loByte: Int = in.readByte & 255
       val tot: Long = ((hiByte << 16) + (midByte << 8) + loByte)
-      return (tot * 900) - 4575744000L
+       (tot * 900) - 4575744000L
     }
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -8885321777449118786L
+
   /** Type for ZoneRules. */
   private[zone] final val ZRULES: Byte = 1
   /** Type for ZoneOffsetTransition. */
@@ -201,13 +189,8 @@ final object Ser {
   private[zone] final val ZOTRULE: Byte = 3
 }
 
-final class Ser extends Externalizable {
-  /**
-   * Constructor for deserialization.
-   */
-  def this() {
-    this()
-  }
+final class Ser  {
+
 
   /**
    * Creates an instance for serialization.
@@ -216,7 +199,7 @@ final class Ser extends Externalizable {
    * @param object  the object
    */
   private[zone] def this(`type`: Byte, `object`: AnyRef) {
-    this()
+
     this.`type` = `type`
     this.`object` = `object`
   }
@@ -246,7 +229,7 @@ final class Ser extends Externalizable {
    * @return the read object, should never be null
    */
   private def readResolve: AnyRef = {
-    return `object`
+     `object`
   }
 
   /** The type being serialized. */
@@ -343,7 +326,7 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
   }
 
   protected def provideZoneIds: Nothing = {
-    return new Nothing(regionIds)
+     new Nothing(regionIds)
   }
 
   protected def provideRules(zoneId: String, forCaching: Boolean): ZoneRules = {
@@ -358,7 +341,7 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
         obj = Ser.read(dis)
         regionToRules.put(zoneId, obj)
       }
-      return obj.asInstanceOf[ZoneRules]
+       obj.asInstanceOf[ZoneRules]
     }
     catch {
       case ex: Exception => {
@@ -373,7 +356,7 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
     if (rules != null) {
       map.put(versionId, rules)
     }
-    return map
+     map
   }
 
   /**
@@ -459,7 +442,7 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
   }
 
   override def toString: String = {
-    return "TZDB[" + versionId + "]"
+     "TZDB[" + versionId + "]"
   }
 
   /**
@@ -556,7 +539,7 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
  *
  * @since 1.8
  */
-final object ZoneOffsetTransition {
+object ZoneOffsetTransition {
   /**
    * Obtains an instance defining a transition between two offsets.
    * <p>
@@ -572,16 +555,16 @@ final object ZoneOffsetTransition {
    *                                                                       are equal, or { @code transition.getNano()} returns non-zero value
    */
   def of(transition: Nothing, offsetBefore: ZoneOffset, offsetAfter: ZoneOffset): ZoneOffsetTransition = {
-    Objects.requireNonNull(transition, "transition")
-    Objects.requireNonNull(offsetBefore, "offsetBefore")
-    Objects.requireNonNull(offsetAfter, "offsetAfter")
+
+
+
     if (offsetBefore == offsetAfter) {
       throw new IllegalArgumentException("Offsets must not be equal")
     }
     if (transition.getNano ne 0) {
       throw new IllegalArgumentException("Nano-of-second must be zero")
     }
-    return new ZoneOffsetTransition(transition, offsetBefore, offsetAfter)
+     new ZoneOffsetTransition(transition, offsetBefore, offsetAfter)
   }
 
   /**
@@ -598,16 +581,13 @@ final object ZoneOffsetTransition {
     if (before == after) {
       throw new IllegalArgumentException("Offsets must not be equal")
     }
-    return new ZoneOffsetTransition(epochSecond, before, after)
+     new ZoneOffsetTransition(epochSecond, before, after)
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -6946044323557704546L
+
 }
 
-final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with Serializable {
+final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition]  {
   /**
    * Creates an instance defining a transition between two offsets.
    *
@@ -642,7 +622,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the replacing object, not null
    */
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.ZOT, this)
+     new Ser(Ser.ZOT, this)
   }
 
   /**
@@ -669,7 +649,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the transition instant, not null
    */
   def getInstant: Nothing = {
-    return transition.toInstant(offsetBefore)
+     transition.toInstant(offsetBefore)
   }
 
   /**
@@ -678,7 +658,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the transition epoch second
    */
   def toEpochSecond: Long = {
-    return transition.toEpochSecond(offsetBefore)
+     transition.toEpochSecond(offsetBefore)
   }
 
   /**
@@ -694,7 +674,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the transition date-time expressed with the before offset, not null
    */
   def getDateTimeBefore: Nothing = {
-    return transition
+     transition
   }
 
   /**
@@ -708,7 +688,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the transition date-time expressed with the after offset, not null
    */
   def getDateTimeAfter: Nothing = {
-    return transition.plusSeconds(getDurationSeconds)
+     transition.plusSeconds(getDurationSeconds)
   }
 
   /**
@@ -719,7 +699,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the offset before the transition, not null
    */
   def getOffsetBefore: ZoneOffset = {
-    return offsetBefore
+     offsetBefore
   }
 
   /**
@@ -730,7 +710,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the offset after the transition, not null
    */
   def getOffsetAfter: ZoneOffset = {
-    return offsetAfter
+     offsetAfter
   }
 
   /**
@@ -743,7 +723,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the duration of the transition, positive for gaps, negative for overlaps
    */
   def getDuration: Nothing = {
-    return Duration.ofSeconds(getDurationSeconds)
+     Duration.ofSeconds(getDurationSeconds)
   }
 
   /**
@@ -752,7 +732,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the duration in seconds
    */
   private def getDurationSeconds: Int = {
-    return getOffsetAfter.getTotalSeconds - getOffsetBefore.getTotalSeconds
+     getOffsetAfter.getTotalSeconds - getOffsetBefore.getTotalSeconds
   }
 
   /**
@@ -765,7 +745,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return true if this transition is a gap, false if it is an overlap
    */
   def isGap: Boolean = {
-    return getOffsetAfter.getTotalSeconds > getOffsetBefore.getTotalSeconds
+     getOffsetAfter.getTotalSeconds > getOffsetBefore.getTotalSeconds
   }
 
   /**
@@ -778,7 +758,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return true if this transition is an overlap, false if it is a gap
    */
   def isOverlap: Boolean = {
-    return getOffsetAfter.getTotalSeconds < getOffsetBefore.getTotalSeconds
+     getOffsetAfter.getTotalSeconds < getOffsetBefore.getTotalSeconds
   }
 
   /**
@@ -792,7 +772,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return true if the offset is valid during the transition
    */
   def isValidOffset(offset: ZoneOffset): Boolean = {
-    return if (isGap) false else ((getOffsetBefore == offset) || (getOffsetAfter == offset))
+     if (isGap) false else ((getOffsetBefore == offset) || (getOffsetAfter == offset))
   }
 
   /**
@@ -804,9 +784,9 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    */
   private[zone] def getValidOffsets: Nothing = {
     if (isGap) {
-      return Collections.emptyList
+       Collections.emptyList
     }
-    return Arrays.asList(getOffsetBefore, getOffsetAfter)
+     Arrays.asList(getOffsetBefore, getOffsetAfter)
   }
 
   /**
@@ -819,7 +799,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the comparator value, negative if less, positive if greater
    */
   def compareTo(transition: ZoneOffsetTransition): Int = {
-    return this.getInstant.compareTo(transition.getInstant)
+     this.getInstant.compareTo(transition.getInstant)
   }
 
   /**
@@ -832,13 +812,13 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    */
   override def equals(other: AnyRef): Boolean = {
     if (other eq this) {
-      return true
+       true
     }
     if (other.isInstanceOf[ZoneOffsetTransition]) {
       val d: ZoneOffsetTransition = other.asInstanceOf[ZoneOffsetTransition]
-      return (transition == d.transition) && (offsetBefore == d.offsetBefore) && (offsetAfter == d.offsetAfter)
+       (transition == d.transition) && (offsetBefore == d.offsetBefore) && (offsetAfter == d.offsetAfter)
     }
-    return false
+     false
   }
 
   /**
@@ -847,7 +827,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
    * @return the hash code
    */
   override def hashCode: Int = {
-    return transition.hashCode ^ offsetBefore.hashCode ^ Integer.rotateLeft(offsetAfter.hashCode, 16)
+     transition.hashCode ^ offsetBefore.hashCode ^ Integer.rotateLeft(offsetAfter.hashCode, 16)
   }
 
   /**
@@ -858,7 +838,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
   override def toString: String = {
     val buf: StringBuilder = new StringBuilder
     buf.append("Transition[").append(if (isGap) "Gap" else "Overlap").append(" at ").append(transition).append(offsetBefore).append(" to ").append(offsetAfter).append(']')
-    return buf.toString
+     buf.toString
   }
 
   /**
@@ -953,7 +933,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition] with S
  *
  * @since 1.8
  */
-final object ZoneOffsetTransitionRule {
+object ZoneOffsetTransitionRule {
   /**
    * Obtains an instance defining the yearly rule to create transitions between two offsets.
    * <p>
@@ -976,19 +956,19 @@ final object ZoneOffsetTransitionRule {
    * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
    */
   def of(month: Nothing, dayOfMonthIndicator: Int, dayOfWeek: Nothing, time: Nothing, timeEndOfDay: Boolean, timeDefnition: ZoneOffsetTransitionRule.TimeDefinition, standardOffset: ZoneOffset, offsetBefore: ZoneOffset, offsetAfter: ZoneOffset): ZoneOffsetTransitionRule = {
-    Objects.requireNonNull(month, "month")
-    Objects.requireNonNull(time, "time")
-    Objects.requireNonNull(timeDefnition, "timeDefnition")
-    Objects.requireNonNull(standardOffset, "standardOffset")
-    Objects.requireNonNull(offsetBefore, "offsetBefore")
-    Objects.requireNonNull(offsetAfter, "offsetAfter")
+
+
+
+
+
+
     if (dayOfMonthIndicator < -28 || dayOfMonthIndicator > 31 || dayOfMonthIndicator == 0) {
       throw new IllegalArgumentException("Day of month indicator must be between -28 and 31 inclusive excluding zero")
     }
     if (timeEndOfDay && (time == LocalTime.MIDNIGHT) eq false) {
       throw new IllegalArgumentException("Time must be midnight when end of day flag is true")
     }
-    return new ZoneOffsetTransitionRule(month, dayOfMonthIndicator, dayOfWeek, time, timeEndOfDay, timeDefnition, standardOffset, offsetBefore, offsetAfter)
+     new ZoneOffsetTransitionRule(month, dayOfMonthIndicator, dayOfWeek, time, timeEndOfDay, timeDefnition, standardOffset, offsetBefore, offsetAfter)
   }
 
   /**
@@ -1013,7 +993,7 @@ final object ZoneOffsetTransitionRule {
     val std: ZoneOffset = (if (stdByte == 255) ZoneOffset.ofTotalSeconds(in.readInt) else ZoneOffset.ofTotalSeconds((stdByte - 128) * 900))
     val before: ZoneOffset = (if (beforeByte == 3) ZoneOffset.ofTotalSeconds(in.readInt) else ZoneOffset.ofTotalSeconds(std.getTotalSeconds + beforeByte * 1800))
     val after: ZoneOffset = (if (afterByte == 3) ZoneOffset.ofTotalSeconds(in.readInt) else ZoneOffset.ofTotalSeconds(std.getTotalSeconds + afterByte * 1800))
-    return ZoneOffsetTransitionRule.of(month, dom, dow, time, timeByte == 24, defn, std, before, after)
+     ZoneOffsetTransitionRule.of(month, dom, dow, time, timeByte == 24, defn, std, before, after)
   }
 
   /**
@@ -1032,7 +1012,7 @@ final object ZoneOffsetTransitionRule {
    * <li>Relative to the wall offset (what you would see on a clock on the wall)</li>
    * </ul><p>
    */
-  final object TimeDefinition {
+  object TimeDefinition {
     /** The local date-time is expressed in terms of the UTC offset. */
     final val UTC: = null
     /** The local date-time is expressed in terms of the wall offset. */
@@ -1063,14 +1043,14 @@ final object ZoneOffsetTransitionRule {
       this match {
         case UTC => {
           val difference: Int = wallOffset.getTotalSeconds - ZoneOffset.UTC.getTotalSeconds
-          return dateTime.plusSeconds(difference)
+           dateTime.plusSeconds(difference)
         }
         case STANDARD => {
           val difference: Int = wallOffset.getTotalSeconds - standardOffset.getTotalSeconds
-          return dateTime.plusSeconds(difference)
+           dateTime.plusSeconds(difference)
         }
         case _ =>
-          return dateTime
+           dateTime
       }
     }
   }
@@ -1114,7 +1094,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the replacing object, not null
    */
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.ZOTRULE, this)
+     new Ser(Ser.ZOTRULE, this)
   }
 
   /**
@@ -1160,7 +1140,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the month of the transition, not null
    */
   def getMonth: Nothing = {
-    return month
+     month
   }
 
   /**
@@ -1182,7 +1162,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the day-of-month indicator, from -28 to 31 excluding 0
    */
   def getDayOfMonthIndicator: Int = {
-    return dom
+     dom
   }
 
   /**
@@ -1198,7 +1178,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the day-of-week that the transition occurs, null if the rule defines an exact date
    */
   def getDayOfWeek: Nothing = {
-    return dow
+     dow
   }
 
   /**
@@ -1210,7 +1190,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the local time of day of the transition, not null
    */
   def getLocalTime: Nothing = {
-    return time
+     time
   }
 
   /**
@@ -1221,7 +1201,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return whether a local time of midnight is at the start or end of the day
    */
   def isMidnightEndOfDay: Boolean = {
-    return timeEndOfDay
+     timeEndOfDay
   }
 
   /**
@@ -1233,7 +1213,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the time definition, not null
    */
   def getTimeDefinition: ZoneOffsetTransitionRule.TimeDefinition = {
-    return timeDefinition
+     timeDefinition
   }
 
   /**
@@ -1242,7 +1222,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the standard offset, not null
    */
   def getStandardOffset: ZoneOffset = {
-    return standardOffset
+     standardOffset
   }
 
   /**
@@ -1251,7 +1231,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the offset before, not null
    */
   def getOffsetBefore: ZoneOffset = {
-    return offsetBefore
+     offsetBefore
   }
 
   /**
@@ -1260,7 +1240,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @return the offset after, not null
    */
   def getOffsetAfter: ZoneOffset = {
-    return offsetAfter
+     offsetAfter
   }
 
   /**
@@ -1290,7 +1270,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
     }
     val localDT: Nothing = LocalDateTime.of(date, time)
     val transition: Nothing = timeDefinition.createDateTime(localDT, standardOffset, offsetBefore)
-    return new ZoneOffsetTransition(transition, offsetBefore, offsetAfter)
+     new ZoneOffsetTransition(transition, offsetBefore, offsetAfter)
   }
 
   /**
@@ -1303,13 +1283,13 @@ final class ZoneOffsetTransitionRule extends Serializable {
    */
   override def equals(otherRule: AnyRef): Boolean = {
     if (otherRule eq this) {
-      return true
+       true
     }
     if (otherRule.isInstanceOf[ZoneOffsetTransitionRule]) {
       val other: ZoneOffsetTransitionRule = otherRule.asInstanceOf[ZoneOffsetTransitionRule]
-      return month eq other.month && dom == other.dom && dow eq other.dow && timeDefinition eq other.timeDefinition && (time == other.time) && timeEndOfDay == other.timeEndOfDay && (standardOffset == other.standardOffset) && (offsetBefore == other.offsetBefore) && (offsetAfter == other.offsetAfter)
+       month eq other.month && dom == other.dom && dow eq other.dow && timeDefinition eq other.timeDefinition && (time == other.time) && timeEndOfDay == other.timeEndOfDay && (standardOffset == other.standardOffset) && (offsetBefore == other.offsetBefore) && (offsetAfter == other.offsetAfter)
     }
-    return false
+     false
   }
 
   /**
@@ -1319,7 +1299,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    */
   override def hashCode: Int = {
     val hash: Int = ((time.toSecondOfDay + (if (timeEndOfDay) 1 else 0)) << 15) + (month.ordinal << 11) + ((dom + 32) << 5) + ((if (dow == null) 7 else dow.ordinal) << 2) + (timeDefinition.ordinal)
-    return hash ^ standardOffset.hashCode ^ offsetBefore.hashCode ^ offsetAfter.hashCode
+     hash ^ standardOffset.hashCode ^ offsetBefore.hashCode ^ offsetAfter.hashCode
   }
 
   /**
@@ -1345,7 +1325,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
       buf.append(month.name).append(' ').append(dom)
     }
     buf.append(" at ").append(if (timeEndOfDay) "24:00" else time.toString).append(" ").append(timeDefinition).append(", standard offset ").append(standardOffset).append(']')
-    return buf.toString
+     buf.toString
   }
 
   /**
@@ -1477,7 +1457,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
  *
  * @since 1.8
  */
-final object ZoneRules {
+object ZoneRules {
   /**
    * Obtains an instance of a ZoneRules.
    *
@@ -1489,12 +1469,12 @@ final object ZoneRules {
    * @return the zone rules, not null
    */
   def of(baseStandardOffset: ZoneOffset, baseWallOffset: ZoneOffset, standardOffsetTransitionList: Nothing, transitionList: Nothing, lastRules: Nothing): ZoneRules = {
-    Objects.requireNonNull(baseStandardOffset, "baseStandardOffset")
-    Objects.requireNonNull(baseWallOffset, "baseWallOffset")
-    Objects.requireNonNull(standardOffsetTransitionList, "standardOffsetTransitionList")
-    Objects.requireNonNull(transitionList, "transitionList")
-    Objects.requireNonNull(lastRules, "lastRules")
-    return new ZoneRules(baseStandardOffset, baseWallOffset, standardOffsetTransitionList, transitionList, lastRules)
+
+
+
+
+
+     new ZoneRules(baseStandardOffset, baseWallOffset, standardOffsetTransitionList, transitionList, lastRules)
   }
 
   /**
@@ -1505,8 +1485,8 @@ final object ZoneRules {
    * @see #isFixedOffset()
    */
   def of(offset: ZoneOffset): ZoneRules = {
-    Objects.requireNonNull(offset, "offset")
-    return new ZoneRules(offset)
+
+     new ZoneRules(offset)
   }
 
   /**
@@ -1580,7 +1560,7 @@ final object ZoneRules {
         })
       }
     }
-    return new ZoneRules(stdTrans, stdOffsets, savTrans, savOffsets, rules)
+     new ZoneRules(stdTrans, stdOffsets, savTrans, savOffsets, rules)
   }
 
   /**
@@ -1739,7 +1719,7 @@ final class ZoneRules extends Serializable {
    * @return the replacing object, not null
    */
   private def writeReplace: AnyRef = {
-    return new Ser(Ser.ZRULES, this)
+     new Ser(Ser.ZRULES, this)
   }
 
   /**
@@ -1775,7 +1755,7 @@ final class ZoneRules extends Serializable {
    * @return true if the time-zone is fixed and the offset never changes
    */
   def isFixedOffset: Boolean = {
-    return savingsInstantTransitions.length == 0
+     savingsInstantTransitions.length == 0
   }
 
   /**
@@ -1791,7 +1771,7 @@ final class ZoneRules extends Serializable {
    */
   def getOffset(instant: Nothing): ZoneOffset = {
     if (savingsInstantTransitions.length == 0) {
-      return standardOffsets(0)
+       standardOffsets(0)
     }
     val epochSec: Long = instant.getEpochSecond
     if (lastRules.length > 0 && epochSec > savingsInstantTransitions(savingsInstantTransitions.length - 1)) {
@@ -1804,7 +1784,7 @@ final class ZoneRules extends Serializable {
           {
             trans = transArray(i)
             if (epochSec < trans.toEpochSecond) {
-              return trans.getOffsetBefore
+               trans.getOffsetBefore
             }
           }
           ({
@@ -1812,13 +1792,13 @@ final class ZoneRules extends Serializable {
           })
         }
       }
-      return trans.getOffsetAfter
+       trans.getOffsetAfter
     }
     var index: Int = Arrays.binarySearch(savingsInstantTransitions, epochSec)
     if (index < 0) {
       index = -index - 2
     }
-    return wallOffsets(index + 1)
+     wallOffsets(index + 1)
   }
 
   /**
@@ -1852,9 +1832,9 @@ final class ZoneRules extends Serializable {
   def getOffset(localDateTime: Nothing): ZoneOffset = {
     val info: AnyRef = getOffsetInfo(localDateTime)
     if (info.isInstanceOf[ZoneOffsetTransition]) {
-      return (info.asInstanceOf[ZoneOffsetTransition]).getOffsetBefore
+       (info.asInstanceOf[ZoneOffsetTransition]).getOffsetBefore
     }
-    return info.asInstanceOf[ZoneOffset]
+     info.asInstanceOf[ZoneOffset]
   }
 
   /**
@@ -1902,9 +1882,9 @@ final class ZoneRules extends Serializable {
   def getValidOffsets(localDateTime: Nothing): Nothing = {
     val info: AnyRef = getOffsetInfo(localDateTime)
     if (info.isInstanceOf[ZoneOffsetTransition]) {
-      return (info.asInstanceOf[ZoneOffsetTransition]).getValidOffsets
+       (info.asInstanceOf[ZoneOffsetTransition]).getValidOffsets
     }
-    return Collections.singletonList(info.asInstanceOf[ZoneOffset])
+     Collections.singletonList(info.asInstanceOf[ZoneOffset])
   }
 
   /**
@@ -1943,12 +1923,12 @@ final class ZoneRules extends Serializable {
    */
   def getTransition(localDateTime: Nothing): ZoneOffsetTransition = {
     val info: AnyRef = getOffsetInfo(localDateTime)
-    return (if (info.isInstanceOf[ZoneOffsetTransition]) info.asInstanceOf[ZoneOffsetTransition] else null)
+     (if (info.isInstanceOf[ZoneOffsetTransition]) info.asInstanceOf[ZoneOffsetTransition] else null)
   }
 
   private def getOffsetInfo(dt: Nothing): AnyRef = {
     if (savingsInstantTransitions.length == 0) {
-      return standardOffsets(0)
+       standardOffsets(0)
     }
     if (lastRules.length > 0 && dt.isAfter(savingsLocalTransitions(savingsLocalTransitions.length - 1))) {
       val transArray: Array[ZoneOffsetTransition] = findTransitionArray(dt.getYear)
@@ -1956,14 +1936,14 @@ final class ZoneRules extends Serializable {
       for (trans <- transArray) {
         info = findOffsetInfo(dt, trans)
         if (info.isInstanceOf[ZoneOffsetTransition] || (info == trans.getOffsetBefore)) {
-          return info
+           info
         }
       }
-      return info
+       info
     }
     var index: Int = Arrays.binarySearch(savingsLocalTransitions, dt)
     if (index == -1) {
-      return wallOffsets(0)
+       wallOffsets(0)
     }
     if (index < 0) {
       index = -index - 2
@@ -1977,14 +1957,14 @@ final class ZoneRules extends Serializable {
       val offsetBefore: ZoneOffset = wallOffsets(index / 2)
       val offsetAfter: ZoneOffset = wallOffsets(index / 2 + 1)
       if (offsetAfter.getTotalSeconds > offsetBefore.getTotalSeconds) {
-        return new ZoneOffsetTransition(dtBefore, offsetBefore, offsetAfter)
+         new ZoneOffsetTransition(dtBefore, offsetBefore, offsetAfter)
       }
       else {
-        return new ZoneOffsetTransition(dtAfter, offsetBefore, offsetAfter)
+         new ZoneOffsetTransition(dtAfter, offsetBefore, offsetAfter)
       }
     }
     else {
-      return wallOffsets(index / 2 + 1)
+       wallOffsets(index / 2 + 1)
     }
   }
 
@@ -1999,24 +1979,24 @@ final class ZoneRules extends Serializable {
     val localTransition: Nothing = trans.getDateTimeBefore
     if (trans.isGap) {
       if (dt.isBefore(localTransition)) {
-        return trans.getOffsetBefore
+         trans.getOffsetBefore
       }
       if (dt.isBefore(trans.getDateTimeAfter)) {
-        return trans
+         trans
       }
       else {
-        return trans.getOffsetAfter
+         trans.getOffsetAfter
       }
     }
     else {
       if (dt.isBefore(localTransition) eq false) {
-        return trans.getOffsetAfter
+         trans.getOffsetAfter
       }
       if (dt.isBefore(trans.getDateTimeAfter)) {
-        return trans.getOffsetBefore
+         trans.getOffsetBefore
       }
       else {
-        return trans
+         trans
       }
     }
   }
@@ -2031,7 +2011,7 @@ final class ZoneRules extends Serializable {
     val yearObj: Integer = year
     var transArray: Array[ZoneOffsetTransition] = lastRulesCache.get(yearObj)
     if (transArray != null) {
-      return transArray
+       transArray
     }
     val ruleArray: Array[ZoneOffsetTransitionRule] = lastRules
     transArray = new Array[ZoneOffsetTransition](ruleArray.length)
@@ -2049,7 +2029,7 @@ final class ZoneRules extends Serializable {
     if (year < LAST_CACHED_YEAR) {
       lastRulesCache.putIfAbsent(yearObj, transArray)
     }
-    return transArray
+     transArray
   }
 
   /**
@@ -2066,14 +2046,14 @@ final class ZoneRules extends Serializable {
    */
   def getStandardOffset(instant: Nothing): ZoneOffset = {
     if (savingsInstantTransitions.length == 0) {
-      return standardOffsets(0)
+       standardOffsets(0)
     }
     val epochSec: Long = instant.getEpochSecond
     var index: Int = Arrays.binarySearch(standardTransitions, epochSec)
     if (index < 0) {
       index = -index - 2
     }
-    return standardOffsets(index + 1)
+     standardOffsets(index + 1)
   }
 
   /**
@@ -2095,11 +2075,11 @@ final class ZoneRules extends Serializable {
    */
   def getDaylightSavings(instant: Nothing): Nothing = {
     if (savingsInstantTransitions.length == 0) {
-      return Duration.ZERO
+       Duration.ZERO
     }
     val standardOffset: ZoneOffset = getStandardOffset(instant)
     val actualOffset: ZoneOffset = getOffset(instant)
-    return Duration.ofSeconds(actualOffset.getTotalSeconds - standardOffset.getTotalSeconds)
+     Duration.ofSeconds(actualOffset.getTotalSeconds - standardOffset.getTotalSeconds)
   }
 
   /**
@@ -2117,7 +2097,7 @@ final class ZoneRules extends Serializable {
    * @return the standard offset, not null
    */
   def isDaylightSavings(instant: Nothing): Boolean = {
-    return ((getStandardOffset(instant) == getOffset(instant)) == false)
+     ((getStandardOffset(instant) == getOffset(instant)) == false)
   }
 
   /**
@@ -2135,7 +2115,7 @@ final class ZoneRules extends Serializable {
    * @return true if the offset date-time is valid for these rules
    */
   def isValidOffset(localDateTime: Nothing, offset: ZoneOffset): Boolean = {
-    return getValidOffsets(localDateTime).contains(offset)
+     getValidOffsets(localDateTime).contains(offset)
   }
 
   /**
@@ -2151,25 +2131,25 @@ final class ZoneRules extends Serializable {
    */
   def nextTransition(instant: Nothing): ZoneOffsetTransition = {
     if (savingsInstantTransitions.length == 0) {
-      return null
+       null
     }
     val epochSec: Long = instant.getEpochSecond
     if (epochSec >= savingsInstantTransitions(savingsInstantTransitions.length - 1)) {
       if (lastRules.length == 0) {
-        return null
+         null
       }
       val year: Int = findYear(epochSec, wallOffsets(wallOffsets.length - 1))
       var transArray: Array[ZoneOffsetTransition] = findTransitionArray(year)
       for (trans <- transArray) {
         if (epochSec < trans.toEpochSecond) {
-          return trans
+           trans
         }
       }
       if (year < Year.MAX_VALUE) {
         transArray = findTransitionArray(year + 1)
-        return transArray(0)
+         transArray(0)
       }
-      return null
+       null
     }
     var index: Int = Arrays.binarySearch(savingsInstantTransitions, epochSec)
     if (index < 0) {
@@ -2178,7 +2158,7 @@ final class ZoneRules extends Serializable {
     else {
       index += 1
     }
-    return new ZoneOffsetTransition(savingsInstantTransitions(index), wallOffsets(index), wallOffsets(index + 1))
+     new ZoneOffsetTransition(savingsInstantTransitions(index), wallOffsets(index), wallOffsets(index + 1))
   }
 
   /**
@@ -2194,7 +2174,7 @@ final class ZoneRules extends Serializable {
    */
   def previousTransition(instant: Nothing): ZoneOffsetTransition = {
     if (savingsInstantTransitions.length == 0) {
-      return null
+       null
     }
     var epochSec: Long = instant.getEpochSecond
     if (instant.getNano > 0 && epochSec < Long.MAX_VALUE) {
@@ -2210,7 +2190,7 @@ final class ZoneRules extends Serializable {
         while (i >= 0) {
           {
             if (epochSec > transArray(i).toEpochSecond) {
-              return transArray(i)
+               transArray(i)
             }
           }
           ({
@@ -2223,7 +2203,7 @@ final class ZoneRules extends Serializable {
         year -= 1; year
       }) > lastHistoricYear) {
         transArray = findTransitionArray(year)
-        return transArray(transArray.length - 1)
+         transArray(transArray.length - 1)
       }
     }
     var index: Int = Arrays.binarySearch(savingsInstantTransitions, epochSec)
@@ -2231,15 +2211,15 @@ final class ZoneRules extends Serializable {
       index = -index - 1
     }
     if (index <= 0) {
-      return null
+       null
     }
-    return new ZoneOffsetTransition(savingsInstantTransitions(index - 1), wallOffsets(index - 1), wallOffsets(index))
+     new ZoneOffsetTransition(savingsInstantTransitions(index - 1), wallOffsets(index - 1), wallOffsets(index))
   }
 
   private def findYear(epochSecond: Long, offset: ZoneOffset): Int = {
     val localSecond: Long = epochSecond + offset.getTotalSeconds
     val localEpochDay: Long = Math.floorDiv(localSecond, 86400)
-    return LocalDate.ofEpochDay(localEpochDay).getYear
+     LocalDate.ofEpochDay(localEpochDay).getYear
   }
 
   /**
@@ -2267,7 +2247,7 @@ final class ZoneRules extends Serializable {
         })
       }
     }
-    return Collections.unmodifiableList(list)
+     Collections.unmodifiableList(list)
   }
 
   /**
@@ -2292,7 +2272,7 @@ final class ZoneRules extends Serializable {
    * @return an immutable list of transition rules, not null
    */
   def getTransitionRules: Nothing = {
-    return Collections.unmodifiableList(Arrays.asList(lastRules))
+     Collections.unmodifiableList(Arrays.asList(lastRules))
   }
 
   /**
@@ -2309,13 +2289,13 @@ final class ZoneRules extends Serializable {
    */
   override def equals(otherRules: AnyRef): Boolean = {
     if (this eq otherRules) {
-      return true
+       true
     }
     if (otherRules.isInstanceOf[ZoneRules]) {
       val other: ZoneRules = otherRules.asInstanceOf[ZoneRules]
-      return Arrays.equals(standardTransitions, other.standardTransitions) && Arrays.equals(standardOffsets, other.standardOffsets) && Arrays.equals(savingsInstantTransitions, other.savingsInstantTransitions) && Arrays.equals(wallOffsets, other.wallOffsets) && Arrays.equals(lastRules, other.lastRules)
+       Arrays.equals(standardTransitions, other.standardTransitions) && Arrays.equals(standardOffsets, other.standardOffsets) && Arrays.equals(savingsInstantTransitions, other.savingsInstantTransitions) && Arrays.equals(wallOffsets, other.wallOffsets) && Arrays.equals(lastRules, other.lastRules)
     }
-    return false
+     false
   }
 
   /**
@@ -2324,7 +2304,7 @@ final class ZoneRules extends Serializable {
    * @return the hash code
    */
   override def hashCode: Int = {
-    return Arrays.hashCode(standardTransitions) ^ Arrays.hashCode(standardOffsets) ^ Arrays.hashCode(savingsInstantTransitions) ^ Arrays.hashCode(wallOffsets) ^ Arrays.hashCode(lastRules)
+     Arrays.hashCode(standardTransitions) ^ Arrays.hashCode(standardOffsets) ^ Arrays.hashCode(savingsInstantTransitions) ^ Arrays.hashCode(wallOffsets) ^ Arrays.hashCode(lastRules)
   }
 
   /**
@@ -2333,7 +2313,7 @@ final class ZoneRules extends Serializable {
    * @return a string for debugging, not null
    */
   override def toString: String = {
-    return "ZoneRules[currentStandardOffset=" + standardOffsets(standardOffsets.length - 1) + "]"
+     "ZoneRules[currentStandardOffset=" + standardOffsets(standardOffsets.length - 1) + "]"
   }
 
   /**
@@ -2435,10 +2415,7 @@ final class ZoneRules extends Serializable {
  * @since 1.8
  */
 object ZoneRulesException {
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -1632418723876261839L
+
 }
 
 class ZoneRulesException extends DateTimeException {
@@ -2581,7 +2558,7 @@ object ZoneRulesProvider {
    * @return a modifiable copy of the set of zone IDs, not null
    */
   def getAvailableZoneIds: Nothing = {
-    return new Nothing(ZONES.keySet)
+     new Nothing(ZONES.keySet)
   }
 
   /**
@@ -2608,8 +2585,8 @@ object ZoneRulesProvider {
    * @throws ZoneRulesException if rules cannot be obtained for the zone ID
    */
   def getRules(zoneId: String, forCaching: Boolean): ZoneRules = {
-    Objects.requireNonNull(zoneId, "zoneId")
-    return getProvider(zoneId).provideRules(zoneId, forCaching)
+
+     getProvider(zoneId).provideRules(zoneId, forCaching)
   }
 
   /**
@@ -2637,8 +2614,8 @@ object ZoneRulesProvider {
    * @throws ZoneRulesException if history cannot be obtained for the zone ID
    */
   def getVersions(zoneId: String): Nothing = {
-    Objects.requireNonNull(zoneId, "zoneId")
-    return getProvider(zoneId).provideVersions(zoneId)
+
+     getProvider(zoneId).provideVersions(zoneId)
   }
 
   /**
@@ -2656,7 +2633,7 @@ object ZoneRulesProvider {
       }
       throw new ZoneRulesException("Unknown time-zone ID: " + zoneId)
     }
-    return provider
+     provider
   }
 
   /**
@@ -2675,7 +2652,7 @@ object ZoneRulesProvider {
    * @throws ZoneRulesException if a zone ID is already registered
    */
   def registerProvider(provider: ZoneRulesProvider) {
-    Objects.requireNonNull(provider, "provider")
+
     registerProvider0(provider)
     PROVIDERS.add(provider)
   }
@@ -2689,7 +2666,7 @@ object ZoneRulesProvider {
   private def registerProvider0(provider: ZoneRulesProvider) {
     import scala.collection.JavaConversions._
     for (zoneId <- provider.provideZoneIds) {
-      Objects.requireNonNull(zoneId, "zoneId")
+
       val old: ZoneRulesProvider = ZONES.putIfAbsent(zoneId, provider)
       if (old != null) {
         throw new ZoneRulesException("Unable to register zone as one already registered with that ID: " + zoneId + ", currently loading from provider: " + provider)
@@ -2726,7 +2703,7 @@ object ZoneRulesProvider {
     for (provider <- PROVIDERS) {
       changed |= provider.provideRefresh
     }
-    return changed
+     changed
   }
 
   /**
@@ -2828,7 +2805,7 @@ abstract class ZoneRulesProvider {
    * @throws ZoneRulesException if an error occurs during the refresh
    */
   protected def provideRefresh: Boolean = {
-    return false
+     false
   }
 }
 

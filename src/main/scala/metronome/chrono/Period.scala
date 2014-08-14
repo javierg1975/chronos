@@ -42,13 +42,13 @@ object ChronoPeriod {
    * @see ChronoLocalDate#until(ChronoLocalDate)
    */
   def between(startDateInclusive: ChronoLocalDate, endDateExclusive: ChronoLocalDate): ChronoPeriod = {
-    Objects.requireNonNull(startDateInclusive, "startDateInclusive")
-    Objects.requireNonNull(endDateExclusive, "endDateExclusive")
-    return startDateInclusive.until(endDateExclusive)
+
+
+     startDateInclusive.until(endDateExclusive)
   }
 }
 
-abstract trait ChronoPeriod extends TemporalAmount {
+trait ChronoPeriod extends TemporalAmount {
   /**
    * Gets the value of the requested unit.
    * <p>
@@ -99,10 +99,10 @@ abstract trait ChronoPeriod extends TemporalAmount {
     import scala.collection.JavaConversions._
     for (unit <- getUnits) {
       if (get(unit) != 0) {
-        return false
+         false
       }
     }
-    return true
+     true
   }
 
   /**
@@ -114,10 +114,10 @@ abstract trait ChronoPeriod extends TemporalAmount {
     import scala.collection.JavaConversions._
     for (unit <- getUnits) {
       if (get(unit) < 0) {
-        return true
+         true
       }
     }
-    return false
+     false
   }
 
   /**
@@ -179,7 +179,7 @@ abstract trait ChronoPeriod extends TemporalAmount {
    *                             one of the units has the value { @code Long.MIN_VALUE}
    */
   def negated: ChronoPeriod = {
-    return multipliedBy(-1)
+     multipliedBy(-1)
   }
 
   /**
@@ -291,13 +291,13 @@ abstract trait ChronoPeriod extends TemporalAmount {
  *
  * @since 1.8
  */
-final object ChronoPeriodImpl {
+object ChronoPeriodImpl {
   private[chrono] def readExternal(in: DataInput): ChronoPeriodImpl = {
     val chrono: Chronology = Chronology.of(in.readUTF)
     val years: Int = in.readInt
     val months: Int = in.readInt
     val days: Int = in.readInt
-    return new ChronoPeriodImpl(chrono, years, months, days)
+     new ChronoPeriodImpl(chrono, years, months, days)
   }
 
   /**
@@ -310,13 +310,13 @@ final object ChronoPeriodImpl {
   private final val SUPPORTED_UNITS: List[TemporalUnit] = Collections.unmodifiableList(Arrays.asList[TemporalUnit](YEARS, MONTHS, DAYS))
 }
 
-final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
+final class ChronoPeriodImpl extends ChronoPeriod  {
   /**
    * Creates an instance.
    */
   private[chrono] def this(chrono: Chronology, years: Int, months: Int, days: Int) {
     this()
-    Objects.requireNonNull(chrono, "chrono")
+
     this.chrono = chrono
     this.years = years
     this.months = months
@@ -325,13 +325,13 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
 
   def get(unit: TemporalUnit): Long = {
     if (unit eq ChronoUnit.YEARS) {
-      return years
+       years
     }
     else if (unit eq ChronoUnit.MONTHS) {
-      return months
+       months
     }
     else if (unit eq ChronoUnit.DAYS) {
-      return days
+       days
     }
     else {
       throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit)
@@ -339,29 +339,29 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
   }
 
   def getUnits: List[TemporalUnit] = {
-    return ChronoPeriodImpl.SUPPORTED_UNITS
+     ChronoPeriodImpl.SUPPORTED_UNITS
   }
 
   def getChronology: Chronology = {
-    return chrono
+     chrono
   }
 
   override def isZero: Boolean = {
-    return years == 0 && months == 0 && days == 0
+     years == 0 && months == 0 && days == 0
   }
 
   override def isNegative: Boolean = {
-    return years < 0 || months < 0 || days < 0
+     years < 0 || months < 0 || days < 0
   }
 
   def plus(amountToAdd: TemporalAmount): ChronoPeriod = {
     val amount: ChronoPeriodImpl = validateAmount(amountToAdd)
-    return new ChronoPeriodImpl(chrono, Math.addExact(years, amount.years), Math.addExact(months, amount.months), Math.addExact(days, amount.days))
+     new ChronoPeriodImpl(chrono, Math.addExact(years, amount.years), Math.addExact(months, amount.months), Math.addExact(days, amount.days))
   }
 
   def minus(amountToSubtract: TemporalAmount): ChronoPeriod = {
     val amount: ChronoPeriodImpl = validateAmount(amountToSubtract)
-    return new ChronoPeriodImpl(chrono, Math.subtractExact(years, amount.years), Math.subtractExact(months, amount.months), Math.subtractExact(days, amount.days))
+     new ChronoPeriodImpl(chrono, Math.subtractExact(years, amount.years), Math.subtractExact(months, amount.months), Math.subtractExact(days, amount.days))
   }
 
   /**
@@ -371,7 +371,7 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
    * @return the period, not null
    */
   private def validateAmount(amount: TemporalAmount): ChronoPeriodImpl = {
-    Objects.requireNonNull(amount, "amount")
+
     if (amount.isInstanceOf[ChronoPeriodImpl] == false) {
       throw new DateTimeException("Unable to obtain ChronoPeriod from TemporalAmount: " + amount.getClass)
     }
@@ -379,14 +379,14 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
     if ((chrono == period.getChronology) == false) {
       throw new ClassCastException("Chronology mismatch, expected: " + chrono.getId + ", actual: " + period.getChronology.getId)
     }
-    return period
+     period
   }
 
   def multipliedBy(scalar: Int): ChronoPeriod = {
     if (this.isZero || scalar == 1) {
-      return this
+       this
     }
-    return new ChronoPeriodImpl(chrono, Math.multiplyExact(years, scalar), Math.multiplyExact(months, scalar), Math.multiplyExact(days, scalar))
+     new ChronoPeriodImpl(chrono, Math.multiplyExact(years, scalar), Math.multiplyExact(months, scalar), Math.multiplyExact(days, scalar))
   }
 
   def normalized: ChronoPeriod = {
@@ -396,11 +396,11 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
       val splitYears: Long = totalMonths / monthRange
       val splitMonths: Int = (totalMonths % monthRange).asInstanceOf[Int]
       if (splitYears == years && splitMonths == months) {
-        return this
+         this
       }
-      return new ChronoPeriodImpl(chrono, Math.toIntExact(splitYears), splitMonths, days)
+       new ChronoPeriodImpl(chrono, Math.toIntExact(splitYears), splitMonths, days)
     }
-    return this
+     this
   }
 
   /**
@@ -411,9 +411,9 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
   private def monthRange: Long = {
     val startRange: ValueRange = chrono.range(MONTH_OF_YEAR)
     if (startRange.isFixed && startRange.isIntValue) {
-      return startRange.getMaximum - startRange.getMinimum + 1
+       startRange.getMaximum - startRange.getMinimum + 1
     }
-    return -1
+     -1
   }
 
   def addTo(temporal: Temporal): Temporal = {
@@ -438,7 +438,7 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
     if (days != 0) {
       temporal = temporal.plus(days, DAYS)
     }
-    return temporal
+     temporal
   }
 
   def subtractFrom(temporal: Temporal): Temporal = {
@@ -463,14 +463,14 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
     if (days != 0) {
       temporal = temporal.minus(days, DAYS)
     }
-    return temporal
+     temporal
   }
 
   /**
    * Validates that the temporal has the correct chronology.
    */
   private def validateChrono(temporal: TemporalAccessor) {
-    Objects.requireNonNull(temporal, "temporal")
+
     val temporalChrono: Chronology = temporal.query(TemporalQuery.chronology)
     if (temporalChrono != null && (chrono == temporalChrono) == false) {
       throw new DateTimeException("Chronology mismatch, expected: " + chrono.getId + ", actual: " + temporalChrono.getId)
@@ -479,22 +479,22 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
 
   override def equals(obj: AnyRef): Boolean = {
     if (this eq obj) {
-      return true
+       true
     }
     if (obj.isInstanceOf[ChronoPeriodImpl]) {
       val other: ChronoPeriodImpl = obj.asInstanceOf[ChronoPeriodImpl]
-      return years == other.years && months == other.months && days == other.days && (chrono == other.chrono)
+       years == other.years && months == other.months && days == other.days && (chrono == other.chrono)
     }
-    return false
+     false
   }
 
   override def hashCode: Int = {
-    return (years + Integer.rotateLeft(months, 8) + Integer.rotateLeft(days, 16)) ^ chrono.hashCode
+     (years + Integer.rotateLeft(months, 8) + Integer.rotateLeft(days, 16)) ^ chrono.hashCode
   }
 
   override def toString: String = {
     if (isZero) {
-      return getChronology.toString + " P0D"
+       getChronology.toString + " P0D"
     }
     else {
       val buf: StringBuilder = new StringBuilder
@@ -508,7 +508,7 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
       if (days != 0) {
         buf.append(days).append('D')
       }
-      return buf.toString
+       buf.toString
     }
   }
 
@@ -526,7 +526,7 @@ final class ChronoPeriodImpl extends ChronoPeriod with Serializable {
    * @return the instance of { @code Ser}, not null
    */
   protected def writeReplace: AnyRef = {
-    return new Ser(Ser.CHRONO_PERIOD_TYPE, this)
+     new Ser(Ser.CHRONO_PERIOD_TYPE, this)
   }
 
   /**

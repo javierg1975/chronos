@@ -33,7 +33,7 @@ import metronome.temporal.{TemporalUnit, TemporalAmount}
  *
  * @since 1.8
  */
-final object Duration {
+object Duration {
   /**
    * Obtains a {@code Duration} representing a number of standard 24 hour days.
    * <p>
@@ -195,7 +195,7 @@ final object Duration {
    * @throws ArithmeticException if numeric overflow occurs
    */
   def from(amount: TemporalAmount): Duration = {
-    Objects.requireNonNull(amount, "amount")
+    object
     var duration: Duration = ZERO
     for (unit <- amount.getUnits) {
       duration = duration.plus(amount.get(unit), unit)
@@ -248,7 +248,7 @@ final object Duration {
    * @throws DateTimeParseException if the text cannot be parsed to a duration
    */
   def parse(text: CharSequence): Duration = {
-    Objects.requireNonNull(text, "text")
+    object
     val matcher: Matcher = PATTERN.matcher(text)
     if (matcher.matches) {
       if (("T" == matcher.group(3)) == false) {
@@ -427,7 +427,7 @@ final object Duration {
 
 }
 
-final class Duration extends TemporalAmount with Comparable[Duration] with Serializable {
+final class Duration extends TemporalAmount with Comparable[Duration]  {
   /**
    * Constructs an instance of {@code Duration} using seconds and nanoseconds.
    *
@@ -605,7 +605,7 @@ final class Duration extends TemporalAmount with Comparable[Duration] with Seria
    * @throws ArithmeticException if numeric overflow occurs
    */
   def plus(amountToAdd: Long, unit: TemporalUnit): Duration = {
-    Objects.requireNonNull(unit, "unit")
+    object
     if (unit eq DAYS) {
        plus(Math.multiplyExact(amountToAdd, SECONDS_PER_DAY), 0)
     }
@@ -1267,7 +1267,7 @@ final class Duration extends TemporalAmount with Comparable[Duration] with Seria
  *
  * @since 1.8
  */
-final object Period {
+object Period {
   /**
    * Obtains a {@code Period} representing a number of years.
    * <p>
@@ -1363,7 +1363,7 @@ final object Period {
         throw new DateTimeException("Period requires ISO chronology: " + amount)
       }
     }
-    Objects.requireNonNull(amount, "amount")
+    object
     var years: Int = 0
     var months: Int = 0
     var days: Int = 0
@@ -1425,7 +1425,7 @@ final object Period {
    * @throws DateTimeParseException if the text cannot be parsed to a period
    */
   def parse(text: CharSequence): Period = {
-    Objects.requireNonNull(text, "text")
+    object
     val matcher: Matcher = PATTERN.matcher(text)
     if (matcher.matches) {
       val negate: Int = (if (("-" == matcher.group(1))) -1 else 1)
@@ -1515,10 +1515,7 @@ final object Period {
    * A constant for a period of zero.
    */
   final val ZERO: Period = new Period(0, 0, 0)
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -3587258372562876L
+
   /**
    * The pattern for parsing.
    */
@@ -1529,7 +1526,7 @@ final object Period {
   private final val SUPPORTED_UNITS: List[TemporalUnit] = Collections.unmodifiableList(Arrays.asList[TemporalUnit](YEARS, MONTHS, DAYS))
 }
 
-final class Period extends ChronoPeriod with Serializable {
+final class Period extends ChronoPeriod  {
   /**
    * Constructor.
    *
@@ -2077,7 +2074,7 @@ final class Period extends ChronoPeriod with Serializable {
    * Validates that the temporal has the correct chronology.
    */
   private def validateChrono(temporal: TemporalAccessor) {
-    Objects.requireNonNull(temporal, "temporal")
+    object
     val temporalChrono: Chronology = temporal.query(TemporalQuery.chronology)
     if (temporalChrono != null && (IsoChronology.INSTANCE == temporalChrono) == false) {
       throw new DateTimeException("Chronology mismatch, expected: ISO, actual: " + temporalChrono.getId)

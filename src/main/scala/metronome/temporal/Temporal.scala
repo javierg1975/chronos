@@ -1,5 +1,8 @@
 package metronome.temporal
 
+import metronome.Duration
+import metronome.chrono.{IsoChronology, Chronology}
+
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -73,7 +76,7 @@ package metronome.temporal
  *
  * @since 1.8
  */
-final object ChronoField {
+object ChronoField {
   /**
    * The nano-of-second.
    * <p>
@@ -585,22 +588,22 @@ final class ChronoField extends TemporalField {
   }
 
   override def getDisplayName(locale: Locale): String = {
-    Objects.requireNonNull(locale, "locale")
+
     if (displayNameKey == null) {
-      return name
+       name
     }
     val lr: LocaleResources = LocaleProviderAdapter.getResourceBundleBased.getLocaleResources(locale)
     val rb: ResourceBundle = lr.getJavaTimeFormatData
     val key: String = "field." + displayNameKey
-    return if (rb.containsKey(key)) rb.getString(key) else name
+     if (rb.containsKey(key)) rb.getString(key) else name
   }
 
   def getBaseUnit: TemporalUnit = {
-    return baseUnit
+     baseUnit
   }
 
   def getRangeUnit: TemporalUnit = {
-    return rangeUnit
+     rangeUnit
   }
 
   /**
@@ -621,7 +624,7 @@ final class ChronoField extends TemporalField {
    * @return the range of valid values for the field, not null
    */
   def range: ValueRange = {
-    return range
+     range
   }
 
   /**
@@ -632,7 +635,7 @@ final class ChronoField extends TemporalField {
    * @return true if it is a component of a date
    */
   def isDateBased: Boolean = {
-    return ordinal >= DAY_OF_WEEK.ordinal && ordinal <= ERA.ordinal
+     ordinal >= DAY_OF_WEEK.ordinal && ordinal <= ERA.ordinal
   }
 
   /**
@@ -643,7 +646,7 @@ final class ChronoField extends TemporalField {
    * @return true if it is a component of a time
    */
   def isTimeBased: Boolean = {
-    return ordinal < DAY_OF_WEEK.ordinal
+     ordinal < DAY_OF_WEEK.ordinal
   }
 
   /**
@@ -661,7 +664,7 @@ final class ChronoField extends TemporalField {
    * @return the value that was passed in
    */
   def checkValidValue(value: Long): Long = {
-    return range.checkValidValue(value, this)
+     range.checkValidValue(value, this)
   }
 
   /**
@@ -680,27 +683,27 @@ final class ChronoField extends TemporalField {
    * @return the value that was passed in
    */
   def checkValidIntValue(value: Long): Int = {
-    return range.checkValidIntValue(value, this)
+     range.checkValidIntValue(value, this)
   }
 
   def isSupportedBy(temporal: TemporalAccessor): Boolean = {
-    return temporal.isSupported(this)
+     temporal.isSupported(this)
   }
 
   def rangeRefinedBy(temporal: TemporalAccessor): ValueRange = {
-    return temporal.range(this)
+     temporal.range(this)
   }
 
   def getFrom(temporal: TemporalAccessor): Long = {
-    return temporal.getLong(this)
+     temporal.getLong(this)
   }
 
-  @SuppressWarnings(Array("unchecked")) def adjustInto(temporal: R, newValue: Long): R = {
-    return temporal.`with`(this, newValue).asInstanceOf[R]
+  def adjustInto(temporal: R, newValue: Long): R = {
+     temporal.`with`(this, newValue).asInstanceOf[R]
   }
 
   override def toString: String = {
-    return name
+     name
   }
 
   private final val name: String = null
@@ -781,43 +784,43 @@ final class ChronoField extends TemporalField {
  *
  * @since 1.8
  */
-final object ChronoUnit {
+object ChronoUnit {
   /**
    * Unit that represents the concept of a nanosecond, the smallest supported unit of time.
    * For the ISO calendar system, it is equal to the 1,000,000,000th part of the second unit.
    */
-  final val NANOS: = null
+  val NANOS = ChronoUnit("Nanos", Duration.ofNanos(1))
   /**
    * Unit that represents the concept of a microsecond.
    * For the ISO calendar system, it is equal to the 1,000,000th part of the second unit.
    */
-  final val MICROS: = null
+  val MICROS = ChronoUnit("Micros", Duration.ofNanos(1000))
   /**
    * Unit that represents the concept of a millisecond.
    * For the ISO calendar system, it is equal to the 1000th part of the second unit.
    */
-  final val MILLIS: = null
+  val MILLIS = ChronoUnit("Millis", Duration.ofNanos(1000000))
   /**
    * Unit that represents the concept of a second.
    * For the ISO calendar system, it is equal to the second in the SI system
    * of units, except around a leap-second.
    */
-  final val SECONDS: = null
+  val SECONDS = ChronoUnit("Seconds", Duration.ofSeconds(1))
   /**
    * Unit that represents the concept of a minute.
    * For the ISO calendar system, it is equal to 60 seconds.
    */
-  final val MINUTES: = null
+  val MINUTES = ChronoUnit("Minutes", Duration.ofSeconds(60))
   /**
    * Unit that represents the concept of an hour.
    * For the ISO calendar system, it is equal to 60 minutes.
    */
-  final val HOURS: = null
+  val HOURS = ChronoUnit("Hours", Duration.ofSeconds(3600))
   /**
    * Unit that represents the concept of half a day, as used in AM/PM.
    * For the ISO calendar system, it is equal to 12 hours.
    */
-  final val HALF_DAYS: = null
+  val HALF_DAYS = ChronoUnit("HalfDays", Duration.ofSeconds(43200))
   /**
    * Unit that represents the concept of a day.
    * For the ISO calendar system, it is the standard day from midnight to midnight.
@@ -828,14 +831,14 @@ final object ChronoUnit {
    * at midnight - when converting between calendar systems, the date should be
    * equivalent at midday.
    */
-  final val DAYS: = null
+  val DAYS = ChronoUnit("Days", Duration.ofSeconds(86400))
   /**
    * Unit that represents the concept of a week.
    * For the ISO calendar system, it is equal to 7 days.
    * <p>
    * When used with other calendar systems it must correspond to an integral number of days.
    */
-  final val WEEKS: = null
+  val WEEKS = ChronoUnit("Weeks", Duration.ofSeconds(7 * 86400L))
   /**
    * Unit that represents the concept of a month.
    * For the ISO calendar system, the length of the month varies by month-of-year.
@@ -843,7 +846,7 @@ final object ChronoUnit {
    * <p>
    * When used with other calendar systems it must correspond to an integral number of days.
    */
-  final val MONTHS: = null
+  val MONTHS = ChronoUnit("Months", Duration.ofSeconds(31556952L / 12))
   /**
    * Unit that represents the concept of a year.
    * For the ISO calendar system, it is equal to 12 months.
@@ -852,7 +855,7 @@ final object ChronoUnit {
    * When used with other calendar systems it must correspond to an integral number of days
    * or months roughly equal to a year defined by the passage of the Earth around the Sun.
    */
-  final val YEARS: = null
+  val YEARS = ChronoUnit("Years", Duration.ofSeconds(31556952L))
   /**
    * Unit that represents the concept of a decade.
    * For the ISO calendar system, it is equal to 10 years.
@@ -860,7 +863,7 @@ final object ChronoUnit {
    * When used with other calendar systems it must correspond to an integral number of days
    * and is normally an integral number of years.
    */
-  final val DECADES: = null
+  val DECADES = ChronoUnit("Decades", Duration.ofSeconds(31556952L * 10L))
   /**
    * Unit that represents the concept of a century.
    * For the ISO calendar system, it is equal to 100 years.
@@ -868,7 +871,7 @@ final object ChronoUnit {
    * When used with other calendar systems it must correspond to an integral number of days
    * and is normally an integral number of years.
    */
-  final val CENTURIES: = null
+  val CENTURIES = ChronoUnit("Centuries", Duration.ofSeconds(31556952L * 100L))
   /**
    * Unit that represents the concept of a millennium.
    * For the ISO calendar system, it is equal to 1000 years.
@@ -876,16 +879,16 @@ final object ChronoUnit {
    * When used with other calendar systems it must correspond to an integral number of days
    * and is normally an integral number of years.
    */
-  final val MILLENNIA: = null
+  val MILLENNIA = ChronoUnit("Millennia", Duration.ofSeconds(31556952L * 1000L))
   /**
    * Unit that represents the concept of an era.
    * The ISO calendar system doesn't have eras thus it is impossible to add
    * an era to a date or date-time.
-   * The estimated duration of the era is artificially defined as {@code 1,000,000,000 Years}.
+   * The estimated duration of the era is artificially defined as {@code 1,000,00,000 Years}.
    * <p>
    * When used with other calendar systems there are no restrictions on the unit.
    */
-  final val ERAS: = null
+  val ERAS = ChronoUnit("Eras", Duration.ofSeconds(31556952L * 1000000000L))
   /**
    * Artificial unit that represents the concept of forever.
    * This is primarily used with {@link TemporalField} to represent unbounded fields
@@ -893,15 +896,10 @@ final object ChronoUnit {
    * The estimated duration of the era is artificially defined as the largest duration
    * supported by {@code Duration}.
    */
-  final val FOREVER: = null
+  val FOREVER = ChronoUnit("Forever", Duration.ofSeconds(Long.MAX_VALUE, 999999999))
 }
 
-final class ChronoUnit extends TemporalUnit {
-  private def this(name: String, estimatedDuration: Nothing) {
-    this()
-    this.name = name
-    this.duration = estimatedDuration
-  }
+case class ChronoUnit(name: String, estimatedDuration: Duration) extends TemporalUnit {
 
   /**
    * Gets the estimated duration of this unit in the ISO calendar system.
@@ -911,9 +909,7 @@ final class ChronoUnit extends TemporalUnit {
    *
    * @return the estimated duration of this unit, not null
    */
-  def getDuration: Nothing = {
-    return duration
-  }
+  def duration: Duration = estimatedDuration
 
   /**
    * Checks if the duration of the unit is an estimate.
@@ -927,7 +923,7 @@ final class ChronoUnit extends TemporalUnit {
    * @return true if the duration is estimated, false if accurate
    */
   def isDurationEstimated: Boolean = {
-    return this.compareTo(DAYS) >= 0
+     this.compareTo(DAYS) >= 0
   }
 
   /**
@@ -939,7 +935,7 @@ final class ChronoUnit extends TemporalUnit {
    * @return true if a date unit, false if a time unit
    */
   def isDateBased: Boolean = {
-    return this.compareTo(DAYS) >= 0 && this ne FOREVER
+     this.compareTo(DAYS) >= 0 && this ne FOREVER
   }
 
   /**
@@ -951,27 +947,25 @@ final class ChronoUnit extends TemporalUnit {
    * @return true if a time unit, false if a date unit
    */
   def isTimeBased: Boolean = {
-    return this.compareTo(DAYS) < 0
+     this.compareTo(DAYS) < 0
   }
 
   override def isSupportedBy(temporal: Temporal): Boolean = {
-    return temporal.isSupported(this)
+     temporal.isSupported(this)
   }
 
-  @SuppressWarnings(Array("unchecked")) def addTo(temporal: R, amount: Long): R = {
-    return temporal.plus(amount, this).asInstanceOf[R]
+  def addTo(temporal: R, amount: Long): R = {
+     temporal.plus(amount, this).asInstanceOf[R]
   }
 
   def between(temporal1Inclusive: Temporal, temporal2Exclusive: Temporal): Long = {
-    return temporal1Inclusive.until(temporal2Exclusive, this)
+     temporal1Inclusive.until(temporal2Exclusive, this)
   }
 
   override def toString: String = {
-    return name
+     name
   }
 
-  private final val name: String = null
-  private final val duration: Nothing = null
 }
 
 /*
@@ -1098,7 +1092,7 @@ final class ChronoUnit extends TemporalUnit {
  *
  * @since 1.8
  */
-final object IsoFields {
+object IsoFields {
   /**
    * The field that represents the day-of-quarter.
    * <p>
@@ -1225,16 +1219,16 @@ final object IsoFields {
    */
   private object Field {
     private def isIso(temporal: TemporalAccessor): Boolean = {
-      return Chronology.from(temporal) == IsoChronology.INSTANCE
+       Chronology.from(temporal) == IsoChronology.INSTANCE
     }
 
     private def getWeekRange(date: Nothing): ValueRange = {
       val wby: Int = getWeekBasedYear(date)
       date = date.withDayOfYear(1).withYear(wby)
       if (date.getDayOfWeek eq THURSDAY || (date.getDayOfWeek eq WEDNESDAY && date.isLeapYear)) {
-        return ValueRange.of(1, 53)
+         ValueRange.of(1, 53)
       }
-      return ValueRange.of(1, 52)
+       ValueRange.of(1, 52)
     }
 
     private def getWeek(date: Nothing): Int = {
@@ -1248,7 +1242,7 @@ final object IsoFields {
         firstMonDoy0 += 7
       }
       if (doy0 < firstMonDoy0) {
-        return getWeekRange(date.withDayOfYear(180).minusYears(1)).getMaximum.asInstanceOf[Int]
+         getWeekRange(date.withDayOfYear(180).minusYears(1)).getMaximum.asInstanceOf[Int]
       }
       var week: Int = ((doy0 - firstMonDoy0) / 7) + 1
       if (week == 53) {
@@ -1256,7 +1250,7 @@ final object IsoFields {
           week = 1
         }
       }
-      return week
+       week
     }
 
     private def getWeekBasedYear(date: Nothing): Int = {
@@ -1275,7 +1269,7 @@ final object IsoFields {
           year += 1
         }
       }
-      return year
+       year
     }
 
     final val DAY_OF_QUARTER: = null
@@ -1287,22 +1281,22 @@ final object IsoFields {
 
   private class Field extends TemporalField {
     def isDateBased: Boolean = {
-      return true
+       true
     }
 
     def isTimeBased: Boolean = {
-      return false
+       false
     }
 
     def rangeRefinedBy(temporal: TemporalAccessor): ValueRange = {
-      return range
+       range
     }
   }
 
   /**
    * Implementation of the period unit.
    */
-  private final object Unit {
+  private object Unit {
     /**
      * Unit that represents the concept of a week-based-year.
      */
@@ -1321,31 +1315,31 @@ final object IsoFields {
     }
 
     def getDuration: Nothing = {
-      return duration
+       duration
     }
 
     def isDurationEstimated: Boolean = {
-      return true
+       true
     }
 
     def isDateBased: Boolean = {
-      return true
+       true
     }
 
     def isTimeBased: Boolean = {
-      return false
+       false
     }
 
     override def isSupportedBy(temporal: Temporal): Boolean = {
-      return temporal.isSupported(EPOCH_DAY)
+       temporal.isSupported(EPOCH_DAY)
     }
 
-    @SuppressWarnings(Array("unchecked")) def addTo(temporal: R, amount: Long): R = {
+    def addTo(temporal: R, amount: Long): R = {
       this match {
         case WEEK_BASED_YEARS =>
-          return temporal.`with`(WEEK_BASED_YEAR, Math.addExact(temporal.get(WEEK_BASED_YEAR), amount)).asInstanceOf[R]
+           temporal.`with`(WEEK_BASED_YEAR, Math.addExact(temporal.get(WEEK_BASED_YEAR), amount)).asInstanceOf[R]
         case QUARTER_YEARS =>
-          return temporal.plus(amount / 256, YEARS).plus((amount % 256) * 3, MONTHS).asInstanceOf[R]
+           temporal.plus(amount / 256, YEARS).plus((amount % 256) * 3, MONTHS).asInstanceOf[R]
         case _ =>
           throw new IllegalStateException("Unreachable")
       }
@@ -1353,20 +1347,20 @@ final object IsoFields {
 
     def between(temporal1Inclusive: Temporal, temporal2Exclusive: Temporal): Long = {
       if (temporal1Inclusive.getClass ne temporal2Exclusive.getClass) {
-        return temporal1Inclusive.until(temporal2Exclusive, this)
+         temporal1Inclusive.until(temporal2Exclusive, this)
       }
       this match {
         case WEEK_BASED_YEARS =>
-          return Math.subtractExact(temporal2Exclusive.getLong(WEEK_BASED_YEAR), temporal1Inclusive.getLong(WEEK_BASED_YEAR))
+           Math.subtractExact(temporal2Exclusive.getLong(WEEK_BASED_YEAR), temporal1Inclusive.getLong(WEEK_BASED_YEAR))
         case QUARTER_YEARS =>
-          return temporal1Inclusive.until(temporal2Exclusive, MONTHS) / 3
+           temporal1Inclusive.until(temporal2Exclusive, MONTHS) / 3
         case _ =>
           throw new IllegalStateException("Unreachable")
       }
     }
 
     override def toString: String = {
-      return name
+       name
     }
 
     private final val name: String = null
@@ -1461,7 +1455,7 @@ final class IsoFields {
  *
  * @since 1.8
  */
-final object JulianFields {
+object JulianFields {
   /**
    * The offset from Julian to EPOCH DAY.
    */
@@ -1574,7 +1568,7 @@ final object JulianFields {
   /**
    * Implementation of JulianFields.  Each instance is a singleton.
    */
-  private final object Field {
+  private object Field {
     final val JULIAN_DAY: = null
     final val MODIFIED_JULIAN_DAY: = null
     final val RATA_DIE: = null
@@ -1592,58 +1586,58 @@ final object JulianFields {
     }
 
     def getBaseUnit: TemporalUnit = {
-      return baseUnit
+       baseUnit
     }
 
     def getRangeUnit: TemporalUnit = {
-      return rangeUnit
+       rangeUnit
     }
 
     def isDateBased: Boolean = {
-      return true
+       true
     }
 
     def isTimeBased: Boolean = {
-      return false
+       false
     }
 
     def range: ValueRange = {
-      return range
+       range
     }
 
     def isSupportedBy(temporal: TemporalAccessor): Boolean = {
-      return temporal.isSupported(EPOCH_DAY)
+       temporal.isSupported(EPOCH_DAY)
     }
 
     def rangeRefinedBy(temporal: TemporalAccessor): ValueRange = {
       if (isSupportedBy(temporal) == false) {
         throw new Nothing("Unsupported field: " + this)
       }
-      return range
+       range
     }
 
     def getFrom(temporal: TemporalAccessor): Long = {
-      return temporal.getLong(EPOCH_DAY) + offset
+       temporal.getLong(EPOCH_DAY) + offset
     }
 
-    @SuppressWarnings(Array("unchecked")) def adjustInto(temporal: R, newValue: Long): R = {
+    def adjustInto(temporal: R, newValue: Long): R = {
       if (range.isValidValue(newValue) == false) {
         throw new Nothing("Invalid value: " + name + " " + newValue)
       }
-      return temporal.`with`(EPOCH_DAY, Math.subtractExact(newValue, offset)).asInstanceOf[R]
+       temporal.`with`(EPOCH_DAY, Math.subtractExact(newValue, offset)).asInstanceOf[R]
     }
 
     override def resolve(fieldValues: Nothing, chronology: Chronology, zone: Nothing, resolverStyle: Nothing): ChronoLocalDate = {
       val value: Long = fieldValues.remove(this)
       if (resolverStyle eq ResolverStyle.LENIENT) {
-        return chronology.dateEpochDay(Math.subtractExact(value, offset))
+         chronology.dateEpochDay(Math.subtractExact(value, offset))
       }
       range.checkValidValue(value, this)
-      return chronology.dateEpochDay(value - offset)
+       chronology.dateEpochDay(value - offset)
     }
 
     override def toString: String = {
-      return name
+       name
     }
 
     @transient
@@ -1793,7 +1787,7 @@ final class JulianFields {
  *
  * @since 1.8
  */
-abstract trait Temporal extends TemporalAccessor {
+trait Temporal extends TemporalAccessor {
   /**
    * Checks if the specified unit is supported.
    * <p>
@@ -1852,7 +1846,7 @@ abstract trait Temporal extends TemporalAccessor {
    * @throws ArithmeticException if numeric overflow occurs
    */
   def `with`(adjuster: TemporalAdjuster): Temporal = {
-    return adjuster.adjustInto(this)
+     adjuster.adjustInto(this)
   }
 
   /**
@@ -1923,7 +1917,7 @@ abstract trait Temporal extends TemporalAccessor {
    * @throws ArithmeticException if numeric overflow occurs
    */
   def plus(amount: TemporalAmount): Temporal = {
-    return amount.addTo(this)
+     amount.addTo(this)
   }
 
   /**
@@ -1994,7 +1988,7 @@ abstract trait Temporal extends TemporalAccessor {
    * @throws ArithmeticException if numeric overflow occurs
    */
   def minus(amount: TemporalAmount): Temporal = {
-    return amount.subtractFrom(this)
+     amount.subtractFrom(this)
   }
 
   /**
@@ -2030,7 +2024,7 @@ abstract trait Temporal extends TemporalAccessor {
    * @throws ArithmeticException if numeric overflow occurs
    */
   def minus(amountToSubtract: Long, unit: TemporalUnit): Temporal = {
-    return (if (amountToSubtract == Long.MIN_VALUE) plus(Long.MAX_VALUE, unit).plus(1, unit) else plus(-amountToSubtract, unit))
+     (if (amountToSubtract == Long.MIN_VALUE) plus(Long.MAX_VALUE, unit).plus(1, unit) else plus(-amountToSubtract, unit))
   }
 
   /**
@@ -2205,7 +2199,7 @@ abstract trait Temporal extends TemporalAccessor {
  *
  * @since 1.8
  */
-abstract trait TemporalAccessor {
+trait TemporalAccessor {
   /**
    * Checks if the specified field is supported.
    * <p>
@@ -2273,12 +2267,12 @@ abstract trait TemporalAccessor {
   def range(field: TemporalField): ValueRange = {
     if (field.isInstanceOf[ChronoField]) {
       if (isSupported(field)) {
-        return field.range
+         field.range
       }
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
     }
-    Objects.requireNonNull(field, "field")
-    return field.rangeRefinedBy(this)
+
+     field.rangeRefinedBy(this)
   }
 
   /**
@@ -2327,7 +2321,7 @@ abstract trait TemporalAccessor {
     if (range.isValidValue(value) == false) {
       throw new Nothing("Invalid value for " + field + " (valid values " + range + "): " + value)
     }
-    return value.asInstanceOf[Int]
+     value.asInstanceOf[Int]
   }
 
   /**
@@ -2411,9 +2405,9 @@ abstract trait TemporalAccessor {
    */
   def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.zoneId || query eq TemporalQuery.chronology || query eq TemporalQuery.precision) {
-      return null
+       null
     }
-    return query.queryFrom(this)
+     query.queryFrom(this)
   }
 }
 
@@ -2535,7 +2529,7 @@ abstract trait TemporalAccessor {
    * @return the temporal adjuster wrapping on the date adjuster, not null
    */
   def ofDateAdjuster(dateBasedAdjuster: Nothing): TemporalAdjuster = {
-    return TemporalAdjusters.ofDateAdjuster(dateBasedAdjuster)
+     TemporalAdjusters.ofDateAdjuster(dateBasedAdjuster)
   }
 
   /**
@@ -2555,7 +2549,7 @@ abstract trait TemporalAccessor {
    * @return the first day-of-month adjuster, not null
    */
   def firstDayOfMonth: TemporalAdjuster = {
-    return TemporalAdjusters.firstDayOfMonth
+     TemporalAdjusters.firstDayOfMonth
   }
 
   /**
@@ -2578,7 +2572,7 @@ abstract trait TemporalAccessor {
    * @return the last day-of-month adjuster, not null
    */
   def lastDayOfMonth: TemporalAdjuster = {
-    return TemporalAdjusters.lastDayOfMonth
+     TemporalAdjusters.lastDayOfMonth
   }
 
   /**
@@ -2598,7 +2592,7 @@ abstract trait TemporalAccessor {
    * @return the first day of next month adjuster, not null
    */
   def firstDayOfNextMonth: TemporalAdjuster = {
-    return TemporalAdjusters.firstDayOfNextMonth
+     TemporalAdjusters.firstDayOfNextMonth
   }
 
   /**
@@ -2618,7 +2612,7 @@ abstract trait TemporalAccessor {
    * @return the first day-of-year adjuster, not null
    */
   def firstDayOfYear: TemporalAdjuster = {
-    return TemporalAdjusters.firstDayOfYear
+     TemporalAdjusters.firstDayOfYear
   }
 
   /**
@@ -2639,7 +2633,7 @@ abstract trait TemporalAccessor {
    * @return the last day-of-year adjuster, not null
    */
   def lastDayOfYear: TemporalAdjuster = {
-    return TemporalAdjusters.lastDayOfYear
+     TemporalAdjusters.lastDayOfYear
   }
 
   /**
@@ -2658,7 +2652,7 @@ abstract trait TemporalAccessor {
    * @return the first day of next month adjuster, not null
    */
   def firstDayOfNextYear: TemporalAdjuster = {
-    return TemporalAdjusters.firstDayOfNextYear
+     TemporalAdjusters.firstDayOfNextYear
   }
 
   /**
@@ -2678,7 +2672,7 @@ abstract trait TemporalAccessor {
    * @return the first in month adjuster, not null
    */
   def firstInMonth(dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjuster.dayOfWeekInMonth(1, dayOfWeek)
+     TemporalAdjuster.dayOfWeekInMonth(1, dayOfWeek)
   }
 
   /**
@@ -2698,7 +2692,7 @@ abstract trait TemporalAccessor {
    * @return the first in month adjuster, not null
    */
   def lastInMonth(dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjuster.dayOfWeekInMonth(-1, dayOfWeek)
+     TemporalAdjuster.dayOfWeekInMonth(-1, dayOfWeek)
   }
 
   /**
@@ -2734,7 +2728,7 @@ abstract trait TemporalAccessor {
    * @return the day-of-week in month adjuster, not null
    */
   def dayOfWeekInMonth(ordinal: Int, dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjusters.dayOfWeekInMonth(ordinal, dayOfWeek)
+     TemporalAdjusters.dayOfWeekInMonth(ordinal, dayOfWeek)
   }
 
   /**
@@ -2754,7 +2748,7 @@ abstract trait TemporalAccessor {
    * @return the next day-of-week adjuster, not null
    */
   def next(dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjusters.next(dayOfWeek)
+     TemporalAdjusters.next(dayOfWeek)
   }
 
   /**
@@ -2775,7 +2769,7 @@ abstract trait TemporalAccessor {
    * @return the next-or-same day-of-week adjuster, not null
    */
   def nextOrSame(dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjusters.nextOrSame(dayOfWeek)
+     TemporalAdjusters.nextOrSame(dayOfWeek)
   }
 
   /**
@@ -2795,7 +2789,7 @@ abstract trait TemporalAccessor {
    * @return the previous day-of-week adjuster, not null
    */
   def previous(dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjusters.previous(dayOfWeek)
+     TemporalAdjusters.previous(dayOfWeek)
   }
 
   /**
@@ -2816,11 +2810,11 @@ abstract trait TemporalAccessor {
    * @return the previous-or-same day-of-week adjuster, not null
    */
   def previousOrSame(dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjusters.previousOrSame(dayOfWeek)
+     TemporalAdjusters.previousOrSame(dayOfWeek)
   }
 }
 
-@FunctionalInterface abstract trait TemporalAdjuster {
+@FunctionalInterface trait TemporalAdjuster {
   /**
    * Adjusts the specified temporal object.
    * <p>
@@ -2931,7 +2925,7 @@ abstract trait TemporalAccessor {
  *
  * @since 1.8
  */
-final object TemporalAdjusters {
+object TemporalAdjusters {
   /**
    * Obtains a {@code TemporalAdjuster} that wraps a date adjuster.
    * <p>
@@ -2950,11 +2944,11 @@ final object TemporalAdjusters {
    * @return the temporal adjuster wrapping on the date adjuster, not null
    */
   private[temporal] def ofDateAdjuster(dateBasedAdjuster: Nothing): TemporalAdjuster = {
-    Objects.requireNonNull(dateBasedAdjuster, "dateBasedAdjuster")
-    return (temporal) -> {
+
+     (temporal) -> {
       LocalDate input = LocalDate.from(temporal);
       LocalDate output = dateBasedAdjuster.apply(input);
-      return temporal.with (output);
+       temporal.with (output);
     }
   }
 
@@ -2975,7 +2969,7 @@ final object TemporalAdjusters {
    * @return the first day-of-month adjuster, not null
    */
   private[temporal] def firstDayOfMonth: TemporalAdjuster = {
-    return (temporal) -> temporal.with (DAY_OF_MONTH, 1)
+     (temporal) -> temporal.with (DAY_OF_MONTH, 1)
   }
 
   /**
@@ -2998,7 +2992,7 @@ final object TemporalAdjusters {
    * @return the last day-of-month adjuster, not null
    */
   private[temporal] def lastDayOfMonth: TemporalAdjuster = {
-    return (temporal) -> temporal.with (DAY_OF_MONTH, temporal.range(DAY_OF_MONTH).getMaximum())
+     (temporal) -> temporal.with (DAY_OF_MONTH, temporal.range(DAY_OF_MONTH).getMaximum())
   }
 
   /**
@@ -3018,7 +3012,7 @@ final object TemporalAdjusters {
    * @return the first day of next month adjuster, not null
    */
   private[temporal] def firstDayOfNextMonth: TemporalAdjuster = {
-    return (temporal) -> temporal.with (DAY_OF_MONTH, 1).plus(1, MONTHS)
+     (temporal) -> temporal.with (DAY_OF_MONTH, 1).plus(1, MONTHS)
   }
 
   /**
@@ -3038,7 +3032,7 @@ final object TemporalAdjusters {
    * @return the first day-of-year adjuster, not null
    */
   private[temporal] def firstDayOfYear: TemporalAdjuster = {
-    return (temporal) -> temporal.with (DAY_OF_YEAR, 1)
+     (temporal) -> temporal.with (DAY_OF_YEAR, 1)
   }
 
   /**
@@ -3059,7 +3053,7 @@ final object TemporalAdjusters {
    * @return the last day-of-year adjuster, not null
    */
   private[temporal] def lastDayOfYear: TemporalAdjuster = {
-    return (temporal) -> temporal.with (DAY_OF_YEAR, temporal.range(DAY_OF_YEAR).getMaximum())
+     (temporal) -> temporal.with (DAY_OF_YEAR, temporal.range(DAY_OF_YEAR).getMaximum())
   }
 
   /**
@@ -3078,7 +3072,7 @@ final object TemporalAdjusters {
    * @return the first day of next month adjuster, not null
    */
   private[temporal] def firstDayOfNextYear: TemporalAdjuster = {
-    return (temporal) -> temporal.with (DAY_OF_YEAR, 1).plus(1, YEARS)
+     (temporal) -> temporal.with (DAY_OF_YEAR, 1).plus(1, YEARS)
   }
 
   /**
@@ -3098,7 +3092,7 @@ final object TemporalAdjusters {
    * @return the first in month adjuster, not null
    */
   private[temporal] def firstInMonth(dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjusters.dayOfWeekInMonth(1, dayOfWeek)
+     TemporalAdjusters.dayOfWeekInMonth(1, dayOfWeek)
   }
 
   /**
@@ -3118,7 +3112,7 @@ final object TemporalAdjusters {
    * @return the first in month adjuster, not null
    */
   private[temporal] def lastInMonth(dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    return TemporalAdjusters.dayOfWeekInMonth(-1, dayOfWeek)
+     TemporalAdjusters.dayOfWeekInMonth(-1, dayOfWeek)
   }
 
   /**
@@ -3154,25 +3148,25 @@ final object TemporalAdjusters {
    * @return the day-of-week in month adjuster, not null
    */
   private[temporal] def dayOfWeekInMonth(ordinal: Int, dayOfWeek: DayOfWeek): TemporalAdjuster = {
-    Objects.requireNonNull(dayOfWeek, "dayOfWeek")
+
     val dowValue: Int = dayOfWeek.getValue
     if (ordinal >= 0) {
-      return (temporal) -> {
+       (temporal) -> {
         Temporal temp = temporal.with (DAY_OF_MONTH, 1);
         int curDow = temp.get(DAY_OF_WEEK);
         int dowDiff = (dowValue - curDow + 7) % 7;
         dowDiff += (ordinal - 1L) * 7L; // safe from overflow
-        return temp.plus(dowDiff, DAYS);
+         temp.plus(dowDiff, DAYS);
       }
     }
     else {
-      return (temporal) -> {
+       (temporal) -> {
         Temporal temp = temporal.with (DAY_OF_MONTH, temporal.range(DAY_OF_MONTH).getMaximum());
         int curDow = temp.get(DAY_OF_WEEK);
         int daysDiff = dowValue - curDow;
         daysDiff = (daysDiff == 0 ? 0: (daysDiff > 0 ? daysDiff - 7: daysDiff) );
         daysDiff -= (-ordinal - 1L) * 7L; // safe from overflow
-        return temp.plus(daysDiff, DAYS);
+         temp.plus(daysDiff, DAYS);
       }
     }
   }
@@ -3195,10 +3189,10 @@ final object TemporalAdjusters {
    */
   private[temporal] def next(dayOfWeek: DayOfWeek): TemporalAdjuster = {
     val dowValue: Int = dayOfWeek.getValue
-    return (temporal) -> {
+     (temporal) -> {
       int calDow = temporal.get(DAY_OF_WEEK);
       int daysDiff = calDow - dowValue;
-      return temporal.plus(daysDiff >= 0 ? 7 - daysDiff: - daysDiff, DAYS);
+       temporal.plus(daysDiff >= 0 ? 7 - daysDiff: - daysDiff, DAYS);
     }
   }
 
@@ -3221,13 +3215,13 @@ final object TemporalAdjusters {
    */
   private[temporal] def nextOrSame(dayOfWeek: DayOfWeek): TemporalAdjuster = {
     val dowValue: Int = dayOfWeek.getValue
-    return (temporal) -> {
+     (temporal) -> {
       int calDow = temporal.get(DAY_OF_WEEK);
       if (calDow == dowValue) {
-        return temporal;
+         temporal;
       }
       int daysDiff = calDow - dowValue;
-      return temporal.plus(daysDiff >= 0 ? 7 - daysDiff: - daysDiff, DAYS);
+       temporal.plus(daysDiff >= 0 ? 7 - daysDiff: - daysDiff, DAYS);
     }
   }
 
@@ -3249,10 +3243,10 @@ final object TemporalAdjusters {
    */
   private[temporal] def previous(dayOfWeek: DayOfWeek): TemporalAdjuster = {
     val dowValue: Int = dayOfWeek.getValue
-    return (temporal) -> {
+     (temporal) -> {
       int calDow = temporal.get(DAY_OF_WEEK);
       int daysDiff = dowValue - calDow;
-      return temporal.minus(daysDiff >= 0 ? 7 - daysDiff: - daysDiff, DAYS);
+       temporal.minus(daysDiff >= 0 ? 7 - daysDiff: - daysDiff, DAYS);
     }
   }
 
@@ -3275,13 +3269,13 @@ final object TemporalAdjusters {
    */
   private[temporal] def previousOrSame(dayOfWeek: DayOfWeek): TemporalAdjuster = {
     val dowValue: Int = dayOfWeek.getValue
-    return (temporal) -> {
+     (temporal) -> {
       int calDow = temporal.get(DAY_OF_WEEK);
       if (calDow == dowValue) {
-        return temporal;
+         temporal;
       }
       int daysDiff = dowValue - calDow;
-      return temporal.minus(daysDiff >= 0 ? 7 - daysDiff: - daysDiff, DAYS);
+       temporal.minus(daysDiff >= 0 ? 7 - daysDiff: - daysDiff, DAYS);
     }
   }
 }
@@ -3382,7 +3376,7 @@ final class TemporalAdjusters {
  *
  * @since 1.8
  */
-abstract trait TemporalAmount {
+trait TemporalAmount {
   /**
    * Returns the value of the requested unit.
    * The units returned from {@link #getUnits()} uniquely define the
@@ -3586,7 +3580,7 @@ abstract trait TemporalAmount {
  *
  * @since 1.8
  */
-abstract trait TemporalField {
+trait TemporalField {
   /**
    * Gets the display name for the field in the requested locale.
    * <p>
@@ -3599,8 +3593,8 @@ abstract trait TemporalField {
    * @return the display name for the locale or a suitable default, not null
    */
   def getDisplayName(locale: Locale): String = {
-    Objects.requireNonNull(locale, "locale")
-    return toString
+
+     toString
   }
 
   /**
@@ -3859,7 +3853,7 @@ abstract trait TemporalField {
    *                           by querying a field on the temporal without first checking if it is supported
    */
   def resolve(fieldValues: Nothing, chronology: Chronology, zone: Nothing, resolverStyle: Nothing): TemporalAccessor = {
-    return null
+     null
   }
 
   /**
@@ -3944,58 +3938,58 @@ abstract trait TemporalField {
  *
  * @since 1.8
  */
-final object TemporalQueries {
+object TemporalQueries {
   /**
    * A strict query for the {@code ZoneId}.
    */
   private[temporal] final val ZONE_ID: TemporalQuery[Nothing] = (temporal) -> {
-    return temporal.query(ZONE_ID);
+     temporal.query(ZONE_ID);
   }
   /**
    * A query for the {@code Chronology}.
    */
   private[temporal] final val CHRONO: TemporalQuery[Chronology] = (temporal) -> {
-    return temporal.query(CHRONO);
+     temporal.query(CHRONO);
   }
   /**
    * A query for the smallest supported unit.
    */
   private[temporal] final val PRECISION: TemporalQuery[TemporalUnit] = (temporal) -> {
-    return temporal.query(PRECISION);
+     temporal.query(PRECISION);
   }
   /**
    * A lenient query for the {@code ZoneId}, falling back to the {@code ZoneOffset}.
    */
   private[temporal] final val ZONE: TemporalQuery[Nothing] = (temporal) -> {
     ZoneId zone = temporal.query(ZONE_ID);
-    return (zone != null ? zone: temporal.query(OFFSET));
+     (zone != null ? zone: temporal.query(OFFSET));
   }
   /**
    * A query for {@code ZoneOffset} returning null if not found.
    */
   private[temporal] final val OFFSET: TemporalQuery[ZoneOffset] = (temporal) -> {
     if (temporal.isSupported(OFFSET_SECONDS)) {
-      return ZoneOffset.ofTotalSeconds(temporal.get(OFFSET_SECONDS));
+       ZoneOffset.ofTotalSeconds(temporal.get(OFFSET_SECONDS));
     }
-    return null;
+     null;
   }
   /**
    * A query for {@code Date} returning null if not found.
    */
   private[temporal] final val LOCAL_DATE: TemporalQuery[Nothing] = (temporal) -> {
     if (temporal.isSupported(EPOCH_DAY)) {
-      return LocalDate.ofEpochDay(temporal.getLong(EPOCH_DAY));
+       LocalDate.ofEpochDay(temporal.getLong(EPOCH_DAY));
     }
-    return null;
+     null;
   }
   /**
    * A query for {@code Time} returning null if not found.
    */
   private[temporal] final val LOCAL_TIME: TemporalQuery[Nothing] = (temporal) -> {
     if (temporal.isSupported(NANO_OF_DAY)) {
-      return LocalTime.ofNanoOfDay(temporal.getLong(NANO_OF_DAY));
+       LocalTime.ofNanoOfDay(temporal.getLong(NANO_OF_DAY));
     }
-    return null;
+     null;
   }
 }
 
@@ -4136,7 +4130,7 @@ final class TemporalQueries {
    * @return a query that can obtain the zone ID of a temporal, not null
    */
   def zoneId: TemporalQuery[Nothing] = {
-    return TemporalQueries.ZONE_ID
+     TemporalQueries.ZONE_ID
   }
 
   /**
@@ -4175,7 +4169,7 @@ final class TemporalQueries {
    * @return a query that can obtain the chronology of a temporal, not null
    */
   def chronology: TemporalQuery[Chronology] = {
-    return TemporalQueries.CHRONO
+     TemporalQueries.CHRONO
   }
 
   /**
@@ -4212,7 +4206,7 @@ final class TemporalQueries {
    * @return a query that can obtain the precision of a temporal, not null
    */
   def precision: TemporalQuery[TemporalUnit] = {
-    return TemporalQueries.PRECISION
+     TemporalQueries.PRECISION
   }
 
   /**
@@ -4234,7 +4228,7 @@ final class TemporalQueries {
    * @return a query that can obtain the zone ID or offset of a temporal, not null
    */
   def zone: TemporalQuery[Nothing] = {
-    return TemporalQueries.ZONE
+     TemporalQueries.ZONE
   }
 
   /**
@@ -4257,7 +4251,7 @@ final class TemporalQueries {
    * @return a query that can obtain the offset of a temporal, not null
    */
   def offset: TemporalQuery[ZoneOffset] = {
-    return TemporalQueries.OFFSET
+     TemporalQueries.OFFSET
   }
 
   /**
@@ -4280,7 +4274,7 @@ final class TemporalQueries {
    * @return a query that can obtain the date of a temporal, not null
    */
   def localDate: TemporalQuery[Nothing] = {
-    return TemporalQueries.LOCAL_DATE
+     TemporalQueries.LOCAL_DATE
   }
 
   /**
@@ -4303,11 +4297,11 @@ final class TemporalQueries {
    * @return a query that can obtain the time of a temporal, not null
    */
   def localTime: TemporalQuery[Nothing] = {
-    return TemporalQueries.LOCAL_TIME
+     TemporalQueries.LOCAL_TIME
   }
 }
 
-@FunctionalInterface abstract trait TemporalQuery {
+@FunctionalInterface trait TemporalQuery {
   /**
    * Queries the specified temporal object.
    * <p>
@@ -4434,7 +4428,7 @@ final class TemporalQueries {
  *
  * @since 1.8
  */
-abstract trait TemporalUnit {
+trait TemporalUnit {
   /**
    * Gets the duration of this unit, which may be an estimate.
    * <p>
@@ -4504,30 +4498,30 @@ abstract trait TemporalUnit {
    */
   def isSupportedBy(temporal: Temporal): Boolean = {
     if (temporal.isInstanceOf[Nothing]) {
-      return isTimeBased
+       isTimeBased
     }
     if (temporal.isInstanceOf[ChronoLocalDate]) {
-      return isDateBased
+       isDateBased
     }
     if (temporal.isInstanceOf[Nothing] || temporal.isInstanceOf[Nothing]) {
-      return true
+       true
     }
     try {
       temporal.plus(1, this)
-      return true
+       true
     }
     catch {
       case ex: UnsupportedTemporalTypeException => {
-        return false
+         false
       }
       case ex: RuntimeException => {
         try {
           temporal.plus(-1, this)
-          return true
+           true
         }
         catch {
           case ex2: RuntimeException => {
-            return false
+             false
           }
         }
       }
@@ -4706,10 +4700,7 @@ abstract trait TemporalUnit {
  * @since 1.8
  */
 object UnsupportedTemporalTypeException {
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -6158898438688206006L
+
 }
 
 class UnsupportedTemporalTypeException extends DateTimeException {
@@ -4815,7 +4806,7 @@ class UnsupportedTemporalTypeException extends DateTimeException {
  *
  * @since 1.8
  */
-final object ValueRange {
+object ValueRange {
   /**
    * Obtains a fixed value range.
    * <p>
@@ -4831,7 +4822,7 @@ final object ValueRange {
     if (min > max) {
       throw new IllegalArgumentException("Minimum value must be less than maximum value")
     }
-    return new ValueRange(min, min, max, max)
+     new ValueRange(min, min, max, max)
   }
 
   /**
@@ -4849,7 +4840,7 @@ final object ValueRange {
    *                                  or the smallest maximum is greater than the largest maximum
    */
   def of(min: Long, maxSmallest: Long, maxLargest: Long): ValueRange = {
-    return of(min, min, maxSmallest, maxLargest)
+     of(min, min, maxSmallest, maxLargest)
   }
 
   /**
@@ -4877,13 +4868,10 @@ final object ValueRange {
     if (minLargest > maxLargest) {
       throw new IllegalArgumentException("Minimum value must be less than maximum value")
     }
-    return new ValueRange(minSmallest, minLargest, maxSmallest, maxLargest)
+     new ValueRange(minSmallest, minLargest, maxSmallest, maxLargest)
   }
 
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -7317881728594519368L
+
 }
 
 final class ValueRange extends Serializable {
@@ -4913,7 +4901,7 @@ final class ValueRange extends Serializable {
    * @return true if the set of values is fixed
    */
   def isFixed: Boolean = {
-    return minSmallest == minLargest && maxSmallest == maxLargest
+     minSmallest == minLargest && maxSmallest == maxLargest
   }
 
   /**
@@ -4925,7 +4913,7 @@ final class ValueRange extends Serializable {
    * @return the minimum value for this field
    */
   def getMinimum: Long = {
-    return minSmallest
+     minSmallest
   }
 
   /**
@@ -4937,7 +4925,7 @@ final class ValueRange extends Serializable {
    * @return the largest possible minimum value for this field
    */
   def getLargestMinimum: Long = {
-    return minLargest
+     minLargest
   }
 
   /**
@@ -4949,7 +4937,7 @@ final class ValueRange extends Serializable {
    * @return the smallest possible maximum value for this field
    */
   def getSmallestMaximum: Long = {
-    return maxSmallest
+     maxSmallest
   }
 
   /**
@@ -4961,7 +4949,7 @@ final class ValueRange extends Serializable {
    * @return the maximum value for this field
    */
   def getMaximum: Long = {
-    return maxLargest
+     maxLargest
   }
 
   /**
@@ -4977,7 +4965,7 @@ final class ValueRange extends Serializable {
    * @return true if a valid value always fits in an { @code int}
    */
   def isIntValue: Boolean = {
-    return getMinimum >= Integer.MIN_VALUE && getMaximum <= Integer.MAX_VALUE
+     getMinimum >= Integer.MIN_VALUE && getMaximum <= Integer.MAX_VALUE
   }
 
   /**
@@ -4989,7 +4977,7 @@ final class ValueRange extends Serializable {
    * @return true if the value is valid
    */
   def isValidValue(value: Long): Boolean = {
-    return (value >= getMinimum && value <= getMaximum)
+     (value >= getMinimum && value <= getMaximum)
   }
 
   /**
@@ -5002,7 +4990,7 @@ final class ValueRange extends Serializable {
    * @return true if the value is valid and fits in an { @code int}
    */
   def isValidIntValue(value: Long): Boolean = {
-    return isIntValue && isValidValue(value)
+     isIntValue && isValidValue(value)
   }
 
   /**
@@ -5020,7 +5008,7 @@ final class ValueRange extends Serializable {
     if (isValidValue(value) == false) {
       throw new Nothing(genInvalidFieldMessage(field, value))
     }
-    return value
+     value
   }
 
   /**
@@ -5039,15 +5027,15 @@ final class ValueRange extends Serializable {
     if (isValidIntValue(value) == false) {
       throw new Nothing(genInvalidFieldMessage(field, value))
     }
-    return value.asInstanceOf[Int]
+     value.asInstanceOf[Int]
   }
 
   private def genInvalidFieldMessage(field: TemporalField, value: Long): String = {
     if (field != null) {
-      return "Invalid value for " + field + " (valid values " + this + "): " + value
+       "Invalid value for " + field + " (valid values " + this + "): " + value
     }
     else {
-      return "Invalid value (valid values " + this + "): " + value
+       "Invalid value (valid values " + this + "): " + value
     }
   }
 
@@ -5063,13 +5051,13 @@ final class ValueRange extends Serializable {
    */
   override def equals(obj: AnyRef): Boolean = {
     if (obj eq this) {
-      return true
+       true
     }
     if (obj.isInstanceOf[ValueRange]) {
       val other: ValueRange = obj.asInstanceOf[ValueRange]
-      return minSmallest == other.minSmallest && minLargest == other.minLargest && maxSmallest == other.maxSmallest && maxLargest == other.maxLargest
+       minSmallest == other.minSmallest && minLargest == other.minLargest && maxSmallest == other.maxSmallest && maxLargest == other.maxLargest
     }
-    return false
+     false
   }
 
   /**
@@ -5079,7 +5067,7 @@ final class ValueRange extends Serializable {
    */
   override def hashCode: Int = {
     val hash: Long = minSmallest + minLargest << 16 + minLargest >> 48 + maxSmallest << 32 + maxSmallest >> 32 + maxLargest << 48 + maxLargest >> 16
-    return (hash ^ (hash >>> 32)).asInstanceOf[Int]
+     (hash ^ (hash >>> 32)).asInstanceOf[Int]
   }
 
   /**
@@ -5101,7 +5089,7 @@ final class ValueRange extends Serializable {
     if (maxSmallest != maxLargest) {
       buf.append('/').append(maxLargest)
     }
-    return buf.toString
+     buf.toString
   }
 
   /**
@@ -5267,7 +5255,7 @@ final class ValueRange extends Serializable {
  *
  * @since 1.8
  */
-final object WeekFields {
+object WeekFields {
   /**
    * Obtains an instance of {@code WeekFields} appropriate for a locale.
    * <p>
@@ -5277,12 +5265,12 @@ final object WeekFields {
    * @return the week-definition, not null
    */
   def of(locale: Locale): WeekFields = {
-    Objects.requireNonNull(locale, "locale")
+
     locale = new Locale(locale.getLanguage, locale.getCountry)
     val calDow: Int = CalendarDataUtility.retrieveFirstDayOfWeek(locale)
     val dow: DayOfWeek = DayOfWeek.SUNDAY.plus(calDow - 1)
     val minDays: Int = CalendarDataUtility.retrieveMinimalDaysInFirstWeek(locale)
-    return WeekFields.of(dow, minDays)
+     WeekFields.of(dow, minDays)
   }
 
   /**
@@ -5313,7 +5301,7 @@ final object WeekFields {
       CACHE.putIfAbsent(key, rules)
       rules = CACHE.get(key)
     }
-    return rules
+     rules
   }
 
   /**
@@ -5359,10 +5347,7 @@ final object WeekFields {
    * This unit is an immutable and thread-safe singleton.
    */
   final val WEEK_BASED_YEARS: TemporalUnit = IsoFields.WEEK_BASED_YEARS
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = -1177360819670808121L
+
 
   /**
    * Field type that computes DayOfWeek, WeekOfMonth, and WeekOfYear
@@ -5381,7 +5366,7 @@ final object WeekFields {
      * the ISO DAY_OF_WEEK field to compute week boundaries.
      */
     private[temporal] def ofDayOfWeekField(weekDef: WeekFields): WeekFields.ComputedDayOfField = {
-      return new WeekFields.ComputedDayOfField("DayOfWeek", weekDef, DAYS, WEEKS, DAY_OF_WEEK_RANGE)
+       new WeekFields.ComputedDayOfField("DayOfWeek", weekDef, DAYS, WEEKS, DAY_OF_WEEK_RANGE)
     }
 
     /**
@@ -5390,7 +5375,7 @@ final object WeekFields {
      * @see WeekFields#weekOfMonth()
      */
     private[temporal] def ofWeekOfMonthField(weekDef: WeekFields): WeekFields.ComputedDayOfField = {
-      return new WeekFields.ComputedDayOfField("WeekOfMonth", weekDef, WEEKS, MONTHS, WEEK_OF_MONTH_RANGE)
+       new WeekFields.ComputedDayOfField("WeekOfMonth", weekDef, WEEKS, MONTHS, WEEK_OF_MONTH_RANGE)
     }
 
     /**
@@ -5399,7 +5384,7 @@ final object WeekFields {
      * @see WeekFields#weekOfYear()
      */
     private[temporal] def ofWeekOfYearField(weekDef: WeekFields): WeekFields.ComputedDayOfField = {
-      return new WeekFields.ComputedDayOfField("WeekOfYear", weekDef, WEEKS, YEARS, WEEK_OF_YEAR_RANGE)
+       new WeekFields.ComputedDayOfField("WeekOfYear", weekDef, WEEKS, YEARS, WEEK_OF_YEAR_RANGE)
     }
 
     /**
@@ -5408,7 +5393,7 @@ final object WeekFields {
      * @see WeekFields#weekOfWeekBasedYear()
      */
     private[temporal] def ofWeekOfWeekBasedYearField(weekDef: WeekFields): WeekFields.ComputedDayOfField = {
-      return new WeekFields.ComputedDayOfField("WeekOfWeekBasedYear", weekDef, WEEKS, IsoFields.WEEK_BASED_YEARS, WEEK_OF_YEAR_RANGE)
+       new WeekFields.ComputedDayOfField("WeekOfWeekBasedYear", weekDef, WEEKS, IsoFields.WEEK_BASED_YEARS, WEEK_OF_YEAR_RANGE)
     }
 
     /**
@@ -5417,7 +5402,7 @@ final object WeekFields {
      * @see WeekFields#weekBasedYear()
      */
     private[temporal] def ofWeekBasedYearField(weekDef: WeekFields): WeekFields.ComputedDayOfField = {
-      return new WeekFields.ComputedDayOfField("WeekBasedYear", weekDef, IsoFields.WEEK_BASED_YEARS, FOREVER, ChronoField.YEAR.range)
+       new WeekFields.ComputedDayOfField("WeekBasedYear", weekDef, IsoFields.WEEK_BASED_YEARS, FOREVER, ChronoField.YEAR.range)
     }
 
     private final val DAY_OF_WEEK_RANGE: ValueRange = ValueRange.of(1, 7)
@@ -5443,7 +5428,7 @@ final object WeekFields {
       val newYearWeek: Int = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek)
       wowby = Math.min(wowby, newYearWeek - 1)
       val days: Int = -offset + (dow - 1) + (wowby - 1) * 7
-      return date.plus(days, DAYS)
+       date.plus(days, DAYS)
     }
 
     private def this(name: String, weekDef: WeekFields, baseUnit: TemporalUnit, rangeUnit: TemporalUnit, range: ValueRange) {
@@ -5457,19 +5442,19 @@ final object WeekFields {
 
     def getFrom(temporal: TemporalAccessor): Long = {
       if (rangeUnit eq WEEKS) {
-        return localizedDayOfWeek(temporal)
+         localizedDayOfWeek(temporal)
       }
       else if (rangeUnit eq MONTHS) {
-        return localizedWeekOfMonth(temporal)
+         localizedWeekOfMonth(temporal)
       }
       else if (rangeUnit eq YEARS) {
-        return localizedWeekOfYear(temporal)
+         localizedWeekOfYear(temporal)
       }
       else if (rangeUnit eq WEEK_BASED_YEARS) {
-        return localizedWeekOfWeekBasedYear(temporal)
+         localizedWeekOfWeekBasedYear(temporal)
       }
       else if (rangeUnit eq FOREVER) {
-        return localizedWeekBasedYear(temporal)
+         localizedWeekBasedYear(temporal)
       }
       else {
         throw new IllegalStateException("unreachable, rangeUnit: " + rangeUnit + ", this: " + this)
@@ -5479,26 +5464,26 @@ final object WeekFields {
     private def localizedDayOfWeek(temporal: TemporalAccessor): Int = {
       val sow: Int = weekDef.getFirstDayOfWeek.getValue
       val isoDow: Int = temporal.get(DAY_OF_WEEK)
-      return Math.floorMod(isoDow - sow, 7) + 1
+       Math.floorMod(isoDow - sow, 7) + 1
     }
 
     private def localizedDayOfWeek(isoDow: Int): Int = {
       val sow: Int = weekDef.getFirstDayOfWeek.getValue
-      return Math.floorMod(isoDow - sow, 7) + 1
+       Math.floorMod(isoDow - sow, 7) + 1
     }
 
     private def localizedWeekOfMonth(temporal: TemporalAccessor): Long = {
       val dow: Int = localizedDayOfWeek(temporal)
       val dom: Int = temporal.get(DAY_OF_MONTH)
       val offset: Int = startOfWeekOffset(dom, dow)
-      return computeWeek(offset, dom)
+       computeWeek(offset, dom)
     }
 
     private def localizedWeekOfYear(temporal: TemporalAccessor): Long = {
       val dow: Int = localizedDayOfWeek(temporal)
       val doy: Int = temporal.get(DAY_OF_YEAR)
       val offset: Int = startOfWeekOffset(doy, dow)
-      return computeWeek(offset, doy)
+       computeWeek(offset, doy)
     }
 
     /**
@@ -5514,17 +5499,17 @@ final object WeekFields {
       val offset: Int = startOfWeekOffset(doy, dow)
       val week: Int = computeWeek(offset, doy)
       if (week == 0) {
-        return year - 1
+         year - 1
       }
       else {
         val dayRange: ValueRange = temporal.range(DAY_OF_YEAR)
         val yearLen: Int = dayRange.getMaximum.asInstanceOf[Int]
         val newYearWeek: Int = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek)
         if (week >= newYearWeek) {
-          return year + 1
+           year + 1
         }
       }
-      return year
+       year
     }
 
     /**
@@ -5544,7 +5529,7 @@ final object WeekFields {
       if (week == 0) {
         var date: ChronoLocalDate = Chronology.from(temporal).date(temporal)
         date = date.minus(doy, DAYS)
-        return localizedWeekOfWeekBasedYear(date)
+         localizedWeekOfWeekBasedYear(date)
       }
       else if (week > 50) {
         val dayRange: ValueRange = temporal.range(DAY_OF_YEAR)
@@ -5554,7 +5539,7 @@ final object WeekFields {
           week = week - newYearWeek + 1
         }
       }
-      return week
+       week
     }
 
     /**
@@ -5570,7 +5555,7 @@ final object WeekFields {
       if (weekStart + 1 > weekDef.getMinimalDaysInFirstWeek) {
         offset = 7 - weekStart
       }
-      return offset
+       offset
     }
 
     /**
@@ -5582,22 +5567,22 @@ final object WeekFields {
      * @return the week number where zero is used for a partial week and 1 for the first full week
      */
     private def computeWeek(offset: Int, day: Int): Int = {
-      return ((7 + offset + (day - 1)) / 7)
+       ((7 + offset + (day - 1)) / 7)
     }
 
-    @SuppressWarnings(Array("unchecked")) def adjustInto(temporal: R, newValue: Long): R = {
+    def adjustInto(temporal: R, newValue: Long): R = {
       val newVal: Int = range.checkValidIntValue(newValue, this)
       val currentVal: Int = temporal.get(this)
       if (newVal == currentVal) {
-        return temporal
+         temporal
       }
       if (rangeUnit eq FOREVER) {
         val idow: Int = temporal.get(weekDef.dayOfWeek)
         val wowby: Int = temporal.get(weekDef.weekOfWeekBasedYear)
-        return ofWeekBasedYear(Chronology.from(temporal), newValue.asInstanceOf[Int], wowby, idow).asInstanceOf[R]
+         ofWeekBasedYear(Chronology.from(temporal), newValue.asInstanceOf[Int], wowby, idow).asInstanceOf[R]
       }
       else {
-        return temporal.plus(newVal - currentVal, baseUnit).asInstanceOf[R]
+         temporal.plus(newVal - currentVal, baseUnit).asInstanceOf[R]
       }
     }
 
@@ -5610,10 +5595,10 @@ final object WeekFields {
         val isoDow: Long = Math.floorMod((startDow - 1) + (checkedValue - 1), 7) + 1
         fieldValues.remove(this)
         fieldValues.put(DAY_OF_WEEK, isoDow)
-        return null
+         null
       }
       if (fieldValues.containsKey(DAY_OF_WEEK) eq false) {
-        return null
+         null
       }
       val isoDow: Int = DAY_OF_WEEK.checkValidIntValue(fieldValues.get(DAY_OF_WEEK))
       val dow: Int = localizedDayOfWeek(isoDow)
@@ -5621,16 +5606,16 @@ final object WeekFields {
         val year: Int = YEAR.checkValidIntValue(fieldValues.get(YEAR))
         if (rangeUnit eq MONTHS && fieldValues.containsKey(MONTH_OF_YEAR)) {
           val month: Long = fieldValues.get(MONTH_OF_YEAR)
-          return resolveWoM(fieldValues, chronology, year, month, newValue, dow, resolverStyle)
+           resolveWoM(fieldValues, chronology, year, month, newValue, dow, resolverStyle)
         }
         if (rangeUnit eq YEARS) {
-          return resolveWoY(fieldValues, chronology, year, newValue, dow, resolverStyle)
+           resolveWoY(fieldValues, chronology, year, newValue, dow, resolverStyle)
         }
       }
       else if ((rangeUnit eq WEEK_BASED_YEARS || rangeUnit eq FOREVER) && fieldValues.containsKey(weekDef.weekBasedYear) && fieldValues.containsKey(weekDef.weekOfWeekBasedYear)) {
-        return resolveWBY(fieldValues, chronology, dow, resolverStyle)
+         resolveWBY(fieldValues, chronology, dow, resolverStyle)
       }
-      return null
+       null
     }
 
     private def resolveWoM(fieldValues: Nothing, chrono: Chronology, year: Int, month: Long, wom: Long, localDow: Int, resolverStyle: Nothing): ChronoLocalDate = {
@@ -5656,7 +5641,7 @@ final object WeekFields {
       fieldValues.remove(YEAR)
       fieldValues.remove(MONTH_OF_YEAR)
       fieldValues.remove(DAY_OF_WEEK)
-      return date
+       date
     }
 
     private def resolveWoY(fieldValues: Nothing, chrono: Chronology, year: Int, woy: Long, localDow: Int, resolverStyle: Nothing): ChronoLocalDate = {
@@ -5678,7 +5663,7 @@ final object WeekFields {
       fieldValues.remove(this)
       fieldValues.remove(YEAR)
       fieldValues.remove(DAY_OF_WEEK)
-      return date
+       date
     }
 
     private def resolveWBY(fieldValues: Nothing, chrono: Chronology, localDow: Int, resolverStyle: Nothing): ChronoLocalDate = {
@@ -5701,75 +5686,75 @@ final object WeekFields {
       fieldValues.remove(weekDef.weekBasedYear)
       fieldValues.remove(weekDef.weekOfWeekBasedYear)
       fieldValues.remove(DAY_OF_WEEK)
-      return date
+       date
     }
 
     override def getDisplayName(locale: Locale): String = {
-      Objects.requireNonNull(locale, "locale")
+
       if (rangeUnit eq YEARS) {
         val lr: LocaleResources = LocaleProviderAdapter.getResourceBundleBased.getLocaleResources(locale)
         val rb: ResourceBundle = lr.getJavaTimeFormatData
-        return if (rb.containsKey("field.week")) rb.getString("field.week") else name
+         if (rb.containsKey("field.week")) rb.getString("field.week") else name
       }
-      return name
+       name
     }
 
     def getBaseUnit: TemporalUnit = {
-      return baseUnit
+       baseUnit
     }
 
     def getRangeUnit: TemporalUnit = {
-      return rangeUnit
+       rangeUnit
     }
 
     def isDateBased: Boolean = {
-      return true
+       true
     }
 
     def isTimeBased: Boolean = {
-      return false
+       false
     }
 
     def range: ValueRange = {
-      return range
+       range
     }
 
     def isSupportedBy(temporal: TemporalAccessor): Boolean = {
       if (temporal.isSupported(DAY_OF_WEEK)) {
         if (rangeUnit eq WEEKS) {
-          return true
+           true
         }
         else if (rangeUnit eq MONTHS) {
-          return temporal.isSupported(DAY_OF_MONTH)
+           temporal.isSupported(DAY_OF_MONTH)
         }
         else if (rangeUnit eq YEARS) {
-          return temporal.isSupported(DAY_OF_YEAR)
+           temporal.isSupported(DAY_OF_YEAR)
         }
         else if (rangeUnit eq WEEK_BASED_YEARS) {
-          return temporal.isSupported(DAY_OF_YEAR)
+           temporal.isSupported(DAY_OF_YEAR)
         }
         else if (rangeUnit eq FOREVER) {
-          return temporal.isSupported(YEAR)
+           temporal.isSupported(YEAR)
         }
       }
-      return false
+       false
     }
 
     def rangeRefinedBy(temporal: TemporalAccessor): ValueRange = {
       if (rangeUnit eq ChronoUnit.WEEKS) {
-        return range
+         range
       }
       else if (rangeUnit eq MONTHS) {
-        return rangeByWeek(temporal, DAY_OF_MONTH)
+         rangeByWeek(temporal, DAY_OF_MONTH)
       }
       else if (rangeUnit eq YEARS) {
-        return rangeByWeek(temporal, DAY_OF_YEAR)
+         rangeByWeek(temporal, DAY_OF_YEAR)
       }
       else if (rangeUnit eq WEEK_BASED_YEARS) {
-        return rangeWeekOfWeekBasedYear(temporal)
+         rangeWeekOfWeekBasedYear(temporal)
       }
       else if (rangeUnit eq FOREVER) {
-        return YEAR.range
+         YEAR.range
       }
       else {
         throw new IllegalStateException("unreachable, rangeUnit: " + rangeUnit + ", this: " + this)
@@ -5786,7 +5771,7 @@ final object WeekFields {
       val dow: Int = localizedDayOfWeek(temporal)
       val offset: Int = startOfWeekOffset(temporal.get(field), dow)
       val fieldRange: ValueRange = temporal.range(field)
-      return ValueRange.of(computeWeek(offset, fieldRange.getMinimum.asInstanceOf[Int]), computeWeek(offset, fieldRange.getMaximum.asInstanceOf[Int]))
+       ValueRange.of(computeWeek(offset, fieldRange.getMinimum.asInstanceOf[Int]), computeWeek(offset, fieldRange.getMaximum.asInstanceOf[Int]))
     }
 
     /**
@@ -5796,7 +5781,7 @@ final object WeekFields {
      */
     private def rangeWeekOfWeekBasedYear(temporal: TemporalAccessor): ValueRange = {
       if (!temporal.isSupported(DAY_OF_YEAR)) {
-        return WEEK_OF_YEAR_RANGE
+         WEEK_OF_YEAR_RANGE
       }
       val dow: Int = localizedDayOfWeek(temporal)
       val doy: Int = temporal.get(DAY_OF_YEAR)
@@ -5805,7 +5790,7 @@ final object WeekFields {
       if (week == 0) {
         var date: ChronoLocalDate = Chronology.from(temporal).date(temporal)
         date = date.minus(doy + 7, DAYS)
-        return rangeWeekOfWeekBasedYear(date)
+         rangeWeekOfWeekBasedYear(date)
       }
       val dayRange: ValueRange = temporal.range(DAY_OF_YEAR)
       val yearLen: Int = dayRange.getMaximum.asInstanceOf[Int]
@@ -5813,13 +5798,13 @@ final object WeekFields {
       if (week >= newYearWeek) {
         var date: ChronoLocalDate = Chronology.from(temporal).date(temporal)
         date = date.plus(yearLen - doy + 1 + 7, ChronoUnit.DAYS)
-        return rangeWeekOfWeekBasedYear(date)
+         rangeWeekOfWeekBasedYear(date)
       }
-      return ValueRange.of(1, newYearWeek - 1)
+       ValueRange.of(1, newYearWeek - 1)
     }
 
     override def toString: String = {
-      return name + "[" + weekDef.toString + "]"
+       name + "[" + weekDef.toString + "]"
     }
 
     private final val name: String = null
@@ -5841,7 +5826,7 @@ final class WeekFields extends Serializable {
    */
   private def this(firstDayOfWeek: DayOfWeek, minimalDaysInFirstWeek: Int) {
     this()
-    Objects.requireNonNull(firstDayOfWeek, "firstDayOfWeek")
+
     if (minimalDaysInFirstWeek < 1 || minimalDaysInFirstWeek > 7) {
       throw new IllegalArgumentException("Minimal number of days is invalid")
     }
@@ -5858,7 +5843,7 @@ final class WeekFields extends Serializable {
    */
   private def readResolve: AnyRef = {
     try {
-      return WeekFields.of(firstDayOfWeek, minimalDays)
+       WeekFields.of(firstDayOfWeek, minimalDays)
     }
     catch {
       case iae: IllegalArgumentException => {
@@ -5877,7 +5862,7 @@ final class WeekFields extends Serializable {
    * @return the first day-of-week, not null
    */
   def getFirstDayOfWeek: DayOfWeek = {
-    return firstDayOfWeek
+     firstDayOfWeek
   }
 
   /**
@@ -5891,7 +5876,7 @@ final class WeekFields extends Serializable {
    * @return the minimal number of days in the first week of a month or year, from 1 to 7
    */
   def getMinimalDaysInFirstWeek: Int = {
-    return minimalDays
+     minimalDays
   }
 
   /**
@@ -5913,7 +5898,7 @@ final class WeekFields extends Serializable {
    * @return a field providing access to the day-of-week with localized numbering, not null
    */
   def dayOfWeek: TemporalField = {
-    return dayOfWeek
+     dayOfWeek
   }
 
   /**
@@ -5959,7 +5944,7 @@ final class WeekFields extends Serializable {
    * @return a field providing access to the week-of-month, not null
    */
   def weekOfMonth: TemporalField = {
-    return weekOfMonth
+     weekOfMonth
   }
 
   /**
@@ -6004,7 +5989,7 @@ final class WeekFields extends Serializable {
    * @return a field providing access to the week-of-year, not null
    */
   def weekOfYear: TemporalField = {
-    return weekOfYear
+     weekOfYear
   }
 
   /**
@@ -6054,7 +6039,7 @@ final class WeekFields extends Serializable {
    * @return a field providing access to the week-of-week-based-year, not null
    */
   def weekOfWeekBasedYear: TemporalField = {
-    return weekOfWeekBasedYear
+     weekOfWeekBasedYear
   }
 
   /**
@@ -6096,7 +6081,7 @@ final class WeekFields extends Serializable {
    * @return a field providing access to the week-based-year, not null
    */
   def weekBasedYear: TemporalField = {
-    return weekBasedYear
+     weekBasedYear
   }
 
   /**
@@ -6110,12 +6095,12 @@ final class WeekFields extends Serializable {
    */
   override def equals(`object`: AnyRef): Boolean = {
     if (this eq `object`) {
-      return true
+       true
     }
     if (`object`.isInstanceOf[WeekFields]) {
-      return hashCode == `object`.hashCode
+       hashCode == `object`.hashCode
     }
-    return false
+     false
   }
 
   /**
@@ -6124,7 +6109,7 @@ final class WeekFields extends Serializable {
    * @return a suitable hash code
    */
   override def hashCode: Int = {
-    return firstDayOfWeek.ordinal * 7 + minimalDays
+     firstDayOfWeek.ordinal * 7 + minimalDays
   }
 
   /**
@@ -6133,7 +6118,7 @@ final class WeekFields extends Serializable {
    * @return the string representation, not null
    */
   override def toString: String = {
-    return "WeekFields[" + firstDayOfWeek + ',' + minimalDays + ']'
+     "WeekFields[" + firstDayOfWeek + ',' + minimalDays + ']'
   }
 
   /**

@@ -1,5 +1,6 @@
 package metronome
 
+import metronome.chrono
 import metronome.chrono.{Ser, Era, ChronoLocalDate, IsoChronology}
 import metronome.format.DateTimeFormatter
 import metronome.temporal._
@@ -31,21 +32,8 @@ import metronome.temporal._
  *
  * @since 1.8
  */
-final object Date {
-  /**
-   * Obtains the current date from the system clock in the default time-zone.
-   * <p>
-   * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-   * time-zone to obtain the current date.
-   * <p>
-   * Using this method will prevent the ability to use an alternate clock for testing
-   * because the clock is hard-coded.
-   *
-   * @return the current date using the system clock and default time-zone, not null
-   */
-  def now: Date = {
-    now(Clock.systemDefaultZone)
-  }
+object Date {
+
 
   /**
    * Obtains the current date from the system clock in the specified time-zone.
@@ -73,8 +61,7 @@ final object Date {
    * @param clock  the clock to use, not null
    * @return the current date, not null
    */
-  def now(clock: Clock): Date = {
-    Objects.requireNonNull(clock, "clock")
+  def now(clock: Clock = Clock.systemDefaultZone): Date = {
     val now: Instant = clock.instant
     val offset: ZoneOffset = clock.getZone.getRules.getOffset(now)
     val epochSec: Long = now.getEpochSecond + offset.getTotalSeconds
@@ -97,7 +84,7 @@ final object Date {
    */
   def of(year: Int, month: Month, dayOfMonth: Int): Date = {
     YEAR.checkValidValue(year)
-    Objects.requireNonNull(month, "month")
+    object
     DAY_OF_MONTH.checkValidValue(dayOfMonth)
     create(year, month.getValue, dayOfMonth)
   }
@@ -204,7 +191,6 @@ final object Date {
    * @throws DateTimeException if unable to convert to a { @code Date}
    */
   def from(temporal: TemporalAccessor): Date = {
-    Objects.requireNonNull(temporal, "temporal")
     val date: Date = temporal.query(TemporalQuery.localDate)
     if (date == null) {
       throw new DateTimeException("Unable to obtain Date from TemporalAccessor: " + temporal.getClass)
@@ -237,7 +223,6 @@ final object Date {
    * @throws DateTimeParseException if the text cannot be parsed
    */
   def parse(text: CharSequence, formatter: DateTimeFormatter): Date = {
-    Objects.requireNonNull(formatter, "formatter")
     formatter.parse(text, Date.from)
   }
 
@@ -332,20 +317,7 @@ final object Date {
   private[time] final val DAYS_0000_TO_1970: Long = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L)
 }
 
-final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate with Serializable {
-  /**
-   * Constructor, previously validated.
-   *
-   * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-   * @param month  the month-of-year to represent, not null
-   * @param dayOfMonth  the day-of-month to represent, valid for year-month, from 1 to 31
-   */
-  private def this(year: Int, month: Int, dayOfMonth: Int) {
-    this()
-    this.year = year
-    this.month = month.asInstanceOf[Short]
-    this.day = dayOfMonth.asInstanceOf[Short]
-  }
+case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with TemporalAdjuster with ChronoLocalDate {
 
   /**
    * Checks if the specified field is supported.
@@ -605,33 +577,7 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
     ChronoLocalDate.super.getEra
   }
 
-  /**
-   * Gets the year field.
-   * <p>
-   * This method returns the primitive {@code int} value for the year.
-   * <p>
-   * The year returned by this method is proleptic as per {@code get(YEAR)}.
-   * To obtain the year-of-era, use {@code get(YEAR_OF_ERA)}.
-   *
-   * @return the year, from MIN_YEAR to MAX_YEAR
-   */
-  def getYear: Int = {
-    year
-  }
 
-  /**
-   * Gets the month-of-year field from 1 to 12.
-   * <p>
-   * This method returns the month as an {@code int} from 1 to 12.
-   * Application code is frequently clearer if the enum {@link Month}
-   * is used by calling {@link #getMonth()}.
-   *
-   * @return the month-of-year, from 1 to 12
-   * @see #getMonth()
-   */
-  def getMonthValue: Int = {
-    month
-  }
 
   /**
    * Gets the month-of-year field using the {@code Month} enum.
@@ -648,16 +594,7 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
     Month.of(month)
   }
 
-  /**
-   * Gets the day-of-month field.
-   * <p>
-   * This method returns the primitive {@code int} value for the day-of-month.
-   *
-   * @return the day-of-month, from 1 to 31
-   */
-  def getDayOfMonth: Int = {
-    day
-  }
+
 
   /**
    * Gets the day-of-year field.
@@ -1019,7 +956,7 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
    * @throws ArithmeticException if numeric overflow occurs
    */
   override def plus(amountToAdd: TemporalAmount): Date = {
-    Objects.requireNonNull(amountToAdd, "amountToAdd")
+    object
     if (amountToAdd.isInstanceOf[Period]) {
       val periodToAdd: Period = amountToAdd.asInstanceOf[Period]
       plusMonths(periodToAdd.toTotalMonths).plusDays(periodToAdd.getDays)
@@ -1256,7 +1193,7 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
    * @throws ArithmeticException if numeric overflow occurs
    */
   override def minus(amountToSubtract: TemporalAmount): Date = {
-    Objects.requireNonNull(amountToSubtract, "amountToSubtract")
+    object
     if (amountToSubtract.isInstanceOf[Period]) {
       val periodToSubtract: Period = amountToSubtract.asInstanceOf[Period]
       minusMonths(periodToSubtract.toTotalMonths).minusDays(periodToSubtract.getDays)
@@ -1391,7 +1328,7 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
    * @throws DateTimeException if unable to query (defined by the query)
    * @throws ArithmeticException if numeric overflow occurs (defined by the query)
    */
-  @SuppressWarnings(Array("unchecked")) override def query(query: TemporalQuery[R]): R = {
+  override def query(query: TemporalQuery[R]): R = {
     if (query eq TemporalQuery.localDate) {
       this.asInstanceOf[R]
     }
@@ -1569,7 +1506,7 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
    * @throws DateTimeException if an error occurs during printing
    */
   override def format(formatter: DateTimeFormatter): String = {
-    Objects.requireNonNull(formatter, "formatter")
+    object
     formatter.format(this)
   }
 
@@ -1689,7 +1626,7 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
    * @return the zoned date-time formed from this date and the earliest valid time for the zone, not null
    */
   def atStartOfDay(zone: ZoneId): ZonedDateTime = {
-    Objects.requireNonNull(zone, "zone")
+    object
     var ldt: DateTime = atTime(Time.MIDNIGHT)
     if (zone.isInstanceOf[ZoneOffset] == false) {
       val rules: ZoneRules = zone.getRules
@@ -1840,40 +1777,6 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
   }
 
   /**
-   * Checks if this date is equal to another date.
-   * <p>
-   * Compares this {@code Date} with another ensuring that the date is the same.
-   * <p>
-   * Only objects of type {@code Date} are compared, other types  false.
-   * To compare the dates of two {@code TemporalAccessor} instances, including dates
-   * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
-   *
-   * @param obj  the object to check, null returns false
-   * @return true if this is equal to the other date
-   */
-  override def equals(obj: AnyRef): Boolean = {
-    if (this eq obj) {
-      true
-    }
-    if (obj.isInstanceOf[Date]) {
-      compareTo0(obj.asInstanceOf[Date]) == 0
-    }
-    false
-  }
-
-  /**
-   * A hash code for this date.
-   *
-   * @return a suitable hash code
-   */
-  override def hashCode: Int = {
-    val yearValue: Int = year
-    val monthValue: Int = month
-    val dayValue: Int = day
-    (yearValue & 0xFFFFF800) ^ ((yearValue << 11) + (monthValue << 6) + (dayValue))
-  }
-
-  /**
    * Outputs this date as a {@code String}, such as {@code 2007-12-03}.
    * <p>
    * The output will be in the ISO-8601 format {@code uuuu-MM-dd}.
@@ -1934,18 +1837,6 @@ final class Date extends Temporal with TemporalAdjuster with ChronoLocalDate wit
     out.writeByte(day)
   }
 
-  /**
-   * The year.
-   */
-  private final val year: Int = 0
-  /**
-   * The month-of-year.
-   */
-  private final val month: Short = 0
-  /**
-   * The day-of-month.
-   */
-  private final val day: Short = 0
 }
 
 
