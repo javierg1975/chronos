@@ -230,7 +230,7 @@ final class HijrahChronology extends Chronology  {
    * @throws IllegalArgumentException if the id is empty
    */
   private def this(id: String) {
-    this()
+
     if (id.isEmpty) {
       throw new IllegalArgumentException("calendar id is empty")
     }
@@ -1126,7 +1126,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @param dayOfMonth the day of month
    */
   private def this(chrono: HijrahChronology, prolepticYear: Int, monthOfYear: Int, dayOfMonth: Int) {
-    this()
+
     chrono.getEpochDay(prolepticYear, monthOfYear, dayOfMonth)
     this.chrono = chrono
     this.prolepticYear = prolepticYear
@@ -1140,7 +1140,7 @@ final class HijrahDate extends ChronoLocalDateImpl[HijrahDate] with ChronoLocalD
    * @param epochDay  the epochDay
    */
   private def this(chrono: HijrahChronology, epochDay: Long) {
-    this()
+
     val dateInfo: Array[Int] = chrono.getHijrahDateInfo(epochDay.asInstanceOf[Int])
     this.chrono = chrono
     this.prolepticYear = dateInfo(0)

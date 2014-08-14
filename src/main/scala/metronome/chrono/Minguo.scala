@@ -47,8 +47,8 @@ final class MinguoChronology extends Chronology  {
   /**
    * Restricted constructor.
    */
-  private def this() {
-    this()
+  private def  {
+
   }
 
   /**
@@ -350,7 +350,7 @@ final class MinguoDate extends ChronoLocalDateImpl[MinguoDate] with ChronoLocalD
    * @param isoDate  the standard local date, validated not null
    */
   private[chrono] def this(isoDate: LocalDate) {
-    this()
+
 
     this.isoDate = isoDate
   }

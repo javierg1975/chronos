@@ -1094,7 +1094,7 @@ final class MonthDay extends TemporalAccessor with TemporalAdjuster with Compara
    * @param dayOfMonth  the day-of-month to represent, validated from 1 to 29-31
    */
   private def this(month: Int, dayOfMonth: Int) {
-    this()
+
     this.month = month
     this.day = dayOfMonth
   }
@@ -1756,7 +1756,7 @@ final class Year extends Temporal with TemporalAdjuster with Comparable[Year]  {
    * @param year  the year to represent
    */
   private def this(year: Int) {
-    this()
+
     this.year = year
   }
 
@@ -2726,7 +2726,7 @@ final class YearMonth extends Temporal with TemporalAdjuster with Comparable[Yea
    * @param month  the month-of-year to represent, validated from 1 (January) to 12 (December)
    */
   private def this(year: Int, month: Int) {
-    this()
+
     this.year = year
     this.month = month
   }

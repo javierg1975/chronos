@@ -1813,7 +1813,7 @@ final class OffsetTime extends Temporal with TemporalAdjuster with Comparable[Of
    * @param offset  the zone offset, not null
    */
   private def this(time: Time, offset: ZoneOffset) {
-    this()
+
     this.time = object
     this.offset = object
   }

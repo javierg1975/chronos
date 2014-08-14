@@ -287,7 +287,7 @@ object Clock {
 
   private[time] final class SystemClock extends Clock  {
     private[time] def this(zone: ZoneId) {
-      this()
+
       this.zone = zone
     }
 
@@ -338,7 +338,7 @@ object Clock {
 
   private[time] final class FixedClock extends Clock  {
     private[time] def this(fixedInstant: Instant, zone: ZoneId) {
-      this()
+
       this.instant = fixedInstant
       this.zone = zone
     }
@@ -391,7 +391,7 @@ object Clock {
 
   private[time] final class OffsetClock extends Clock  {
     private[time] def this(baseClock: Clock, offset: Duration) {
-      this()
+
       this.baseClock = baseClock
       this.offset = offset
     }
@@ -444,7 +444,7 @@ object Clock {
 
   private[time] final class TickClock extends Clock  {
     private[time] def this(baseClock: Clock, tickNanos: Long) {
-      this()
+
       this.baseClock = baseClock
       this.tickNanos = tickNanos
     }
@@ -502,8 +502,8 @@ abstract class Clock {
   /**
    * Constructor accessible by subclasses.
    */
-  protected def this() {
-    this()
+  protected def  {
+
   }
 
   /**

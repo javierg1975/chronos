@@ -1090,7 +1090,7 @@ object DateTimeFormatter {
   @SuppressWarnings(Array("serial")) private[format] class ClassicFormat extends Format {
     /** Constructor. */
     def this(formatter: DateTimeFormatter, parseType: TemporalQuery[_]) {
-      this()
+
       this.formatter = formatter
       this.parseType = parseType
     }
@@ -1189,7 +1189,7 @@ final class DateTimeFormatter {
    * @param zone  the zone to use, null for no override
    */
   private[format] def this(printerParser: DateTimeFormatterBuilder.CompositePrinterParser, locale: Locale, decimalStyle: DecimalStyle, resolverStyle: ResolverStyle, resolverFields: Set[TemporalField], chrono: Chronology, zone: ZoneId) {
-    this()
+
     this.printerParser =
     this.resolverFields = resolverFields
     this.locale =
@@ -2138,12 +2138,12 @@ object DateTimeFormatterBuilder {
    */
   private[format] final class CompositePrinterParser extends DateTimePrinterParser {
     private[format] def this(printerParsers: Nothing, optional: Boolean) {
-      this()
+
       `this`(printerParsers.toArray(new Array[DateTimeFormatterBuilder.DateTimePrinterParser](printerParsers.size)), optional)
     }
 
     private[format] def this(printerParsers: Array[DateTimeFormatterBuilder.DateTimePrinterParser], optional: Boolean) {
-      this()
+
       this.printerParsers = printerParsers
       this.optional = optional
     }
@@ -2235,7 +2235,7 @@ object DateTimeFormatterBuilder {
      * @param padChar  the pad character
      */
     private[format] def this(printerParser: DateTimeFormatterBuilder.DateTimePrinterParser, padWidth: Int, padChar: Char) {
-      this()
+
       this.printerParser = printerParser
       this.padWidth = padWidth
       this.padChar = padChar
@@ -2353,7 +2353,7 @@ object DateTimeFormatterBuilder {
    */
   private[format] class DefaultValueParser extends DateTimePrinterParser {
     private[format] def this(field: TemporalField, value: Long) {
-      this()
+
       this.field = field
       this.value = value
     }
@@ -2378,7 +2378,7 @@ object DateTimeFormatterBuilder {
    */
   private[format] final class CharLiteralPrinterParser extends DateTimePrinterParser {
     private[format] def this(literal: Char) {
-      this()
+
       this.literal = literal
     }
 
@@ -2416,7 +2416,7 @@ object DateTimeFormatterBuilder {
    */
   private[format] final class StringLiteralPrinterParser extends DateTimePrinterParser {
     private[format] def this(literal: String) {
-      this()
+
       this.literal = literal
     }
 
@@ -2464,7 +2464,7 @@ object DateTimeFormatterBuilder {
      * @param signStyle  the positive/negative sign style, not null
      */
     private[format] def this(field: TemporalField, minWidth: Int, maxWidth: Int, signStyle: SignStyle) {
-      this()
+
       this.field = field
       this.minWidth = minWidth
       this.maxWidth = maxWidth
@@ -2483,7 +2483,7 @@ object DateTimeFormatterBuilder {
      *                         -1 if fixed width due to active adjacent parsing
      */
     protected def this(field: TemporalField, minWidth: Int, maxWidth: Int, signStyle: SignStyle, subsequentWidth: Int) {
-      this()
+
       this.field = field
       this.minWidth = minWidth
       this.maxWidth = maxWidth
@@ -2736,7 +2736,7 @@ object DateTimeFormatterBuilder {
      * @param baseValue  the base value
      */
     private[format] def this(field: TemporalField, minWidth: Int, maxWidth: Int, baseValue: Int) {
-      this()
+
       `this`(field, minWidth, maxWidth, baseValue, 0)
       if (minWidth < 1 || minWidth > 10) {
         throw new IllegalArgumentException("The minWidth must be from 1 to 10 inclusive but was " + minWidth)
@@ -2766,7 +2766,7 @@ object DateTimeFormatterBuilder {
      * @param subsequentWidth the subsequentWidth for this instance
      */
     private def this(field: TemporalField, minWidth: Int, maxWidth: Int, baseValue: Int, subsequentWidth: Int) {
-      this()
+
       `super`(field, minWidth, maxWidth, SignStyle.NOT_NEGATIVE, subsequentWidth)
       this.baseValue = baseValue
     }
@@ -2840,7 +2840,7 @@ object DateTimeFormatterBuilder {
      * @param decimalPoint  whether to output the localized decimal point symbol
      */
     private[format] def this(field: TemporalField, minWidth: Int, maxWidth: Int, decimalPoint: Boolean) {
-      this()
+
 
       if (field.range.isFixed == false) {
         throw new IllegalArgumentException("Field must have a fixed set of values: " + field)
@@ -3010,7 +3010,7 @@ object DateTimeFormatterBuilder {
      * @param provider  the text provider, not null
      */
     private[format] def this(field: TemporalField, textStyle: TextStyle, provider: DateTimeTextProvider) {
-      this()
+
       this.field = field
       this.textStyle = textStyle
       this.provider = provider
@@ -3104,7 +3104,7 @@ object DateTimeFormatterBuilder {
 
   private[format] final class InstantPrinterParser extends DateTimePrinterParser {
     private[format] def this(fractionalDigits: Int) {
-      this()
+
       this.fractionalDigits = fractionalDigits
     }
 
@@ -3244,7 +3244,7 @@ object DateTimeFormatterBuilder {
      * @param noOffsetText  the text to use for UTC, not null
      */
     private[format] def this(pattern: String, noOffsetText: String) {
-      this()
+
 
 
       this.`type` = checkPattern(pattern)
@@ -3398,7 +3398,7 @@ object DateTimeFormatterBuilder {
      * @param style  the style, not null
      */
     private[format] def this(style: TextStyle) {
-      this()
+
       this.style = style
     }
 
@@ -3568,7 +3568,7 @@ object DateTimeFormatterBuilder {
 
   private[format] final class ZoneTextPrinterParser extends ZoneIdPrinterParser {
     private[format] def this(textStyle: TextStyle, preferredZones: Set[ZoneId]) {
-      this()
+
       `super`(TemporalQuery.zone, "ZoneText(" + textStyle + ")")
       this.textStyle =
       if (preferredZones != null && preferredZones.size != 0) {
@@ -3714,7 +3714,7 @@ object DateTimeFormatterBuilder {
 
   private[format] class ZoneIdPrinterParser extends DateTimePrinterParser {
     private[format] def this(query: TemporalQuery[ZoneId], description: String) {
-      this()
+
       this.query = query
       this.description = description
     }
@@ -3882,7 +3882,7 @@ object DateTimeFormatterBuilder {
      */
     private class CI extends PrefixTree {
       private def this(k: String, v: String, child: DateTimeFormatterBuilder.PrefixTree) {
-        this()
+
         `super`(k, v, child)
       }
 
@@ -3921,7 +3921,7 @@ object DateTimeFormatterBuilder {
      */
     private class LENIENT extends CI {
       private def this(k: String, v: String, child: DateTimeFormatterBuilder.PrefixTree) {
-        this()
+
         `super`(k, v, child)
       }
 
@@ -4009,7 +4009,7 @@ object DateTimeFormatterBuilder {
 
   private[format] class PrefixTree {
     private def this(k: String, v: String, child: DateTimeFormatterBuilder.PrefixTree) {
-      this()
+
       this.key = k
       this.value = v
       this.child = child
@@ -4203,7 +4203,7 @@ object DateTimeFormatterBuilder {
    */
   private[format] final class ChronoPrinterParser extends DateTimePrinterParser {
     private[format] def this(textStyle: TextStyle) {
-      this()
+
       this.textStyle = textStyle
     }
 
@@ -4286,7 +4286,7 @@ object DateTimeFormatterBuilder {
      * @param timeStyle  the time style to use, may be null
      */
     private[format] def this(dateStyle: FormatStyle, timeStyle: FormatStyle) {
-      this()
+
       this.dateStyle = dateStyle
       this.timeStyle = timeStyle
     }
@@ -4349,7 +4349,7 @@ object DateTimeFormatterBuilder {
      * @param count the repeat count of the format letter
      */
     private[format] def this(chr: Char, count: Int) {
-      this()
+
       this.chr = chr
       this.count = count
     }
@@ -4443,8 +4443,8 @@ final class DateTimeFormatterBuilder {
   /**
    * Constructs a new instance of the builder.
    */
-  def this() {
-    this()
+  def  {
+
     `super`
     parent = null
     optional = false
@@ -4457,7 +4457,7 @@ final class DateTimeFormatterBuilder {
    * @param optional  whether the formatter is optional, not null
    */
   private def this(parent: DateTimeFormatterBuilder, optional: Boolean) {
-    this()
+
     `super`
     this.parent = parent
     this.optional = optional
@@ -6372,7 +6372,7 @@ final class DateTimeParseContext {
    * @param formatter  the formatter controlling the parse, not null
    */
   private[format] def this(formatter: DateTimeFormatter) {
-    this()
+
     `super`
     this.formatter = formatter
     parsed.add(new Parsed)
@@ -6753,7 +6753,7 @@ class DateTimeParseException extends DateTimeException {
    * @param errorIndex  the index in the parsed string that was invalid, should be a valid index
    */
   def this(message: String, parsedData: CharSequence, errorIndex: Int) {
-    this()
+
     `super`(message)
     this.parsedString = parsedData.toString
     this.errorIndex = errorIndex
@@ -6768,7 +6768,7 @@ class DateTimeParseException extends DateTimeException {
    * @param cause  the cause exception, may be null
    */
   def this(message: String, parsedData: CharSequence, errorIndex: Int, cause: Throwable) {
-    this()
+
     `super`(message, cause)
     this.parsedString = parsedData.toString
     this.errorIndex = errorIndex
@@ -6968,7 +6968,7 @@ final class DateTimePrintContext {
    * @param formatter  the formatter controlling the format, not null
    */
   private[format] def this(temporal: TemporalAccessor, formatter: DateTimeFormatter) {
-    this()
+
     `super`
     this.temporal = adjust(temporal, formatter)
     this.formatter = formatter
@@ -7220,7 +7220,7 @@ object DateTimeTextProvider {
      * @param valueTextMap  the map of values to text to store, assigned and not altered, not null
      */
     private[format] def this(valueTextMap: Map[TextStyle, Map[Long, String]]) {
-      this()
+
       this.valueTextMap = valueTextMap
       val map: Map[TextStyle, Nothing] = new HashMap[K, V]
       val allList: Nothing = new Nothing
@@ -7283,8 +7283,8 @@ object DateTimeTextProvider {
 }
 
 class DateTimeTextProvider {
-  private[format] def this() {
-    this()
+  private[format] def  {
+
   }
 
   /**
@@ -7780,7 +7780,7 @@ final class DecimalStyle {
    * @param decimalPointChar  the character to use for the decimal point
    */
   private def this(zeroChar: Char, positiveSignChar: Char, negativeSignChar: Char, decimalPointChar: Char) {
-    this()
+
     this.zeroDigit = zeroChar
     this.positiveSign = positiveSignChar
     this.negativeSign = negativeSignChar
@@ -8165,8 +8165,8 @@ final class Parsed extends TemporalAccessor {
   /**
    * Creates an instance.
    */
-  private[format] def this() {
-    this()
+  private[format] def  {
+
   }
 
   /**
@@ -8969,7 +8969,7 @@ object TextStyle {
 
 final class TextStyle {
   private def this(calendarStyle: Int, zoneNameStyleIndex: Int) {
-    this()
+
     this.calendarStyle = calendarStyle
     this.zoneNameStyleIndex = zoneNameStyleIndex
   }

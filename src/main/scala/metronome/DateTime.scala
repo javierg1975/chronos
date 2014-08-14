@@ -2332,7 +2332,7 @@ final class ZonedDateTime extends Temporal with ChronoZonedDateTime[Date]  {
    * @param zone  the time-zone, validated as not null
    */
   private def this(dateTime: DateTime, offset: ZoneOffset, zone: ZoneId) {
-    this()
+
     this.dateTime = dateTime
     this.offset = offset
     this.zone = zone
@@ -4237,7 +4237,7 @@ final class OffsetDateTime extends Temporal with TemporalAdjuster with Comparabl
    * @param offset  the zone offset, not null
    */
   private def this(dateTime: DateTime, offset: ZoneOffset) {
-    this()
+
     this.dateTime = object
     this.offset = object
   }

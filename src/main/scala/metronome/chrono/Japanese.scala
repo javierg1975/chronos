@@ -47,8 +47,8 @@ final class JapaneseChronology extends Chronology  {
   /**
    * Restricted constructor.
    */
-  private def this() {
-    this()
+  private def  {
+
   }
 
   /**
@@ -609,7 +609,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @param isoDate  the standard local date, validated not null
    */
   private[chrono] def this(isoDate: LocalDate) {
-    this()
+
     if (isoDate.isBefore(MEIJI_6_ISODATE)) {
       throw new DateTimeException("JapaneseDate before Meiji 6 is not supported")
     }
@@ -628,7 +628,7 @@ final class JapaneseDate extends ChronoLocalDateImpl[JapaneseDate] with ChronoLo
    * @param isoDate  the standard local date, validated not null
    */
   private[chrono] def this(era: JapaneseEra, year: Int, isoDate: LocalDate) {
-    this()
+
     if (isoDate.isBefore(MEIJI_6_ISODATE)) {
       throw new DateTimeException("JapaneseDate before Meiji 6 is not supported")
     }
@@ -1134,7 +1134,7 @@ final class JapaneseEra extends Era  {
    * @param since  the date representing the first date of the era, validated not null
    */
   private def this(eraValue: Int, since: LocalDate) {
-    this()
+
     this.eraValue = eraValue
     this.since = since
   }

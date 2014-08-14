@@ -570,7 +570,7 @@ object ChronoField {
 
 final class ChronoField extends TemporalField {
   private def this(name: String, baseUnit: TemporalUnit, rangeUnit: TemporalUnit, range: ValueRange) {
-    this()
+
     this.name = name
     this.baseUnit = baseUnit
     this.rangeUnit = rangeUnit
@@ -579,7 +579,7 @@ final class ChronoField extends TemporalField {
   }
 
   private def this(name: String, baseUnit: TemporalUnit, rangeUnit: TemporalUnit, range: ValueRange, displayNameKey: String) {
-    this()
+
     this.name = name
     this.baseUnit = baseUnit
     this.rangeUnit = rangeUnit
@@ -1309,7 +1309,7 @@ object IsoFields {
 
   private final class Unit extends TemporalUnit {
     private def this(name: String, estimatedDuration: Nothing) {
-      this()
+
       this.name = name
       this.duration = estimatedDuration
     }
@@ -1373,8 +1373,8 @@ final class IsoFields {
   /**
    * Restricted constructor.
    */
-  private def this() {
-    this()
+  private def  {
+
     throw new AssertionError("Not instantiable")
   }
 }
@@ -1577,7 +1577,7 @@ object JulianFields {
 
   private final class Field extends TemporalField {
     private def this(name: String, baseUnit: TemporalUnit, rangeUnit: TemporalUnit, offset: Long) {
-      this()
+
       this.name = name
       this.baseUnit = baseUnit
       this.rangeUnit = rangeUnit
@@ -1658,8 +1658,8 @@ final class JulianFields {
   /**
    * Restricted constructor.
    */
-  private def this() {
-    this()
+  private def  {
+
     throw new AssertionError("Not instantiable")
   }
 }
@@ -3281,8 +3281,8 @@ object TemporalAdjusters {
 }
 
 final class TemporalAdjusters {
-  private def this() {
-    this()
+  private def  {
+
   }
 }
 
@@ -3997,8 +3997,8 @@ final class TemporalQueries {
   /**
    * Private constructor since this is a utility class.
    */
-  private def this() {
-    this()
+  private def  {
+
   }
 }
 
@@ -4710,7 +4710,7 @@ class UnsupportedTemporalTypeException extends DateTimeException {
    * @param message  the message to use for this exception, may be null
    */
   def this(message: String) {
-    this()
+
     `super`(message)
   }
 
@@ -4721,7 +4721,7 @@ class UnsupportedTemporalTypeException extends DateTimeException {
    * @param cause  the cause of the exception, may be null
    */
   def this(message: String, cause: Throwable) {
-    this()
+
     `super`(message, cause)
   }
 }
@@ -4884,7 +4884,7 @@ final class ValueRange extends Serializable {
    * @param maxLargest  the largest minimum value
    */
   private def this(minSmallest: Long, minLargest: Long, maxSmallest: Long, maxLargest: Long) {
-    this()
+
     this.minSmallest = minSmallest
     this.minLargest = minLargest
     this.maxSmallest = maxSmallest
@@ -5432,7 +5432,7 @@ object WeekFields {
     }
 
     private def this(name: String, weekDef: WeekFields, baseUnit: TemporalUnit, rangeUnit: TemporalUnit, range: ValueRange) {
-      this()
+
       this.name = name
       this.weekDef = weekDef
       this.baseUnit = baseUnit
@@ -5825,7 +5825,7 @@ final class WeekFields extends Serializable {
    * @throws IllegalArgumentException if the minimal days value is invalid
    */
   private def this(firstDayOfWeek: DayOfWeek, minimalDaysInFirstWeek: Int) {
-    this()
+
 
     if (minimalDaysInFirstWeek < 1 || minimalDaysInFirstWeek > 7) {
       throw new IllegalArgumentException("Minimal number of days is invalid")

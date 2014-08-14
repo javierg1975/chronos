@@ -40,8 +40,8 @@ final class IsoChronology extends Chronology  {
   /**
    * Restricted constructor.
    */
-  private def this() {
-    this()
+  private def  {
+
   }
 
   /**

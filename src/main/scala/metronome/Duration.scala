@@ -435,7 +435,7 @@ final class Duration extends TemporalAmount with Comparable[Duration]  {
    * @param nanos  the nanoseconds within the second, from 0 to 999,999,999
    */
   private def this(seconds: Long, nanos: Int) {
-    this()
+
     `super`
     this.seconds = seconds
     this.nanos = nanos
@@ -1535,7 +1535,7 @@ final class Period extends ChronoPeriod  {
    * @param days  the amount
    */
   private def this(years: Int, months: Int, days: Int) {
-    this()
+
     this.years = years
     this.months = months
     this.days = days

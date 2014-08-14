@@ -308,7 +308,7 @@ final class Instant extends Temporal with TemporalAdjuster with Comparable[Insta
    * @param nanos  the nanoseconds within the second, must be positive
    */
   private def this(epochSecond: Long, nanos: Int) {
-    this()
+
     `super`
     this.seconds = epochSecond
     this.nanos = nanos

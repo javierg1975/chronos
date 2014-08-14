@@ -138,8 +138,8 @@ final class Ser  {
   /**
    * Constructor for deserialization.
    */
-  def this() {
-    this()
+  def  {
+
   }
 
   /**
@@ -149,7 +149,7 @@ final class Ser  {
    * @param object  the object
    */
   private[time] def this(`type`: Byte, `object`: AnyRef) {
-    this()
+
     this.`type` = `type`
     this.`object` = `object`
   }

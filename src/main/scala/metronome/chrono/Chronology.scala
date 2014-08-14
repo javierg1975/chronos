@@ -345,7 +345,7 @@ abstract class Chronology extends Comparable[Chronology] {
    * Creates an instance.
    */
   protected def this() {
-    this()
+
   }
 
   /**
@@ -1524,8 +1524,8 @@ final class Ser  {
   /**
    * Constructor for deserialization.
    */
-  def this() {
-    this()
+  def  {
+
   }
 
   /**
@@ -1535,7 +1535,7 @@ final class Ser  {
    * @param object  the object
    */
   private[chrono] def this(`type`: Byte, `object`: AnyRef) {
-    this()
+
     this.`type` = `type`
     this.`object` = `object`
   }

@@ -396,7 +396,7 @@ abstract class ZoneId extends Serializable {
    * Constructor only accessible within the package.
    */
   private[time] def this() {
-    this()
+
     if (getClass ne classOf[ZoneOffset] && getClass ne classOf[ZoneRegion]) {
       throw new AssertionError("Invalid subclass")
     }
@@ -915,7 +915,7 @@ final class ZoneOffset extends ZoneId with TemporalAccessor with TemporalAdjuste
    * @param totalSeconds  the total time-zone offset in seconds, from -64800 to +64800
    */
   private def this(totalSeconds: Int) {
-    this()
+
     `super`
     this.totalSeconds = totalSeconds
     id = buildId(totalSeconds)
@@ -1342,7 +1342,7 @@ final class ZoneRegion extends ZoneId  {
    * @param rules  the rules, null for lazy lookup
    */
   private[time] def this(id: String, rules: ZoneRules) {
-    this()
+
     this.id = id
     this.rules = rules
   }

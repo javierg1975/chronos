@@ -315,7 +315,7 @@ final class ChronoPeriodImpl extends ChronoPeriod  {
    * Creates an instance.
    */
   private[chrono] def this(chrono: Chronology, years: Int, months: Int, days: Int) {
-    this()
+
 
     this.chrono = chrono
     this.years = years

@@ -788,8 +788,8 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
   /**
    * Creates an instance.
    */
-  private[chrono] def this() {
-    this()
+  private[chrono] def  {
+
   }
 
   override def `with`(adjuster: TemporalAdjuster): D = {
@@ -1642,7 +1642,7 @@ final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal
    * @param time  the time part of the date-time, not null
    */
   private def this(date: D, time: LocalTime) {
-    this()
+
 
 
     this.date = date
@@ -2560,7 +2560,7 @@ final class ChronoZonedDateTimeImpl extends ChronoZonedDateTime[D]  {
    * @param zone  the zone ID, not null
    */
   private def this(dateTime: ChronoLocalDateTimeImpl[D], offset: ZoneOffset, zone: ZoneId) {
-    this()
+
     this.dateTime =
     this.offset =
     this.zone =

@@ -124,8 +124,8 @@ final class ThaiBuddhistChronology extends Chronology  {
   /**
    * Restricted constructor.
    */
-  private def this() {
-    this()
+  private def  {
+
   }
 
   /**
@@ -481,7 +481,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl[ThaiBuddhistDate] with 
    * @param isoDate  the standard local date, validated not null
    */
   private[chrono] def this(isoDate: LocalDate) {
-    this()
+
 
     this.isoDate = isoDate
   }

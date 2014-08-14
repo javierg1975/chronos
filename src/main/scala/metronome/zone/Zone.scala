@@ -310,8 +310,8 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
    *
    * @throws ZoneRulesException if unable to load
    */
-  def this() {
-    this()
+  def  {
+
     try {
       val libDir: String = System.getProperty("java.home") + File.separator + "lib"
       try {
@@ -596,7 +596,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition]  {
    * @param offsetAfter  the offset at and after the transition, not null
    */
   private[zone] def this(transition: Nothing, offsetBefore: ZoneOffset, offsetAfter: ZoneOffset) {
-    this()
+
     this.transition = transition
     this.offsetBefore = offsetBefore
     this.offsetAfter = offsetAfter
@@ -610,7 +610,7 @@ final class ZoneOffsetTransition extends Comparable[ZoneOffsetTransition]  {
    * @param offsetAfter  the offset at and after the transition, not null
    */
   private[zone] def this(epochSecond: Long, offsetBefore: ZoneOffset, offsetAfter: ZoneOffset) {
-    this()
+
     this.transition = LocalDateTime.ofEpochSecond(epochSecond, 0, offsetBefore)
     this.offsetBefore = offsetBefore
     this.offsetAfter = offsetAfter
@@ -1076,7 +1076,7 @@ final class ZoneOffsetTransitionRule extends Serializable {
    * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
    */
   private[zone] def this(month: Nothing, dayOfMonthIndicator: Int, dayOfWeek: Nothing, time: Nothing, timeEndOfDay: Boolean, timeDefnition: ZoneOffsetTransitionRule.TimeDefinition, standardOffset: ZoneOffset, offsetBefore: ZoneOffset, offsetAfter: ZoneOffset) {
-    this()
+
     this.month = month
     this.dom = dayOfMonthIndicator.asInstanceOf[Byte]
     this.dow = dayOfWeek
@@ -1596,7 +1596,7 @@ final class ZoneRules extends Serializable {
    * @param lastRules  the recurring last rules, size 16 or less, not null
    */
   private[zone] def this(baseStandardOffset: ZoneOffset, baseWallOffset: ZoneOffset, standardOffsetTransitionList: Nothing, transitionList: Nothing, lastRules: Nothing) {
-    this()
+
     `super`
     this.standardTransitions = new Array[Long](standardOffsetTransitionList.size)
     this.standardOffsets = new Array[ZoneOffset](standardOffsetTransitionList.size + 1)
@@ -1658,7 +1658,7 @@ final class ZoneRules extends Serializable {
    * @param lastRules  the recurring last rules, size 15 or less, not null
    */
   private def this(standardTransitions: Array[Long], standardOffsets: Array[ZoneOffset], savingsInstantTransitions: Array[Long], wallOffsets: Array[ZoneOffset], lastRules: Array[ZoneOffsetTransitionRule]) {
-    this()
+
     `super`
     this.standardTransitions = standardTransitions
     this.standardOffsets = standardOffsets
@@ -1703,7 +1703,7 @@ final class ZoneRules extends Serializable {
    * @see #isFixedOffset()
    */
   private def this(offset: ZoneOffset) {
-    this()
+
     this.standardOffsets = new Array[ZoneOffset](1)
     this.standardOffsets(0) = offset
     this.standardTransitions = EMPTY_LONG_ARRAY
@@ -2425,7 +2425,7 @@ class ZoneRulesException extends DateTimeException {
    * @param message  the message to use for this exception, may be null
    */
   def this(message: String) {
-    this()
+
     `super`(message)
   }
 
@@ -2436,7 +2436,7 @@ class ZoneRulesException extends DateTimeException {
    * @param cause  the cause of the exception, may be null
    */
   def this(message: String, cause: Throwable) {
-    this()
+
     `super`(message, cause)
   }
 }
@@ -2720,8 +2720,8 @@ abstract class ZoneRulesProvider {
   /**
    * Constructor.
    */
-  protected def this() {
-    this()
+  protected def  {
+
   }
 
   /**
