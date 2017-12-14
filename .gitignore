@@ -15,6 +15,7 @@ project/plugins/project/
 # IDEA specific
 .idea/
 .idea_modules/
+*.iml
 
 # OS X specific
 *.DS_Store
