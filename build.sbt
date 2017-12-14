@@ -5,7 +5,7 @@ version := "0.1"
 
 retrieveManaged := true
 
-libraryDependencies += "org.parboiled" %% "parboiled" % "2.0.0"
+libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.0-RC1"
 
 // reduce the maximum number of errors shown by the Scala compiler
 //maxErrors := 20
@@ -15,7 +15,7 @@ libraryDependencies += "org.parboiled" %% "parboiled" % "2.0.0"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
-scalaVersion := "2.11.2"
+//scalaVersion := "2.12.4"
 
 // set the prompt (for this build) to include the project id.
 //shellPrompt in ThisBuild := { state => Project.extract(state).currentRef.project + "> " }
@@ -31,3 +31,9 @@ scalaVersion := "2.11.2"
 //artifactName := { (sv: ScalaVersion, module: ModuleID, artifact: Artifact) =>
 //  artifact.name + "-" + module.revision + "." + artifact.extension
 //}
+
+
+inThisBuild(Seq(
+  scalaOrganization := "org.typelevel",
+  scalaVersion := "2.12.4-bin-typelevel-4"
+))
