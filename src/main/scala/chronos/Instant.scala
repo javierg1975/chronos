@@ -1,4 +1,4 @@
-package metronome
+package chronos
 
 /**
  * An instantaneous point on the time-line.
@@ -137,7 +137,6 @@ object Instant {
    * @return the current instant, not null
    */
   def now(clock: Clock): Instant = {
-    object
      clock.instant
   }
 
@@ -309,7 +308,7 @@ final class Instant extends Temporal with TemporalAdjuster with Comparable[Insta
    */
   private def this(epochSecond: Long, nanos: Int) {
 
-    `super`
+
     this.seconds = epochSecond
     this.nanos = nanos
   }

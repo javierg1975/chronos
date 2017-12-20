@@ -1,8 +1,8 @@
-package metronome
+package chronos
 
-import metronome.chrono.Ser
-import metronome.format.DateTimeFormatter
-import metronome.temporal._
+import chronos.calendar.Ser
+import chronos.format.DateTimeFormatter
+import chronos.temporal._
 
 
 /**

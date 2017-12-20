@@ -1,7 +1,7 @@
-package metronome.temporal
+package chronos.temporal
 
-import metronome.Duration
-import metronome.chrono.{IsoChronology, Chronology}
+import chronos.Duration
+import chronos.calendar.{IsoChronology, Chronology}
 
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.

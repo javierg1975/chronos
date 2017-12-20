@@ -1,7 +1,7 @@
-package metronome.util
+package chronos.util
 
-import metronome._
-import metronome.core._
+import chronos._
+import chronos.time._
 
 /**
  * The shared serialization delegate for this package.

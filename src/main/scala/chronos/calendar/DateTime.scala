@@ -1,6 +1,6 @@
-package metronome.chrono
+package chronos.calendar
 
-import metronome.temporal._
+import chronos.temporal._
 
 /**
  * A date without time-of-day or time-zone in an arbitrary chronology, intended
@@ -773,7 +773,7 @@ object ChronoLocalDateImpl {
    * @throws ClassCastException if the date-time cannot be cast to ChronoLocalDate
    *                            or the chronology is not equal this Chronology
    */
-  private[chrono] def ensureValid(chrono: Chronology, temporal: Temporal): D = {
+  private[calendar] def ensureValid(chrono: Chronology, temporal: Temporal): D = {
     val other: D = temporal.asInstanceOf[D]
     if ((chrono == other.getChronology) == false) {
       throw new ClassCastException("Chronology mismatch, expected: " + chrono.getId + ", actual: " + other.getChronology.getId)
@@ -788,7 +788,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
   /**
    * Creates an instance.
    */
-  private[chrono] def  {
+  private[calendar] def  {
 
   }
 
@@ -852,7 +852,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the years added, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  private[chrono] def plusYears(yearsToAdd: Long): D
+  private[calendar] def plusYears(yearsToAdd: Long): D
 
   /**
    * Returns a copy of this date with the specified period in months added.
@@ -868,7 +868,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the months added, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  private[chrono] def plusMonths(monthsToAdd: Long): D
+  private[calendar] def plusMonths(monthsToAdd: Long): D
 
   /**
    * Returns a copy of this date with the specified period in weeks added.
@@ -885,7 +885,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the weeks added, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  private[chrono] def plusWeeks(weeksToAdd: Long): D = {
+  private[calendar] def plusWeeks(weeksToAdd: Long): D = {
      plusDays(Math.multiplyExact(weeksToAdd, 7))
   }
 
@@ -900,7 +900,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the days added, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  private[chrono] def plusDays(daysToAdd: Long): D
+  private[calendar] def plusDays(daysToAdd: Long): D
 
   /**
    * Returns a copy of this date with the specified period in years subtracted.
@@ -918,7 +918,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the years subtracted, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  private[chrono] def minusYears(yearsToSubtract: Long): D = {
+  private[calendar] def minusYears(yearsToSubtract: Long): D = {
      (if (yearsToSubtract == Long.MIN_VALUE) (plusYears(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusYears(1) else plusYears(-yearsToSubtract))
   }
 
@@ -938,7 +938,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the months subtracted, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  private[chrono] def minusMonths(monthsToSubtract: Long): D = {
+  private[calendar] def minusMonths(monthsToSubtract: Long): D = {
      (if (monthsToSubtract == Long.MIN_VALUE) (plusMonths(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusMonths(1) else plusMonths(-monthsToSubtract))
   }
 
@@ -957,7 +957,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the weeks subtracted, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  private[chrono] def minusWeeks(weeksToSubtract: Long): D = {
+  private[calendar] def minusWeeks(weeksToSubtract: Long): D = {
      (if (weeksToSubtract == Long.MIN_VALUE) (plusWeeks(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusWeeks(1) else plusWeeks(-weeksToSubtract))
   }
 
@@ -974,7 +974,7 @@ abstract class ChronoLocalDateImpl extends ChronoLocalDate with Temporal with Te
    * @return a date based on this one with the days subtracted, not null
    * @throws DateTimeException if the result exceeds the supported date range
    */
-  private[chrono] def minusDays(daysToSubtract: Long): D = {
+  private[calendar] def minusDays(daysToSubtract: Long): D = {
      (if (daysToSubtract == Long.MIN_VALUE) (plusDays(Long.MAX_VALUE).asInstanceOf[ChronoLocalDateImpl[D]]).plusDays(1) else plusDays(-daysToSubtract))
   }
 
@@ -1553,7 +1553,7 @@ object ChronoLocalDateTimeImpl {
    * @param time  the local time, not null
    * @return the local date-time, not null
    */
-  private[chrono] def of(date: R, time: LocalTime): ChronoLocalDateTimeImpl[R] = {
+  private[calendar] def of(date: R, time: LocalTime): ChronoLocalDateTimeImpl[R] = {
      new ChronoLocalDateTimeImpl[R](date, time)
   }
 
@@ -1566,7 +1566,7 @@ object ChronoLocalDateTimeImpl {
    * @throws ClassCastException if the date-time cannot be cast to ChronoLocalDateTimeImpl
    *                            or the chronology is not equal this Chronology
    */
-  private[chrono] def ensureValid(chrono: Chronology, temporal: Temporal): ChronoLocalDateTimeImpl[R] = {
+  private[calendar] def ensureValid(chrono: Chronology, temporal: Temporal): ChronoLocalDateTimeImpl[R] = {
     val other: ChronoLocalDateTimeImpl[R] = temporal.asInstanceOf[ChronoLocalDateTimeImpl[R]]
     if ((chrono == other.getChronology) == false) {
       throw new ClassCastException("Chronology mismatch, required: " + chrono.getId + ", actual: " + other.getChronology.getId)
@@ -1574,7 +1574,7 @@ object ChronoLocalDateTimeImpl {
      other
   }
 
-  private[chrono] def readExternal(in: ObjectInput): ChronoLocalDateTime[_] = {
+  private[calendar] def readExternal(in: ObjectInput): ChronoLocalDateTime[_] = {
     val date: ChronoLocalDate = in.readObject.asInstanceOf[ChronoLocalDate]
     val time: LocalTime = in.readObject.asInstanceOf[LocalTime]
      date.atTime(time)
@@ -1587,51 +1587,51 @@ object ChronoLocalDateTimeImpl {
   /**
    * Hours per day.
    */
-  private[chrono] final val HOURS_PER_DAY: Int = 24
+  private[calendar] final val HOURS_PER_DAY: Int = 24
   /**
    * Minutes per hour.
    */
-  private[chrono] final val MINUTES_PER_HOUR: Int = 60
+  private[calendar] final val MINUTES_PER_HOUR: Int = 60
   /**
    * Minutes per day.
    */
-  private[chrono] final val MINUTES_PER_DAY: Int = MINUTES_PER_HOUR * HOURS_PER_DAY
+  private[calendar] final val MINUTES_PER_DAY: Int = MINUTES_PER_HOUR * HOURS_PER_DAY
   /**
    * Seconds per minute.
    */
-  private[chrono] final val SECONDS_PER_MINUTE: Int = 60
+  private[calendar] final val SECONDS_PER_MINUTE: Int = 60
   /**
    * Seconds per hour.
    */
-  private[chrono] final val SECONDS_PER_HOUR: Int = SECONDS_PER_MINUTE * MINUTES_PER_HOUR
+  private[calendar] final val SECONDS_PER_HOUR: Int = SECONDS_PER_MINUTE * MINUTES_PER_HOUR
   /**
    * Seconds per day.
    */
-  private[chrono] final val SECONDS_PER_DAY: Int = SECONDS_PER_HOUR * HOURS_PER_DAY
+  private[calendar] final val SECONDS_PER_DAY: Int = SECONDS_PER_HOUR * HOURS_PER_DAY
   /**
    * Milliseconds per day.
    */
-  private[chrono] final val MILLIS_PER_DAY: Long = SECONDS_PER_DAY * 1000L
+  private[calendar] final val MILLIS_PER_DAY: Long = SECONDS_PER_DAY * 1000L
   /**
    * Microseconds per day.
    */
-  private[chrono] final val MICROS_PER_DAY: Long = SECONDS_PER_DAY * 1000 _000L
+  private[calendar] final val MICROS_PER_DAY: Long = SECONDS_PER_DAY * 1000 _000L
   /**
    * Nanos per second.
    */
-  private[chrono] final val NANOS_PER_SECOND: Long = 1000 _000_000L
+  private[calendar] final val NANOS_PER_SECOND: Long = 1000 _000_000L
   /**
    * Nanos per minute.
    */
-  private[chrono] final val NANOS_PER_MINUTE: Long = NANOS_PER_SECOND * SECONDS_PER_MINUTE
+  private[calendar] final val NANOS_PER_MINUTE: Long = NANOS_PER_SECOND * SECONDS_PER_MINUTE
   /**
    * Nanos per hour.
    */
-  private[chrono] final val NANOS_PER_HOUR: Long = NANOS_PER_MINUTE * MINUTES_PER_HOUR
+  private[calendar] final val NANOS_PER_HOUR: Long = NANOS_PER_MINUTE * MINUTES_PER_HOUR
   /**
    * Nanos per day.
    */
-  private[chrono] final val NANOS_PER_DAY: Long = NANOS_PER_HOUR * HOURS_PER_DAY
+  private[calendar] final val NANOS_PER_DAY: Long = NANOS_PER_HOUR * HOURS_PER_DAY
 }
 
 final class ChronoLocalDateTimeImpl extends ChronoLocalDateTime[D] with Temporal with TemporalAdjuster  {
@@ -2466,7 +2466,7 @@ object ChronoZonedDateTimeImpl {
    * @param preferredOffset  the zone offset, null if no preference
    * @return the zoned date-time, not null
    */
-  private[chrono] def ofBest(localDateTime: ChronoLocalDateTimeImpl[R], zone: ZoneId, preferredOffset: ZoneOffset): ChronoZonedDateTime[R] = {
+  private[calendar] def ofBest(localDateTime: ChronoLocalDateTimeImpl[R], zone: ZoneId, preferredOffset: ZoneOffset): ChronoZonedDateTime[R] = {
 
 
     if (zone.isInstanceOf[ZoneOffset]) {
@@ -2504,7 +2504,7 @@ object ChronoZonedDateTimeImpl {
    * @param zone  the zone identifier, not null
    * @return the zoned date-time, not null
    */
-  private[chrono] def ofInstant(chrono: Chronology, instant: Instant, zone: ZoneId): ChronoZonedDateTimeImpl[_] = {
+  private[calendar] def ofInstant(chrono: Chronology, instant: Instant, zone: ZoneId): ChronoZonedDateTimeImpl[_] = {
     val rules: ZoneRules = zone.getRules
     val offset: ZoneOffset = rules.getOffset(instant)
 
@@ -2522,7 +2522,7 @@ object ChronoZonedDateTimeImpl {
    * @throws ClassCastException if the date-time cannot be cast to ChronoZonedDateTimeImpl
    *                            or the chronology is not equal this Chronology
    */
-  private[chrono] def ensureValid(chrono: Chronology, temporal: Temporal): ChronoZonedDateTimeImpl[R] = {
+  private[calendar] def ensureValid(chrono: Chronology, temporal: Temporal): ChronoZonedDateTimeImpl[R] = {
     val other: ChronoZonedDateTimeImpl[R] = temporal.asInstanceOf[ChronoZonedDateTimeImpl[R]]
     if ((chrono == other.getChronology) == false) {
       throw new ClassCastException("Chronology mismatch, required: " + chrono.getId + ", actual: " + other.getChronology.getId)
@@ -2530,7 +2530,7 @@ object ChronoZonedDateTimeImpl {
      other
   }
 
-  private[chrono] def readExternal(in: ObjectInput): ChronoZonedDateTime[_] = {
+  private[calendar] def readExternal(in: ObjectInput): ChronoZonedDateTime[_] = {
     val dateTime: ChronoLocalDateTime[_] = in.readObject.asInstanceOf[ChronoLocalDateTime[_]]
     val offset: ZoneOffset = in.readObject.asInstanceOf[ZoneOffset]
     val zone: ZoneId = in.readObject.asInstanceOf[ZoneId]

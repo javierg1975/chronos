@@ -1,4 +1,4 @@
-package metronome
+package chronos
 
 /**
  * A clock providing access to the current instant, date and time using a time-zone.

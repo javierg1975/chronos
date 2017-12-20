@@ -1,4 +1,4 @@
-package metronome.zone
+package chronos.zone
 
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.

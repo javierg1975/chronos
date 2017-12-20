@@ -1,7 +1,7 @@
-package metronome
+package chronos
 
-import metronome.format.DateTimeParseException
-import metronome.temporal.{TemporalUnit, TemporalAmount}
+import chronos.format.DateTimeParseException
+import chronos.temporal.{TemporalUnit, TemporalAmount}
 
 /**
  * A time-based amount of time, such as '34.5 seconds'.

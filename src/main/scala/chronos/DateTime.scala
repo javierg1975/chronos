@@ -1,8 +1,8 @@
-package metronome
+package chronos
 
-import metronome.chrono._
-import metronome.format._
-import metronome.temporal._
+import chronos.calendar._
+import chronos.format._
+import chronos.temporal._
 
 
 /**

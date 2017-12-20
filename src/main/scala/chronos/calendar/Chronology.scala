@@ -1,4 +1,4 @@
-package metronome.chrono
+package chronos.calendar
 
 /**
  * A calendar system, used to organize and identify dates.
@@ -80,7 +80,7 @@ object Chronology {
    * @param chrono the chronology to register; not null
    * @return the already registered Chronology if any, may be null
    */
-  private[chrono] def registerChrono(chrono: Chronology): Chronology = {
+  private[calendar] def registerChrono(chrono: Chronology): Chronology = {
      registerChrono(chrono, chrono.getId)
   }
 
@@ -93,7 +93,7 @@ object Chronology {
    * @param id the ID to register the chronology; not null
    * @return the already registered Chronology if any, may be null
    */
-  private[chrono] def registerChrono(chrono: Chronology, id: String): Chronology = {
+  private[calendar] def registerChrono(chrono: Chronology, id: String): Chronology = {
     val prev: Chronology = CHRONOS_BY_ID.putIfAbsent(id, chrono)
     if (prev == null) {
       val `type`: String = chrono.getCalendarType
@@ -299,7 +299,7 @@ object Chronology {
      chronos
   }
 
-  private[chrono] def readExternal(in: DataInput): Chronology = {
+  private[calendar] def readExternal(in: DataInput): Chronology = {
     val id: String = in.readUTF
      Chronology.of(id)
   }
@@ -307,13 +307,13 @@ object Chronology {
   /**
    * ChronoLocalDate order constant.
    */
-  private[chrono] final val DATE_ORDER: Comparator[ChronoLocalDate] = (date1, date2) -> {
+  private[calendar] final val DATE_ORDER: Comparator[ChronoLocalDate] = (date1, date2) -> {
      Long.compare(date1.toEpochDay(), date2.toEpochDay());
   }.asInstanceOf[Comparator[ChronoLocalDate]]
   /**
    * ChronoLocalDateTime order constant.
    */
-  private[chrono] final val DATE_TIME_ORDER: Comparator[ChronoLocalDateTime[_]] = (dateTime1, dateTime2) -> {
+  private[calendar] final val DATE_TIME_ORDER: Comparator[ChronoLocalDateTime[_]] = (dateTime1, dateTime2) -> {
     int cmp = Long.compare(dateTime1.toLocalDate().toEpochDay(), dateTime2.toLocalDate().toEpochDay());
     if (cmp == 0) {
       cmp = Long.compare(dateTime1.toLocalTime().toNanoOfDay(), dateTime2.toLocalTime().toNanoOfDay());
@@ -323,7 +323,7 @@ object Chronology {
   /**
    * ChronoZonedDateTime order constant.
    */
-  private[chrono] final val INSTANT_ORDER: Comparator[ChronoZonedDateTime[_]] = (dateTime1, dateTime2) -> {
+  private[calendar] final val INSTANT_ORDER: Comparator[ChronoZonedDateTime[_]] = (dateTime1, dateTime2) -> {
     int cmp = Long.compare(dateTime1.toEpochSecond(), dateTime2.toEpochSecond());
     if (cmp == 0) {
       cmp = Long.compare(dateTime1.toLocalTime().getNano(), dateTime2.toLocalTime().getNano());
@@ -861,7 +861,7 @@ abstract class Chronology extends Comparable[Chronology] {
      null
   }
 
-  private[chrono] def resolveProlepticMonth(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle) {
+  private[calendar] def resolveProlepticMonth(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle) {
     val pMonth: Long = fieldValues.remove(PROLEPTIC_MONTH)
     if (pMonth != null) {
       if (resolverStyle ne ResolverStyle.LENIENT) {
@@ -873,7 +873,7 @@ abstract class Chronology extends Comparable[Chronology] {
     }
   }
 
-  private[chrono] def resolveYearOfEra(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
+  private[calendar] def resolveYearOfEra(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
     val yoeLong: Long = fieldValues.remove(YEAR_OF_ERA)
     if (yoeLong != null) {
       val eraLong: Long = fieldValues.remove(ERA)
@@ -915,7 +915,7 @@ abstract class Chronology extends Comparable[Chronology] {
      null
   }
 
-  private[chrono] def resolveYMD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
+  private[calendar] def resolveYMD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
     val y: Int = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR)
     if (resolverStyle eq ResolverStyle.LENIENT) {
       val months: Long = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1)
@@ -938,7 +938,7 @@ abstract class Chronology extends Comparable[Chronology] {
      date(y, moy, dom)
   }
 
-  private[chrono] def resolveYD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
+  private[calendar] def resolveYD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
     val y: Int = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR)
     if (resolverStyle eq ResolverStyle.LENIENT) {
       val days: Long = Math.subtractExact(fieldValues.remove(DAY_OF_YEAR), 1)
@@ -948,7 +948,7 @@ abstract class Chronology extends Comparable[Chronology] {
      dateYearDay(y, doy)
   }
 
-  private[chrono] def resolveYMAA(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
+  private[calendar] def resolveYMAA(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
     val y: Int = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR)
     if (resolverStyle eq ResolverStyle.LENIENT) {
       val months: Long = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1)
@@ -966,7 +966,7 @@ abstract class Chronology extends Comparable[Chronology] {
      date
   }
 
-  private[chrono] def resolveYMAD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
+  private[calendar] def resolveYMAD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
     val y: Int = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR)
     if (resolverStyle eq ResolverStyle.LENIENT) {
       val months: Long = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1)
@@ -984,7 +984,7 @@ abstract class Chronology extends Comparable[Chronology] {
      date
   }
 
-  private[chrono] def resolveYAA(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
+  private[calendar] def resolveYAA(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
     val y: Int = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR)
     if (resolverStyle eq ResolverStyle.LENIENT) {
       val weeks: Long = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1)
@@ -1000,7 +1000,7 @@ abstract class Chronology extends Comparable[Chronology] {
      date
   }
 
-  private[chrono] def resolveYAD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
+  private[calendar] def resolveYAD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): ChronoLocalDate = {
     val y: Int = range(YEAR).checkValidIntValue(fieldValues.remove(YEAR), YEAR)
     if (resolverStyle eq ResolverStyle.LENIENT) {
       val weeks: Long = Math.subtractExact(fieldValues.remove(ALIGNED_WEEK_OF_YEAR), 1)
@@ -1016,7 +1016,7 @@ abstract class Chronology extends Comparable[Chronology] {
      date
   }
 
-  private[chrono] def resolveAligned(base: ChronoLocalDate, months: Long, weeks: Long, dow: Long): ChronoLocalDate = {
+  private[calendar] def resolveAligned(base: ChronoLocalDate, months: Long, weeks: Long, dow: Long): ChronoLocalDate = {
     var date: ChronoLocalDate = base.plus(months, MONTHS).plus(weeks, WEEKS)
     if (dow > 7) {
       date = date.plus((dow - 1) / 7, WEEKS)
@@ -1041,7 +1041,7 @@ abstract class Chronology extends Comparable[Chronology] {
    * @param value  the value to add, not null
    * @throws DateTimeException if the field is already present with a different value
    */
-  private[chrono] def addFieldValue(fieldValues: Map[TemporalField, Long], field: ChronoField, value: Long) {
+  private[calendar] def addFieldValue(fieldValues: Map[TemporalField, Long], field: ChronoField, value: Long) {
     val old: Long = fieldValues.get(field)
     if (old != null && old.longValue != value) {
       throw new DateTimeException("Conflict found: " + field + " " + old + " differs from " + field + " " + value)
@@ -1161,7 +1161,7 @@ abstract class Chronology extends Comparable[Chronology] {
     throw new InvalidObjectException("Deserialization via serialization delegate")
   }
 
-  private[chrono] def writeExternal(out: DataOutput) {
+  private[calendar] def writeExternal(out: DataOutput) {
     out.writeUTF(getId)
   }
 }
@@ -1469,7 +1469,7 @@ object Ser {
     }
   }
 
-  private[chrono] def read(in: ObjectInput): AnyRef = {
+  private[calendar] def read(in: ObjectInput): AnyRef = {
     val `type`: Byte = in.readByte
      readInternal(`type`, in)
   }
@@ -1506,18 +1506,18 @@ object Ser {
   }
 
 
-  private[chrono] final val CHRONO_TYPE: Byte = 1
-  private[chrono] final val CHRONO_LOCAL_DATE_TIME_TYPE: Byte = 2
-  private[chrono] final val CHRONO_ZONE_DATE_TIME_TYPE: Byte = 3
-  private[chrono] final val JAPANESE_DATE_TYPE: Byte = 4
-  private[chrono] final val JAPANESE_ERA_TYPE: Byte = 5
-  private[chrono] final val HIJRAH_DATE_TYPE: Byte = 6
-  private[chrono] final val HIJRAH_ERA_TYPE: Byte = 7
-  private[chrono] final val MINGUO_DATE_TYPE: Byte = 8
-  private[chrono] final val MINGUO_ERA_TYPE: Byte = 9
-  private[chrono] final val THAIBUDDHIST_DATE_TYPE: Byte = 10
-  private[chrono] final val THAIBUDDHIST_ERA_TYPE: Byte = 11
-  private[chrono] final val CHRONO_PERIOD_TYPE: Byte = 12
+  private[calendar] final val CHRONO_TYPE: Byte = 1
+  private[calendar] final val CHRONO_LOCAL_DATE_TIME_TYPE: Byte = 2
+  private[calendar] final val CHRONO_ZONE_DATE_TIME_TYPE: Byte = 3
+  private[calendar] final val JAPANESE_DATE_TYPE: Byte = 4
+  private[calendar] final val JAPANESE_ERA_TYPE: Byte = 5
+  private[calendar] final val HIJRAH_DATE_TYPE: Byte = 6
+  private[calendar] final val HIJRAH_ERA_TYPE: Byte = 7
+  private[calendar] final val MINGUO_DATE_TYPE: Byte = 8
+  private[calendar] final val MINGUO_ERA_TYPE: Byte = 9
+  private[calendar] final val THAIBUDDHIST_DATE_TYPE: Byte = 10
+  private[calendar] final val THAIBUDDHIST_ERA_TYPE: Byte = 11
+  private[calendar] final val CHRONO_PERIOD_TYPE: Byte = 12
 }
 
 final class Ser  {
@@ -1534,7 +1534,7 @@ final class Ser  {
    * @param type  the type
    * @param object  the object
    */
-  private[chrono] def this(`type`: Byte, `object`: AnyRef) {
+  private[calendar] def this(`type`: Byte, `object`: AnyRef) {
 
     this.`type` = `type`
     this.`object` = `object`

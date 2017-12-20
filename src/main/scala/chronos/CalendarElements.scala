@@ -1,6 +1,6 @@
-package metronome
+package chronos
 
-import metronome.temporal.{TemporalAdjuster, TemporalAccessor}
+import chronos.temporal.{TemporalAdjuster, TemporalAccessor}
 
 /**
  * A day-of-week, such as 'Tuesday'.

@@ -1,4 +1,4 @@
-package metronome.format
+package chronos.format
 
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.

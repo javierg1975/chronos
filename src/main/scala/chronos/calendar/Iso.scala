@@ -1,4 +1,4 @@
-package metronome.chrono
+package chronos.calendar
 
 /**
  * The ISO calendar system.
@@ -373,7 +373,7 @@ final class IsoChronology extends Chronology  {
      super.resolveDate(fieldValues, resolverStyle).asInstanceOf[LocalDate]
   }
 
-  private[chrono] def resolveProlepticMonth(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle) {
+  private[calendar] def resolveProlepticMonth(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle) {
     val pMonth: Long = fieldValues.remove(PROLEPTIC_MONTH)
     if (pMonth != null) {
       if (resolverStyle ne ResolverStyle.LENIENT) {
@@ -384,7 +384,7 @@ final class IsoChronology extends Chronology  {
     }
   }
 
-  private[chrono] def resolveYearOfEra(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): LocalDate = {
+  private[calendar] def resolveYearOfEra(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): LocalDate = {
     val yoeLong: Long = fieldValues.remove(YEAR_OF_ERA)
     if (yoeLong != null) {
       if (resolverStyle ne ResolverStyle.LENIENT) {
@@ -421,7 +421,7 @@ final class IsoChronology extends Chronology  {
      null
   }
 
-  private[chrono] def resolveYMD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): LocalDate = {
+  private[calendar] def resolveYMD(fieldValues: Map[TemporalField, Long], resolverStyle: ResolverStyle): LocalDate = {
     val y: Int = YEAR.checkValidIntValue(fieldValues.remove(YEAR))
     if (resolverStyle eq ResolverStyle.LENIENT) {
       val months: Long = Math.subtractExact(fieldValues.remove(MONTH_OF_YEAR), 1)

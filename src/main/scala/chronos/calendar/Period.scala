@@ -1,4 +1,4 @@
-package metronome.chrono
+package chronos.calendar
 
 /**
  * A date-based amount of time, such as '3 years, 4 months and 5 days' in an
@@ -292,7 +292,7 @@ trait ChronoPeriod extends TemporalAmount {
  * @since 1.8
  */
 object ChronoPeriodImpl {
-  private[chrono] def readExternal(in: DataInput): ChronoPeriodImpl = {
+  private[calendar] def readExternal(in: DataInput): ChronoPeriodImpl = {
     val chrono: Chronology = Chronology.of(in.readUTF)
     val years: Int = in.readInt
     val months: Int = in.readInt
@@ -314,7 +314,7 @@ final class ChronoPeriodImpl extends ChronoPeriod  {
   /**
    * Creates an instance.
    */
-  private[chrono] def this(chrono: Chronology, years: Int, months: Int, days: Int) {
+  private[calendar] def this(chrono: Chronology, years: Int, months: Int, days: Int) {
 
 
     this.chrono = chrono

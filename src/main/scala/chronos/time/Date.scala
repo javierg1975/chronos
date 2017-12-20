@@ -1,9 +1,9 @@
-package metronome
+package chronos
 
-import metronome.chrono
-import metronome.chrono.{Ser, Era, ChronoLocalDate, IsoChronology}
-import metronome.format.DateTimeFormatter
-import metronome.temporal._
+import chronos.calendar
+import chronos.calendar.{Ser, Era, ChronoLocalDate, IsoChronology}
+import chronos.format.DateTimeFormatter
+import chronos.temporal._
 
 
 /**
@@ -35,39 +35,9 @@ import metronome.temporal._
 object Date {
 
 
-  /**
-   * Obtains the current date from the system clock in the specified time-zone.
-   * <p>
-   * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-   * Specifying the time-zone avoids dependence on the default time-zone.
-   * <p>
-   * Using this method will prevent the ability to use an alternate clock for testing
-   * because the clock is hard-coded.
-   *
-   * @param zone  the zone ID to use, not null
-   * @return the current date using the system clock, not null
-   */
-  def now(zone: ZoneId): Date = {
-    now(Clock.system(zone))
-  }
 
-  /**
-   * Obtains the current date from the specified clock.
-   * <p>
-   * This will query the specified clock to obtain the current date - today.
-   * Using this method allows the use of an alternate clock for testing.
-   * The alternate clock may be introduced using {@link Clock dependency injection}.
-   *
-   * @param clock  the clock to use, not null
-   * @return the current date, not null
-   */
-  def now(clock: Clock = Clock.systemDefaultZone): Date = {
-    val now: Instant = clock.instant
-    val offset: ZoneOffset = clock.getZone.getRules.getOffset(now)
-    val epochSec: Long = now.getEpochSecond + offset.getTotalSeconds
-    val epochDay: Long = Math.floorDiv(epochSec, SECONDS_PER_DAY)
-    Date.ofEpochDay(epochDay)
-  }
+
+
 
   /**
    * Obtains an instance of {@code Date} from a year, month and day.
@@ -295,26 +265,23 @@ object Date {
    * The minimum supported {@code Date}, '-999999999-01-01'.
    * This could be used by an application as a "far past" date.
    */
-  final val MIN: Date = Date.of(Year.MIN_VALUE, 1, 1)
+  val MIN: Date = Date.of(Year.MIN_VALUE, 1, 1)
   /**
    * The maximum supported {@code Date}, '+999999999-12-31'.
    * This could be used by an application as a "far future" date.
    */
-  final val MAX: Date = Date.of(Year.MAX_VALUE, 12, 31)
-  /**
-   * Serialization version.
-   */
-  private final val serialVersionUID: Long = 2942565459149668126L
+  val MAX: Date = Date.of(Year.MAX_VALUE, 12, 31)
+
   /**
    * The number of days in a 400 year cycle.
    */
-  private final val DAYS_PER_CYCLE: Int = 146097
+  val DAYS_PER_CYCLE: Int = 146097
   /**
    * The number of days from year zero to year 1970.
    * There are five 400 year cycles from year zero to 2000.
    * There are 7 leap years from 1970 to 2000.
    */
-  private[time] final val DAYS_0000_TO_1970: Long = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L)
+  val DAYS_0000_TO_1970: Long = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L)
 }
 
 case class Date(year: Int, month: Int, dayOfMonth: Int) extends Temporal with TemporalAdjuster with ChronoLocalDate {
